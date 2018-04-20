@@ -6,10 +6,8 @@ import { MessagesPage } from '../messages/messages';
 import { ProfilePage } from '../profile/profile';
 
 /**
- * Generated class for the TabControllerPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * This class contains all the root pages in the tabs
+ * BuyBookPage, SellBookPage, MessagesPage, ProfilePage
  */
 
 @IonicPage()
@@ -22,6 +20,7 @@ export class TabControllerPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  // Set each page to a variabel
   public tab1Root = BuyBookPage;
   public tab2Root = SellBookPage;
   public tab3Root = MessagesPage;

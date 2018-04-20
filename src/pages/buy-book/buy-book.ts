@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the BuyBookPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * This class contains all the books published by sellers
  */
 
 @IonicPage()
@@ -16,10 +13,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class BuyBookPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad BuyBookPage');
   }
 
 }

@@ -16,6 +16,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { MessagesPage } from '../pages/messages/messages';
 import { TabControllerPage } from '../pages/tab-controller/tab-controller';
 import { TabControllerPageModule } from '../pages/tab-controller/tab-controller.module';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TabControllerPageModule } from '../pages/tab-controller/tab-controller.
     MessagesPageModule,
     ProfilePageModule,
     SellBookPageModule,
-    TabControllerPageModule
+    TabControllerPageModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

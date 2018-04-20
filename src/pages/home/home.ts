@@ -13,7 +13,7 @@ export class HomePage {
   }
 
   goToTabControllerPage() {
-    this.navCtrl.push(TabControllerPage);
+    this.navCtrl.push(TabControllerPage)
   }
 
 }
