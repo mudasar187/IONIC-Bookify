@@ -482,3 +482,18 @@
 .fixed-content {
   background-color: #eceff1;
 }
+
+// Error text to red color
+.global__input-error {
+  color: red;
+}
+
+// Make all input field transparent
+.item.item-input {
+  background-color: transparent;
+}
+
+.toast-message {
+  text-align: center;
+  font-weight: bold;
+}

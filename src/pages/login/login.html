@@ -1,0 +1,34 @@
+<ion-content padding>
+  <img src="assets/imgs/bookify.png">
+  <br>
+  <br>
+  <form novalidate (ngSubmit)="loginUser(user)" [formGroup]="loginForm">
+    <ion-row>
+
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="email" [(ngModel)]="user.email" formControlName="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Passord</ion-label>
+        <ion-input type="password" value="" [(ngModel)]="user.password" formControlName="password"></ion-input>
+      </ion-item>
+
+    </ion-row>
+
+    <ion-row padding-top="30%">
+      <button ion-button block color="globalColor" [disabled]="loginForm.invalid">LOGG INN</button>
+    </ion-row>
+  </form>
+
+  <ion-row class="forgotBtnRow">
+    <button class="forgotBtnColor" ion-button (click)="forgotPassword()" clear><b>Glemt passord?</b></button>
+  </ion-row>
+
+</ion-content>
+<ion-footer class="footer">
+  <ion-toolbar transparent>
+    <p class="footerText" (click)="registerUser()">Har du ikke konto? <b>Registrer deg her</b></p>
+  </ion-toolbar>
+</ion-footer>

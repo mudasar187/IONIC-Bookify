@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { BuyBookPageModule } from '../pages/buy-book/buy-book.module';
 import { MessagesPageModule } from '../pages/messages/messages.module';
 import { ProfilePageModule } from '../pages/profile/profile.module';
@@ -23,11 +22,12 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import env from '../env/env';
+import { LoginPage } from '../pages/login/login';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -46,7 +46,7 @@ import env from '../env/env';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
+    LoginPage,
     BuyBookPage,
     SellBookPage,
     ProfilePage,
