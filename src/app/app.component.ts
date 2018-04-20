@@ -15,33 +15,33 @@ export class MyApp {
 
   splash = true; // Set true for the splash screen, if you want to turn it off set false
   rootPage: any;
-  collection: AngularFirestoreCollection<User>;
+  userCollection: AngularFirestoreCollection<User>;
 
   constructor(platform: Platform,
-              statusBar: StatusBar,
-              splashScreen: SplashScreen,
-              af: AngularFirestore,
-              toast: ToastController) {
+    statusBar: StatusBar,
+    splashScreen: SplashScreen,
+    af: AngularFirestore,
+    toast: ToastController) {
 
     const authObserve = af.app.auth().onAuthStateChanged((user) => {
-      if (af.app.auth().currentUser != null && af.app.auth().currentUser.emailVerified == true) { // Checks if user's UID != null and user is email verified, then redirect to HomePage
+      if (af.app.auth().currentUser != null && af.app.auth().currentUser.emailVerified == true) { // Checks if user's UID != null and user is email verified, then redirect to TabControllerPage
 
-      // get the user from user collection to create a welcome message based on who is logging on to the app
-      this.collection = af.collection<User>('users');
-      this.collection.doc(af.app.auth().currentUser.uid).ref.get().then(function(doc) {
-        if (doc.exists) {
+        // Get the user from user collection to create a welcome message based on who is logging on to the app
+        this.userCollection = af.collection<User>('users');
+        this.userCollection.doc(af.app.auth().currentUser.uid).ref.get().then(function (doc) {
+          if (doc.exists) {
             toast.create({
               message: `Welcome ${doc.data().nickname}`,
               duration: 2000
             }).present();
-        }
-      }).catch(function(error) {
-          console.log("Error getting document:", error);
-      });
+          }
+        }).catch(function (error) {
+          console.log("Error getting user document: ", error);
+        });
 
         this.rootPage = TabControllerPage;
-      } else if ((user == null) || (user.emailVerified == false)) { // Otherwise redirect to welcomepage
-        this.rootPage = LoginPage; // If user's UID == null or user email not verified then redirect to WelcomePage
+      } else if ((user == null) || (user.emailVerified == false)) {
+        this.rootPage = LoginPage; // If user's UID == null or user email not verified then redirect to LoginPage
       }
     });
 

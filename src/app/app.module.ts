@@ -25,6 +25,9 @@ import env from '../env/env';
 import { LoginPage } from '../pages/login/login';
 import { ResetPasswordPageModule } from '../pages/reset-password/reset-password.module';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
+import { RegisterPageModule } from '../pages/register/register.module';
+import { RegisterPage } from '../pages/register/register';
+import { UserCollectionProvider } from '../providers/user-collection/user-collection';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,7 @@ import { ResetPasswordPage } from '../pages/reset-password/reset-password';
     TabControllerPageModule,
     ComponentsModule,
     ResetPasswordPageModule,
+    RegisterPageModule,
     AngularFireModule.initializeApp(env), // Initalize the environment .ts file
     AngularFireAuthModule,
     AngularFirestoreModule,
@@ -55,12 +59,14 @@ import { ResetPasswordPage } from '../pages/reset-password/reset-password';
     ProfilePage,
     MessagesPage,
     TabControllerPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    UserCollectionProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }

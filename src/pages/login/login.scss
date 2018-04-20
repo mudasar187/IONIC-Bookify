@@ -1,27 +1,25 @@
 page-login {
-  img {
-      width: 50%;
-      height: auto;
-      margin: 0 auto;
-      display: block;
-  }
-  .forgotBtnColor {
-      color: #9e9e9e;
-      font-size: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-  }
-  .footer {
-      background-color: #ef5350;
-  }
-  .textColor {
-      color: #9e9e9e;
-      text-align: center;
-  }
-
-  .footerText {
-    text-align: center;
-    color: #ffff;
-  }
-
+    img {
+        width: 50%;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+    }
+    .forgotBtnColor {
+        color: #9e9e9e;
+        font-size: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .footer {
+        background-color: #ef5350;
+    }
+    .textColor {
+        color: #9e9e9e;
+        text-align: center;
+    }
+    .footerText {
+        text-align: center;
+        color: #ffff;
+    }
 }

@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFirestore } from 'angularfire2/firestore';
 
+/**
+ * This class contains methods so a user can reset password
+ */
 @IonicPage()
 @Component({
   selector: 'page-reset-password',
@@ -14,8 +17,8 @@ export class ResetPasswordPage implements OnInit {
   resetForm: FormGroup;
 
   constructor(private af: AngularFirestore,
-              private toast: ToastController,
-              private navCtrl: NavController) {
+    private toast: ToastController,
+    private navCtrl: NavController) {
   }
 
   // Init FormGroup

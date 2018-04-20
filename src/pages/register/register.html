@@ -1,0 +1,76 @@
+<ion-header>
+  <custom-header pageName="Lag ny konto"></custom-header>
+</ion-header>
+
+
+<ion-content padding>
+  <form novalidate (ngSubmit)="registerUser(user)" [formGroup]="userForm">
+    <ion-row>
+
+      <ion-item>
+        <ion-label floating>Brukernavn</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="user.nickname" formControlName="nickname"></ion-input>
+      </ion-item>
+
+      <ion-item class="errorBox" no-lines *ngIf="userForm.get('nickname').hasError('required') && userForm.get('nickname').touched">
+        <span class="global__input-error" *ngIf="userForm.get('nickname').hasError('required')">
+          Du må velge et brukernavn</span>
+        <br>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="email" value="" [(ngModel)]="user.email" formControlName="email"></ion-input>
+      </ion-item>
+
+      <ion-item class="errorBox" no-lines *ngIf="( userForm.get('email').hasError('required') || userForm.get('email').hasError('email') ) && userForm.get('email').touched">
+        <span class="global__input-error" *ngIf="userForm.get('email').hasError('required')">
+          Fyll inn email</span>
+        <br>
+        <span class="global__input-error" *ngIf="userForm.get('email').hasError('email')">
+          Email er ikke gyldig
+        </span>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Passord</ion-label>
+        <ion-input type="password" value="" [(ngModel)]="user.password" formControlName="password"></ion-input>
+      </ion-item>
+
+      <ion-item class="errorBox" no-lines *ngIf="( userForm.get('password').hasError('required') ) && userForm.get('password').touched">
+
+        <span class="global__input-error" *ngIf="userForm.get('password').hasError('required')">
+          Passord må fylles ut
+        </span>
+
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label floating>Gjenta passord</ion-label>
+        <ion-input type="password" value="" formControlName="re_password"></ion-input>
+      </ion-item>
+
+      <ion-item class="errorBox" no-lines *ngIf="( userForm.get('re_password').hasError('equalTo') || userForm.get('re_password').hasError('required') ) && userForm.get('re_password').touched">
+
+        <span class="global__input-error" *ngIf="userForm.get('re_password').hasError('required')">
+          Gjenta passord må fylles in
+        </span>
+        <br>
+        <span class="global__input-error" *ngIf="userForm.get('re_password').hasError('equalTo')">
+          Passord samsvarer ikke
+        </span>
+      </ion-item>
+    </ion-row>
+
+
+    <ion-row padding-top="30%">
+      <button ion-button block color="colorThree" [disabled]="userForm.invalid">Register</button>
+    </ion-row>
+  </form>
+
+  <p class="verifyText">Når du har registrert deg vil vi sende en verifiseringsmail
+    <br>Verifiser mailen din før du logger deg inn
+    <br>
+    <br>Dette er av sikkerhetsmessige årsaker for å unngå opprettelse av falske profiler</p>
+</ion-content>
