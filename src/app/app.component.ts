@@ -7,6 +7,7 @@ import { TabControllerPage } from '../pages/tab-controller/tab-controller';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { User } from '../models/User';
 import { Observable } from 'rxjs/Observable';
+import { ToastMessage } from '../toastMessages/ToastMessage';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,25 +16,27 @@ export class MyApp {
 
   splash = true; // Set true for the splash screen, if you want to turn it off set false
   rootPage: any;
-  userCollection: AngularFirestoreCollection<User>;
+  userCollection: AngularFirestoreCollection<User>; // Reference to collection on Firestore. present structure as User model
 
   constructor(platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
     af: AngularFirestore,
-    toast: ToastController) {
+    public toastCtrl: ToastController) {
+
+      // Create a object of ToastMessage, sending ToastController to the ToastMessage constructor
+      let myCustomToast = new ToastMessage(this.toastCtrl);
+
+      // Create a reference to 'users' collection in Firestore
+      this.userCollection = af.collection<User>('users');
 
     const authObserve = af.app.auth().onAuthStateChanged((user) => {
       if (af.app.auth().currentUser != null && af.app.auth().currentUser.emailVerified == true) { // Checks if user's UID != null and user is email verified, then redirect to TabControllerPage
 
         // Get the user from user collection to create a welcome message based on who is logging on to the app
-        this.userCollection = af.collection<User>('users');
-        this.userCollection.doc(af.app.auth().currentUser.uid).ref.get().then(function (doc) {
+        this.userCollection.doc(af.app.auth().currentUser.uid).ref.get().then((doc) => {
           if (doc.exists) {
-            toast.create({
-              message: `Welcome ${doc.data().nickname}`,
-              duration: 2000
-            }).present();
+            myCustomToast.presentToast('Velkommen ' + `${doc.data().nickname}`); // Give a welcome toast message
           }
         }).catch(function (error) {
           console.log("Error getting user document: ", error);

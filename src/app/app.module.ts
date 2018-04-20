@@ -28,6 +28,7 @@ import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { RegisterPageModule } from '../pages/register/register.module';
 import { RegisterPage } from '../pages/register/register';
 import { UserCollectionProvider } from '../providers/user-collection/user-collection';
+import { ToastMessage } from '../toastMessages/ToastMessage';
 
 @NgModule({
   declarations: [
