@@ -6,6 +6,16 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { BuyBookPageModule } from '../pages/buy-book/buy-book.module';
+import { MessagesPageModule } from '../pages/messages/messages.module';
+import { ProfilePageModule } from '../pages/profile/profile.module';
+import { SellBookPageModule } from '../pages/sell-book/sell-book.module';
+import { BuyBookPage } from '../pages/buy-book/buy-book';
+import { SellBookPage } from '../pages/sell-book/sell-book';
+import { ProfilePage } from '../pages/profile/profile';
+import { MessagesPage } from '../pages/messages/messages';
+import { TabControllerPage } from '../pages/tab-controller/tab-controller';
+import { TabControllerPageModule } from '../pages/tab-controller/tab-controller.module';
 
 @NgModule({
   declarations: [
@@ -14,12 +24,22 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    BuyBookPageModule,
+    MessagesPageModule,
+    ProfilePageModule,
+    SellBookPageModule,
+    TabControllerPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    BuyBookPage,
+    SellBookPage,
+    ProfilePage,
+    MessagesPage,
+    TabControllerPage
   ],
   providers: [
     StatusBar,
