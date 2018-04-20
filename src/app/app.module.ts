@@ -23,6 +23,8 @@ import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import env from '../env/env';
 import { LoginPage } from '../pages/login/login';
+import { ResetPasswordPageModule } from '../pages/reset-password/reset-password.module';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { LoginPage } from '../pages/login/login';
     SellBookPageModule,
     TabControllerPageModule,
     ComponentsModule,
+    ResetPasswordPageModule,
     AngularFireModule.initializeApp(env), // Initalize the environment .ts file
     AngularFireAuthModule,
     AngularFirestoreModule,
@@ -51,7 +54,8 @@ import { LoginPage } from '../pages/login/login';
     SellBookPage,
     ProfilePage,
     MessagesPage,
-    TabControllerPage
+    TabControllerPage,
+    ResetPasswordPage
   ],
   providers: [
     StatusBar,

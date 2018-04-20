@@ -4,6 +4,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { User } from '../../models/User';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
+import { TabControllerPage } from '../tab-controller/tab-controller';
 /**
  * Generated class for the LoginPage page.
  *
@@ -43,7 +44,7 @@ export class LoginPage implements OnInit {
           duration: 2000
         }).present();
       } else {
-        this.navCtrl.push('HomePage');
+        this.navCtrl.push(TabControllerPage);
       }
     }, error => {
       console.log(error);
@@ -62,5 +63,10 @@ export class LoginPage implements OnInit {
           break;
       }
     });
+  }
+
+  // Brings user to reset password page
+  forgotPassword() {
+    this.navCtrl.push('ResetPasswordPage');
   }
 }
