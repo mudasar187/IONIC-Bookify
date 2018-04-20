@@ -42,16 +42,14 @@ export class LoginPage implements OnInit {
     // Create a object of AlertMessages, sending ToastController to the AlertMessages constructor
     let myCustomToast = new AlertMessages(this.toast);
 
-    this.af.app.auth().signInWithEmailAndPassword(user.email, user.password).then(response => {
+    this.af.app.auth().signInWithEmailAndPassword(user.email, user.password).then(() => {
 
-      let checkUser = this.af.app.auth().currentUser;
-
-      if (!checkUser.emailVerified) { // if not verified, send a toast message to remind user to verify email
+      if (!this.af.app.auth().currentUser.emailVerified) { // if not verified, send a toast message to remind user to verify email
         myCustomToast.presentCustomToast('Verifiser emailen før du logger inn');
       } else {
         this.navCtrl.push(TabControllerPage); // If user have verified account, go to TabControllerPage
       }
-    }, error => {
+    }).catch((error) => {
       switch (error.code) { // If user dont exists or password is incorrect
         case 'auth/user-not-found':
           myCustomToast.presentCustomToast('Feil brukernavn/passord');

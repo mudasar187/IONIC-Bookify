@@ -47,20 +47,23 @@ export class RegisterPage implements OnInit {
 
     let myCustomToast = new AlertMessages(this.toast);
 
-    this.af.app.auth().createUserWithEmailAndPassword(user.email, user.password).then(response => {
+    this.af.app.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 
-      let userObject = this.af.app.auth().currentUser;
+      let userObject = this.af.app.auth().currentUser; // to get user information like uid, email
 
-      this.userCollectionProvider.addUserToCollection(userObject.uid, user.nickname, userObject.email, new Date().toISOString());
-
-      // Send email verification after user is added to collection
+      // Send email verification to user
       userObject.sendEmailVerification();
+
+      this.userCollectionProvider.addUserToCollection(userObject.uid, user.nickname, user.email, new Date().toISOString());
 
       // Go back to LoginPage when created a account
       this.navCtrl.push(LoginPage);
-    }, err => {
-      if (err.code == 'auth/email-already-in-use') {
-        myCustomToast.presentCustomToast('Emailen er allerede i bruk');
+
+    }).catch((error) => { // If error
+      if (error.code == 'auth/email-already-in-use') {
+        myCustomToast.presentCustomToast('Emailen er i bruk');
+      } else {
+        myCustomToast.presentCustomToast('Konto ikke opprettet, prøv igjen');
       }
     });
   }
@@ -69,8 +72,7 @@ export class RegisterPage implements OnInit {
   equalto(field_name): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
 
-      let input = control.value;
-      let isValid = control.root.value[field_name] == input
+      let isValid = control.root.value[field_name] == control.value
 
       if (!isValid)
         return { 'equalTo': { isValid } }

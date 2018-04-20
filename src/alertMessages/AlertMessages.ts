@@ -23,7 +23,7 @@ export class AlertMessages {
   presentCustomToast(title: string) {
     this.toast.create({
       message: title,
-      duration: 2000
+      duration: 1500
     }).present();
   }
 

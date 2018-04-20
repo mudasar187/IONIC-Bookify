@@ -35,12 +35,11 @@ export class ResetPasswordPage implements OnInit {
 
     let myCustom = new AlertMessages(this.toast);
 
-    let auth = this.af.app.auth();
-    return auth.sendPasswordResetEmail(email).then(() =>
-    myCustom.presentCustomToast('Email sendt for tilbakestilling av passord'))
-    this.navCtrl.push(LoginPage)
-      .catch((error) => {
-        console.log(error);
+    return this.af.app.auth().sendPasswordResetEmail(email).then(() =>
+    myCustom.presentCustomToast('Email sendt for tilbakestilling av passord')).then(() => {
+      this.navCtrl.push(LoginPage); // Redirect to LoginPage when reset email
+    }).catch((error) => {
+        myCustom.presentCustomToast('Emailen er ikke registrert');
       });
   }
 
