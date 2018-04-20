@@ -5,9 +5,10 @@ import { User } from '../../models/User';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { TabControllerPage } from '../tab-controller/tab-controller';
+import { AlertMessages } from '../../alertMessages/AlertMessages';
 
 /**
- * This is the main LoginPage
+ * This class is LoginPage
  * A user can login with existing email and password
  * A user can registrate a new account
  * A user can reset password if password is forgotton
@@ -37,30 +38,26 @@ export class LoginPage implements OnInit {
 
   // login user, also handle if user type right or wrong username/password
   loginUser(user: User) {
+
+    // Create a object of AlertMessages, sending ToastController to the AlertMessages constructor
+    let myCustomToast = new AlertMessages(this.toast);
+
     this.af.app.auth().signInWithEmailAndPassword(user.email, user.password).then(response => {
+
       let checkUser = this.af.app.auth().currentUser;
+
       if (!checkUser.emailVerified) { // if not verified, send a toast message to remind user to verify email
-        this.toast.create({
-          message: 'Please verify your account',
-          duration: 2000
-        }).present();
+        myCustomToast.presentCustomToast('Verifiser emailen før du logger inn');
       } else {
         this.navCtrl.push(TabControllerPage); // If user have verified account, go to TabControllerPage
       }
     }, error => {
-      console.log(error);
       switch (error.code) { // If user dont exists or password is incorrect
         case 'auth/user-not-found':
-          this.toast.create({
-            message: 'Wrong username/password',
-            duration: 2000
-          }).present();
+          myCustomToast.presentCustomToast('Feil brukernavn/passord');
           break;
         case 'auth/wrong-password':
-          this.toast.create({
-            message: 'Wrong username/password',
-            duration: 2000
-          }).present();
+          myCustomToast.presentCustomToast('Feil brukernavn/passord');
           break;
       }
     });

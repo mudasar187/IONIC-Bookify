@@ -6,6 +6,8 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { User } from '../../models/User';
 import { Observable } from 'rxjs/Observable';
 import { UserCollectionProvider } from '../../providers/user-collection/user-collection';
+import { AlertMessages } from '../../alertMessages/AlertMessages';
+import { LoginPage } from '../login/login';
 
 /**
  * THis class contains the functionality to create a new user and add user to own collection
@@ -18,8 +20,8 @@ import { UserCollectionProvider } from '../../providers/user-collection/user-col
 })
 export class RegisterPage implements OnInit {
 
-  user = {} as User;
-  userForm: FormGroup;
+  user = {} as User; // Create an object of user
+  userForm: FormGroup; // create a form to validate inputs
 
   constructor(public navCtrl: NavController,
     private af: AngularFirestore,
@@ -40,19 +42,25 @@ export class RegisterPage implements OnInit {
 
   }
 
-  // make a new account for new registered user and also create a user in user collection
+  // Make a new account for new registered user and also create a user in user collection
   registerUser(user: User) {
+
+    let myCustomToast = new AlertMessages(this.toast);
+
     this.af.app.auth().createUserWithEmailAndPassword(user.email, user.password).then(response => {
+
       let userObject = this.af.app.auth().currentUser;
+
       this.userCollectionProvider.addUserToCollection(userObject.uid, user.nickname, userObject.email, new Date().toISOString());
+
+      // Send email verification after user is added to collection
       userObject.sendEmailVerification();
-      this.navCtrl.push('WelcomePage');
+
+      // Go back to LoginPage when created a account
+      this.navCtrl.push(LoginPage);
     }, err => {
       if (err.code == 'auth/email-already-in-use') {
-        this.toast.create({
-          message: 'Email already in use',
-          duration: 2000
-        }).present();
+        myCustomToast.presentCustomToast('Emailen er allerede i bruk');
       }
     });
   }
@@ -62,8 +70,8 @@ export class RegisterPage implements OnInit {
     return (control: AbstractControl): { [key: string]: any } => {
 
       let input = control.value;
-
       let isValid = control.root.value[field_name] == input
+
       if (!isValid)
         return { 'equalTo': { isValid } }
       else

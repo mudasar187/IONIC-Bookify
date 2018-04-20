@@ -2,17 +2,20 @@ import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 import { User } from '../../models/User';
 
+/**
+ * This class contains all operations against the user collection on Firestore
+ */
 @Injectable()
 export class UserCollectionProvider {
 
-  public userListCollection: AngularFirestoreCollection<User>; // collection keep the referance to our user
-  user = {} as User;
+  userListCollection: AngularFirestoreCollection<User>; // collection keep the referance to our user
+  user = {} as User; // create an object of user
 
   constructor(public af: AngularFirestore) {
-    this.userListCollection = af.collection<User>('users');
+    this.userListCollection = af.collection<User>('users'); // make a reference to user collection
   }
 
-  // add a user to the collection
+  // Add a user to the collection
   addUserToCollection(uid, nickname, email, created) {
     this.userListCollection.doc(''+uid+'').set({uid: uid, nickname: nickname, email: email, created: created } as User);
   }

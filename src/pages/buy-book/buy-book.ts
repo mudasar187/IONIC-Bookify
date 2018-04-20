@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 
 /**
  * This class contains all the books published by sellers
@@ -12,7 +12,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class BuyBookPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams) {
   }
+
+
 
 }
