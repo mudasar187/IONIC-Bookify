@@ -18,6 +18,12 @@ import { TabControllerPage } from '../pages/tab-controller/tab-controller';
 import { TabControllerPageModule } from '../pages/tab-controller/tab-controller.module';
 import { ComponentsModule } from '../components/components.module';
 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import env from '../env/env';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -31,7 +37,11 @@ import { ComponentsModule } from '../components/components.module';
     ProfilePageModule,
     SellBookPageModule,
     TabControllerPageModule,
-    ComponentsModule
+    ComponentsModule,
+    AngularFireModule.initializeApp(env), // Initalize the environment .ts file
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
