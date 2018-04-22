@@ -9,7 +9,6 @@ import { User } from '../../models/User';
 export class UserCollectionProvider {
 
   userListCollection: AngularFirestoreCollection<User>; // collection keep the referance to our user
-  user = {} as User; // create an object of user
 
   constructor(public af: AngularFirestore) {
     this.userListCollection = af.collection<User>('users'); // make a reference to user collection
@@ -19,5 +18,7 @@ export class UserCollectionProvider {
   addUserToCollection(uid, nickname, email, created) {
     this.userListCollection.doc(''+uid+'').set({uid: uid, nickname: nickname, email: email, created: created } as User);
   }
+
+  
 
 }
