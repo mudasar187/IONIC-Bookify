@@ -1,8 +1,10 @@
 <ion-header>
-  <custom-header pageName="Profil"></custom-header>
+  <custom-header pageName="Profile"></custom-header>
 </ion-header>
 
 <ion-content padding>
+  <p>{{user.nickname}}</p>
+  <p>{{user.email}}</p>
   <ion-row padding-top="30%">
     <button ion-button block color="globalColor" (click)="logOut()">LOGG UT</button>
   </ion-row>
