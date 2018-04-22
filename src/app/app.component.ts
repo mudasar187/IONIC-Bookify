@@ -37,7 +37,7 @@ export class MyApp {
         // Get the user from user collection to create a welcome message based on who is logging on to the app
         this.userCollection.doc(af.app.auth().currentUser.uid).ref.get().then((doc) => {
           if (doc.exists) {
-            myCustomToast.presentWelcomeUserToast('Velkommen ' + `${doc.data().nickname}`); // Give a welcome toast message
+            myCustomToast.presentCustomToast('Velkommen ' + `${doc.data().nickname}`); // Give a welcome toast message
           }
         }).catch(function (error) {
           console.log("Error getting user document: ", error);

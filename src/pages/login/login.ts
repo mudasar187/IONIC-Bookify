@@ -20,8 +20,8 @@ import { AlertMessages } from '../../alertMessages/AlertMessages';
 })
 export class LoginPage implements OnInit {
 
-  user = {} as User; // create an object of user
-  loginForm: FormGroup; // create a form to validate inputs
+  user = {} as User; // create an object of user so i can validate whats come in input fields
+  loginForm: FormGroup; // create a form to validate
 
   constructor(public navCtrl: NavController,
     private af: AngularFirestore,

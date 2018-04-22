@@ -15,8 +15,8 @@ import { LoginPage } from '../login/login';
 })
 export class ResetPasswordPage implements OnInit {
 
-  email: string;
-  resetForm: FormGroup;
+  email: string; // To validate email
+  resetForm: FormGroup; // create a object of FormGroup to validate email
 
   constructor(private af: AngularFirestore,
     private toast: ToastController,

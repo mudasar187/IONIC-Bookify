@@ -20,8 +20,8 @@ import { LoginPage } from '../login/login';
 })
 export class RegisterPage implements OnInit {
 
-  user = {} as User; // Create an object of user
-  userForm: FormGroup; // create a form to validate inputs
+  user = {} as User; // create an object of user so i can validate whats come in input fields
+  userForm: FormGroup; // create a form to validate
 
   constructor(public navCtrl: NavController,
     private af: AngularFirestore,
