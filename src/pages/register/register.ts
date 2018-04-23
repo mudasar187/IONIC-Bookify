@@ -44,8 +44,6 @@ export class RegisterPage implements OnInit {
   // Make a new account for new registered user and also create a user in user collection
   registerUser(user: User) {
 
-    let myCustomToast = new AlertMessages(this.toast);
-
     this.af.app.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 
       let userObject = this.af.app.auth().currentUser; // to get user information like uid, email
@@ -58,9 +56,9 @@ export class RegisterPage implements OnInit {
 
     }).catch((error) => { // If error
       if (error.code == 'auth/email-already-in-use') {
-        myCustomToast.presentCustomToast('Emailen er i bruk');
+        this.myCustomMessage.presentCustomToast('Emailen er i bruk');
       } else {
-        myCustomToast.presentCustomToast('Konto ikke opprettet, prøv igjen');
+        this.myCustomMessage.presentCustomToast('Konto ikke opprettet, prøv igjen');
       }
     });
   }

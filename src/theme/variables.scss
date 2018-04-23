@@ -24,7 +24,6 @@ $app-direction: ltr;
 
 
 
-
 // Named Color Variables
 // --------------------------------------------------
 // Named colors makes it easy to reuse colors on various components.
@@ -39,7 +38,10 @@ $colors: (
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  globalColor: #ef5350
+  globalColor: #ef5350,
+  globalBackgroundColor: #eceff1,
+  textColor: #9e9e9e,
+  footerText: #ffffff
 );
 
 
