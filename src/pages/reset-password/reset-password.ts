@@ -15,12 +15,14 @@ import { LoginPage } from '../login/login';
 })
 export class ResetPasswordPage implements OnInit {
 
-  email: string; // To validate email
+  email: string; // to validate email
   resetForm: FormGroup; // create a object of FormGroup to validate email
+  myCustomMessage: AlertMessages; // create a object of type AlertMessages
 
   constructor(private af: AngularFirestore,
     private toast: ToastController,
     private navCtrl: NavController) {
+    this.myCustomMessage = new AlertMessages(this.toast); // send ToastController to constructor in AlertMessage
   }
 
   // Init FormGroup
@@ -33,14 +35,17 @@ export class ResetPasswordPage implements OnInit {
   // reset the password
   resetPassword(email: string) {
 
-    let myCustom = new AlertMessages(this.toast);
-
     return this.af.app.auth().sendPasswordResetEmail(email).then(() =>
-    myCustom.presentCustomToast('Email sendt for tilbakestilling av passord')).then(() => {
-      this.navCtrl.push(LoginPage); // Redirect to LoginPage when reset email
-    }).catch((error) => {
-        myCustom.presentCustomToast('Emailen er ikke registrert');
+      this.myCustomMessage.presentCustomToast('Email sendt for tilbakestilling av passord')).then(() => {
+        this.navigateToPage(LoginPage); // Redirect to LoginPage when reset email
+      }).catch((error) => {
+        this.myCustomMessage.presentCustomToast('Emailen er ikke registrert');
       });
+  }
+
+  // navigate to Page depend on which page
+  navigateToPage(page: any) {
+    this.navCtrl.push(page);
   }
 
 }

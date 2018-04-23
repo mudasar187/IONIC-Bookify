@@ -25,17 +25,15 @@ export class ProfilePage {
     private userProvider: UserCollectionProvider) {
   }
 
-  // Logout from app
+  // logout from app
   logOut() {
     this.af.app.auth().signOut();
-    this.navCtrl.push(LoginPage);
+    this.navigateToPage(LoginPage);
   }
 
-  // Get information about user
-  ionViewDidEnter() {
-    console.log(this.user.nickname);
-    console.log(this.user.email);
-    this.user = this.userProvider.getUserData();
+  // navigate to page depend on which page
+  navigateToPage(page: any) {
+    this.navCtrl.push(page);
   }
 
 

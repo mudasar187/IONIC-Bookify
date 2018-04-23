@@ -22,13 +22,14 @@ export class RegisterPage implements OnInit {
 
   user = {} as User; // create an object of user so i can validate whats come in input fields
   userForm: FormGroup; // create a form to validate
+  myCustomMessage: AlertMessages; // create an object of AlertMessage
 
   constructor(public navCtrl: NavController,
     private af: AngularFirestore,
     private toast: ToastController,
     private navParams: NavParams,
     private userCollectionProvider: UserCollectionProvider) {
-
+      this.myCustomMessage = new AlertMessages(this.toast); // send ToastController to constructor in AlertMessage
   }
 
   // Init the FormGroup
@@ -50,14 +51,12 @@ export class RegisterPage implements OnInit {
     this.af.app.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
 
       let userObject = this.af.app.auth().currentUser; // to get user information like uid, email
-
       // Send email verification to user
       userObject.sendEmailVerification();
 
       this.userCollectionProvider.addUserToCollection(userObject.uid, user.nickname, user.email, new Date().toISOString());
 
-      // Go back to LoginPage when created a account
-      this.navCtrl.push(LoginPage);
+      this.navigateToPage(LoginPage);
 
     }).catch((error) => { // If error
       if (error.code == 'auth/email-already-in-use') {
@@ -79,6 +78,11 @@ export class RegisterPage implements OnInit {
       else
         return null;
     };
+  }
+
+  // navigate to Page depend on which page
+  navigateToPage(page: any) {
+    this.navCtrl.push(page);
   }
 
 }

@@ -24,15 +24,5 @@ export class UserCollectionProvider {
   }
 
   // Get user data
-  getUserData() {
-    this.userListCollection.doc(this.af.app.auth().currentUser.uid).ref.get().then((doc) => {
-      if (doc.exists) {
-        this.user = doc.data();
-      }
-    }).catch((error) => {
-      console.log("Error getting document:", error);
-    });
-    return this.user;
-  }
 
 }

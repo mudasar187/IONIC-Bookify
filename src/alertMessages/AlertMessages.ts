@@ -2,7 +2,7 @@ import { ToastController } from 'ionic-angular';
 
 /**
  * This class contains all type of messages
- * Toast messages, alert messages
+ * Toast messages, alert messages and so on
  */
 
 export class AlertMessages {
