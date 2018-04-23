@@ -4,14 +4,17 @@ page-profile {
         width: 100px !important;
         height: 100px !important;
     }
-
-    .userDetails{
-      text-align: center;
-      font-weight: bold;
-      font-size: 15px;
+    .userDetails {
+        text-align: center;
+        font-weight: bold;
+        font-size: 15px;
     }
-
     .card {
-      background-color: map-get($colors, globalBackgroundColor)
+        background-color: map-get($colors, globalBackgroundColor)
+    }
+    .cameraIcon {
+        position: absolute;
+        top: 75%;
+        left: 65%;
     }
 }

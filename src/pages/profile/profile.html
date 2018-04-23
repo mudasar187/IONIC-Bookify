@@ -6,7 +6,8 @@
   <ion-card>
     <ion-item class="card">
       <ion-avatar>
-        <img src="../../assets/imgs/bookify.png">
+        <img src="{{userObject.photoURL}}">
+        <ion-icon class="cameraIcon" name="camera" (click)="executeCamera()"></ion-icon>
       </ion-avatar>
     </ion-item>
     <ion-item class="card">
