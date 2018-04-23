@@ -10,4 +10,8 @@ page-profile {
       font-weight: bold;
       font-size: 15px;
     }
+
+    .card {
+      background-color: map-get($colors, globalBackgroundColor)
+    }
 }
