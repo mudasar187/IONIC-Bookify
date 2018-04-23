@@ -39,6 +39,8 @@ export class ProfilePage {
     this.navCtrl.push(page);
   }
 
+  
+
 
 
 }

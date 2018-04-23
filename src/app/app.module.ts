@@ -27,6 +27,7 @@ import { ResetPasswordPageModule } from '../pages/reset-password/reset-password.
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { RegisterPageModule } from '../pages/register/register.module';
 import { RegisterPage } from '../pages/register/register';
+import {Camera, CameraOptions} from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { RegisterPage } from '../pages/register/register';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    Camera
   ]
 })
 export class AppModule { }
