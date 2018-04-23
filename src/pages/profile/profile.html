@@ -3,8 +3,12 @@
 </ion-header>
 
 <ion-content padding>
-  <p>{{user.nickname}}</p>
-  <p>{{user.email}}</p>
+  <ion-row padding-top="30%">
+    <button ion-button block color="globalColor" (click)="navigateToPage('MyBuysPage')">MINE KJØP</button>
+  </ion-row>
+  <ion-row padding-top="30%">
+    <button ion-button block color="globalColor" (click)="navigateToPage('MySalesPage')">MINE SALG</button>
+  </ion-row>
   <ion-row padding-top="30%">
     <button ion-button block color="globalColor" (click)="logOut()">LOGG UT</button>
   </ion-row>

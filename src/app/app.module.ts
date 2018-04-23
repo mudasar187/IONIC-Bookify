@@ -65,8 +65,7 @@ import { UserCollectionProvider } from '../providers/user-collection/user-collec
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
-    UserCollectionProvider
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
 export class AppModule { }

@@ -5,7 +5,6 @@ import { OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { User } from '../../models/User';
 import { Observable } from 'rxjs/Observable';
-import { UserCollectionProvider } from '../../providers/user-collection/user-collection';
 import { AlertMessages } from '../../alertMessages/AlertMessages';
 import { LoginPage } from '../login/login';
 
@@ -27,8 +26,7 @@ export class RegisterPage implements OnInit {
   constructor(public navCtrl: NavController,
     private af: AngularFirestore,
     private toast: ToastController,
-    private navParams: NavParams,
-    private userCollectionProvider: UserCollectionProvider) {
+    private navParams: NavParams) {
       this.myCustomMessage = new AlertMessages(this.toast); // send ToastController to constructor in AlertMessage
   }
 
@@ -54,7 +52,7 @@ export class RegisterPage implements OnInit {
       // Send email verification to user
       userObject.sendEmailVerification();
 
-      this.userCollectionProvider.addUserToCollection(userObject.uid, user.nickname, user.email, new Date().toISOString());
+      this.af.app.auth().currentUser.updateProfile({displayName: user.nickname, photoURL: null});
 
       this.navigateToPage(LoginPage);
 

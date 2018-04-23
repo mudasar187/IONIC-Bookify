@@ -46,7 +46,7 @@ export class LoginPage implements OnInit {
       if (!this.af.app.auth().currentUser.emailVerified) { // if not verified, send a toast message to remind user to verify email
         this.myCustomMessage.presentCustomToast('Verifiser emailen før du logger inn');
       } else {
-        this.navigateToTabControllerPage(); // If user have verified account, go to TabControllerPage
+        this.navigateToPage(TabControllerPage); // If user have verified account, go to TabControllerPage
       }
     }).catch((error) => {
       switch (error.code) { // If user dont exists or password is incorrect
@@ -61,12 +61,7 @@ export class LoginPage implements OnInit {
   }
 
   // navigate to page depend on which page
-  navigateToPage(page: string) {
-    this.navCtrl.push(''+page+'');
-  }
-
-  // navigate to TabControllerPage
-  navigateToTabControllerPage() {
-    this.navCtrl.push(TabControllerPage);
+  navigateToPage(page: any) {
+    this.navCtrl.push(page);
   }
 }

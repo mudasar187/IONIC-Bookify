@@ -6,7 +6,6 @@ import { LoginPage } from '../pages/login/login';
 import { TabControllerPage } from '../pages/tab-controller/tab-controller';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { User } from '../models/User';
-import { UserCollectionProvider } from '../providers/user-collection/user-collection';
 import { AlertMessages } from '../alertMessages/AlertMessages';
 
 @Component({
