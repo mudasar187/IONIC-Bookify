@@ -63,16 +63,21 @@ export class ProfilePage {
 
     // make a task that upload the picture
     let task = this.afStorage
-      .ref(imageFileName) // specify that the filname is the same as we generated above
-      .putString(this.profileImage, 'base64', { contentType: 'image/png' });
+      .ref(`${this.userObject.email}`) // create a folder to upload image to user's folder named as user's email
+      .child(imageFileName) // fileName for the file
+      .putString(this.profileImage, 'base64', { contentType: 'image/png' }); // set as string
 
-    // make a event to we can follow then the picture is uploaded
+    // make a event to we can follow when the picture is uploaded
     let uploadEvent = task.downloadURL();
 
     // when the image is uploaded, we can now get the URL accsess
     uploadEvent.subscribe((uploadImgUrl) => {
       this.af.app.auth().currentUser.updateProfile({ displayName: this.user.nickname, photoURL: uploadImgUrl });
     });
+  }
+
+  deleteLastProfileImage() {
+
   }
 
   // logout from app
