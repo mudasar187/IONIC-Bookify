@@ -2,7 +2,7 @@ page-profile {
     ion-avatar>img {
         margin: auto;
         width: 100px !important;
-        height: 100px !important;
+        height: 110px !important;
     }
     .userDetails {
         text-align: center;
@@ -14,7 +14,8 @@ page-profile {
     }
     .cameraIcon {
         position: absolute;
-        top: 75%;
+        top: 80%;
         left: 65%;
+        font-size: 20px;
     }
 }

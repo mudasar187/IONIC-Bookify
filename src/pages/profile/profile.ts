@@ -5,6 +5,7 @@ import { LoginPage } from '../login/login';
 import { User } from '../../models/User';
 import { Camera } from '@ionic-native/camera';
 import { AngularFireStorage } from 'angularfire2/storage';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 /**
  * This class contains user's profile
@@ -27,12 +28,17 @@ export class ProfilePage {
     public navParams: NavParams,
     private af: AngularFirestore,
     private camera: Camera,
-    private afStorage: AngularFireStorage) {
+    private afStorage: AngularFireStorage,
+    private photoViewer: PhotoViewer) {
 
     this.userObject = this.af.app.auth().currentUser;
     this.user.nickname = this.userObject.displayName;
     this.user.email = this.userObject.email;
     this.deleteImage = this.userObject.photoURL;
+  }
+
+  resizeImage() {
+    this.photoViewer.show(this.userObject.photoURL);
   }
 
   // execute camera and then add to firestorage

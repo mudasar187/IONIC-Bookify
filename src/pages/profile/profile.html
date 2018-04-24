@@ -6,7 +6,7 @@
   <ion-card>
     <ion-item class="card">
       <ion-avatar>
-        <img src="{{userObject.photoURL}}">
+        <img src="{{userObject.photoURL}}" (click)="resizeImage()">
         <ion-icon class="cameraIcon" name="camera" (click)="executeCamera()"></ion-icon>
       </ion-avatar>
     </ion-item>
