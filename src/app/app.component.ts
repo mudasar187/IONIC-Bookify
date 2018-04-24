@@ -5,8 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { TabControllerPage } from '../pages/tab-controller/tab-controller';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { User } from '../models/User';
-import { AlertMessages } from '../alertMessages/AlertMessages';
 
 @Component({
   templateUrl: 'app.html'

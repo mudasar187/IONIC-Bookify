@@ -5,7 +5,7 @@ import { OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { User } from '../../models/User';
 import { Observable } from 'rxjs/Observable';
-import { AlertMessages } from '../../alertMessages/AlertMessages';
+import { ToastMessages } from '../../toastMessages/ToastMessages';
 import { LoginPage } from '../login/login';
 
 /**
@@ -21,13 +21,13 @@ export class RegisterPage implements OnInit {
 
   user = {} as User; // create an object of user so i can validate whats come in input fields
   userForm: FormGroup; // create a form to validate
-  myCustomMessage: AlertMessages; // create an object of AlertMessage
+  myCustomToast: ToastMessages; // create an object of ToastMessages
 
   constructor(public navCtrl: NavController,
     private af: AngularFirestore,
     private toast: ToastController,
     private navParams: NavParams) {
-      this.myCustomMessage = new AlertMessages(this.toast); // send ToastController to constructor in AlertMessage
+      this.myCustomToast = new ToastMessages(this.toast); // send ToastController to constructor in ToastMessages
   }
 
   // Init the FormGroup
@@ -56,9 +56,9 @@ export class RegisterPage implements OnInit {
 
     }).catch((error) => { // If error
       if (error.code == 'auth/email-already-in-use') {
-        this.myCustomMessage.presentCustomToast('Emailen er i bruk');
+        this.myCustomToast.presentCustomToast('Emailen er i bruk');
       } else {
-        this.myCustomMessage.presentCustomToast('Konto ikke opprettet, prøv igjen');
+        this.myCustomToast.presentCustomToast('Konto ikke opprettet, prøv igjen');
       }
     });
   }

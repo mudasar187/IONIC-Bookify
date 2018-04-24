@@ -1,14 +1,13 @@
 import { ToastController } from 'ionic-angular';
 
 /**
- * This class contains all type of messages
- * Toast messages, alert messages and so on
+ * This class contains all type toast messages
  */
 
-export class AlertMessages {
+export class ToastMessages {
 
   constructor(
-    private toast?: ToastController) {
+    private toast: ToastController) {
   }
 
   // Global toast message with 1500ms duration

@@ -5,7 +5,7 @@ import { User } from '../../models/User';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { TabControllerPage } from '../tab-controller/tab-controller';
-import { AlertMessages } from '../../alertMessages/AlertMessages';
+import { ToastMessages } from '../../toastMessages/ToastMessages';
 
 /**
  * This class is LoginPage
@@ -22,12 +22,12 @@ export class LoginPage implements OnInit {
 
   user = {} as User; // create an object of user so i can validate whats come in input fields
   loginForm: FormGroup; // create a form to validate
-  myCustomMessage: AlertMessages; // create a object type of AlertMessage
+  myCustomToast: ToastMessages; // create a object type of ToastMessages
 
   constructor(public navCtrl: NavController,
     private af: AngularFirestore,
     private toast: ToastController) {
-      this.myCustomMessage = new AlertMessages(this.toast); // send ToastController to AlertMessage constructor
+      this.myCustomToast = new ToastMessages(this.toast); // send ToastController to ToastMessages constructor
   }
 
   // init FormGroup
@@ -44,17 +44,17 @@ export class LoginPage implements OnInit {
     this.af.app.auth().signInWithEmailAndPassword(user.email, user.password).then(() => {
 
       if (!this.af.app.auth().currentUser.emailVerified) { // if not verified, send a toast message to remind user to verify email
-        this.myCustomMessage.presentCustomToast('Verifiser emailen før du logger inn');
+        this.myCustomToast.presentCustomToast('Verifiser emailen før du logger inn');
       } else {
         this.navigateToPage(TabControllerPage); // If user have verified account, go to TabControllerPage
       }
     }).catch((error) => {
       switch (error.code) { // If user dont exists or password is incorrect
         case 'auth/user-not-found':
-          this.myCustomMessage.presentCustomToast('Feil brukernavn/passord');
+          this.myCustomToast.presentCustomToast('Feil brukernavn/passord');
           break;
         case 'auth/wrong-password':
-          this.myCustomMessage.presentCustomToast('Feil brukernavn/passord');
+          this.myCustomToast.presentCustomToast('Feil brukernavn/passord');
           break;
       }
     });

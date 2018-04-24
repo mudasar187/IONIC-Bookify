@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { AlertMessages } from '../../alertMessages/AlertMessages';
+import { ToastMessages } from '../../toastMessages/ToastMessages';
 import { LoginPage } from '../login/login';
 
 /**
@@ -17,12 +17,12 @@ export class ResetPasswordPage implements OnInit {
 
   email: string; // to validate email
   resetForm: FormGroup; // create a object of FormGroup to validate email
-  myCustomMessage: AlertMessages; // create a object of type AlertMessages
+  myCustomToast: ToastMessages; // create a object of type ToastMessages
 
   constructor(private af: AngularFirestore,
     private toast: ToastController,
     private navCtrl: NavController) {
-    this.myCustomMessage = new AlertMessages(this.toast); // send ToastController to constructor in AlertMessage
+    this.myCustomToast = new ToastMessages(this.toast); // send ToastController to constructor in ToastMessages
   }
 
   // Init FormGroup
@@ -36,10 +36,10 @@ export class ResetPasswordPage implements OnInit {
   resetPassword(email: string) {
 
     return this.af.app.auth().sendPasswordResetEmail(email).then(() =>
-      this.myCustomMessage.presentCustomToast('Email sendt for tilbakestilling av passord')).then(() => {
+      this.myCustomToast.presentCustomToast('Email sendt for tilbakestilling av passord')).then(() => {
         this.navigateToPage(LoginPage); // Redirect to LoginPage when reset email
       }).catch((error) => {
-        this.myCustomMessage.presentCustomToast('Emailen er ikke registrert');
+        this.myCustomToast.presentCustomToast('Emailen er ikke registrert');
       });
   }
 
