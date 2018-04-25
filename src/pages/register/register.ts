@@ -45,7 +45,6 @@ export class RegisterPage implements OnInit {
   registerUser(user: User) {
 
     this.af.app.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
-
       let userObject = this.af.app.auth().currentUser; // to get user information like uid, email
       // Send email verification to user
       userObject.sendEmailVerification();

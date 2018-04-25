@@ -1,7 +1,7 @@
 import { LoadingController } from 'ionic-angular';
 
 /**
- * This class contains all LoadingController boxes
+ * This class contains all LoadingController popups
  */
 export class LoaderMessages {
 

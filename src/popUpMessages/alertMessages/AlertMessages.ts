@@ -1,7 +1,7 @@
 import { AlertController } from "ionic-angular";
 
 /**
- * This class contains all AlertController messages popup
+ * This class contains all AlertController popups
  */
 export class AlertMessages {
 

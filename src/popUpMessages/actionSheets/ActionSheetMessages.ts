@@ -1,29 +1,36 @@
 import { AlertController, ActionSheetController } from "ionic-angular";
 
 /**
- * This class contains all types of ActionSheetController popup
+ * This class contains all ActionSheetController popups
  */
 export class ActionSheetMessages {
 
   constructor(
-    private actionSheetCtrl?: ActionSheetController) {
+    private actionSheetCtrl: ActionSheetController) {
   }
 
   // show user where to get picture, either take a new or from gallery
-  presentActionSheet() {
+  // JavaScript closures
+  presentActionSheet(cameraAction: () => void, galleryAction: () => void) {
     let actionSheetPopUp = this.actionSheetCtrl.create({
       buttons: [
         {
           text: 'Ta nytt bilde',
           icon: 'camera',
           handler: () => {
-            // kall på kamera metoden her valg 1
+            cameraAction(); // execute camera
           }
         }, {
           text: 'Hent fra galleri',
           icon: 'images',
           handler: () => {
-           // kall på kamera metoden her valg 2
+            galleryAction(); // get from gallery
+          }
+        }, {
+          text: 'Avbryt',
+          icon: 'close-circle',
+          handler: ()=> {
+              actionSheetPopUp.dismiss(); // cancel actionsheet
           }
         }
       ]

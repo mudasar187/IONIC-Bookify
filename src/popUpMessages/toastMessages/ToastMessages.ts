@@ -1,7 +1,7 @@
 import { ToastController } from 'ionic-angular';
 
 /**
- * This class contains all ToastController messages
+ * This class contains all ToastController popups
  */
 
 export class ToastMessages {

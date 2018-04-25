@@ -34,7 +34,6 @@ export class ResetPasswordPage implements OnInit {
 
   // reset the password by sending an reset email to user's email account
   resetPassword(email: string) {
-
     return this.af.app.auth().sendPasswordResetEmail(email).then(() =>
       this.myCustomToast.presentCustomToast('Email sendt for tilbakestilling av passord')).then(() => {
         this.navigateToPage(LoginPage); // Redirect to LoginPage when reset email

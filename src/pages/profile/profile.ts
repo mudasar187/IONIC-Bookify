@@ -47,7 +47,8 @@ export class ProfilePage {
 
     this.loadingMessages = new LoaderMessages(this.loaderCtrl); // a new instance of LoaderMessage
     this.alertMessages = new AlertMessages(this.alertCtrl); // a new instance of AlertMessages
-    this.photoOptions = new PhotoOptions(this.photoViewer); // a new instance of PhotoOptions
+    this.photoOptions = new PhotoOptions(this.photoViewer, this.camera); // a new instance of PhotoOptions
+    this.actionSheetMessages = new ActionSheetMessages(this.actionSheetCtrl);
     this.userObject = this.af.app.auth().currentUser; // get user credentials from firestore
   }
 
@@ -56,48 +57,23 @@ export class ProfilePage {
     this.photoOptions.resizeImage(this.userObject.photoURL); // take the image url string in parameter
   }
 
-  // create own class for this one !!
-  executeCamera(sourceType: number) {
-    let options: CameraOptions = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      cameraDirection: this.camera.Direction.BACK,
-      correctOrientation: true,
-      sourceType: sourceType,
-    }
-    this.camera.getPicture(options).then(imgBase64 => {
-      this.profileImage = imgBase64;
-    }).then(() => {
-      this.addProfilePicture();
-    })
-  }
-
-  // delete when its fixed up, have own class for this one too !
+  // give user a options on which way to add a profilepicture
+  // use camera or gallery
   presentActionSheet() {
-    let actionSheetPopUp = this.actionSheetCtrl.create({
-      buttons: [
-        {
-          text: 'Ta nytt bilde',
-          icon: 'camera',
-          handler: () => {
-            this.executeCamera(1);
-          }
-        }, {
-          text: 'Hent fra galleri',
-          icon: 'images',
-          handler: () => {
-            this.executeCamera(0);
-          }
-        }
-      ]
+    this.actionSheetMessages.presentActionSheet(() => {
+        this.photoOptions.executeCamera((base64Img) => {
+            this.addProfilePicture(base64Img);
+        });
+    }, () => {
+      this.photoOptions.getFromGallery((base64Img) => {
+          this.addProfilePicture(base64Img);
+      });
     });
-    actionSheetPopUp.present();
   }
 
 
   // to add profile picture to firestorage
-  addProfilePicture() {
+  addProfilePicture(imgBase64: string) {
 
     // generate a filename for the image we're going to upload based on user's email and second
     let imageFileName = `${this.af.app.auth().currentUser.email}_${new Date().getTime()}.png`;
@@ -106,19 +82,20 @@ export class ProfilePage {
     let task = this.afStorage
       .ref(`${this.userObject.email}`) // create a folder to upload image to user's folder named as user's email
       .child(imageFileName) // fileName for the file
-      .putString(this.profileImage, 'base64', { contentType: 'image/png' }); // set as string
+      .putString(imgBase64, 'base64', { contentType: 'image/png' }); // set as string
 
     // make a event to we can follow when the picture is uploaded
     let uploadEvent = task.downloadURL();
 
     // when the image is uploaded, we can now get the URL accsess
     this.loadingMessages.presentLoader('Oppdaterer profilbildet'); // show user that picture is being updated
+
     uploadEvent.subscribe((uploadImgUrl) => {
-      this.af.app.auth().currentUser.updateProfile({ displayName: this.userObject.displayName, photoURL: uploadImgUrl });
+      this.af.app.auth().currentUser.updateProfile({ displayName: this.userObject.displayName, photoURL: uploadImgUrl }); // update profile
       this.loadingMessages.dismissLoader(); // dismiss when its updated
     }, (err: any) => {
-      this.loadingMessages.dismissLoader();
-      this.alertMessages.presentAlert('Oppss.. Noe gikk galt...')
+      this.loadingMessages.dismissLoader(); // dissmiss if any error
+      this.alertMessages.presentAlert('Oppss.. Noe gikk galt...') // show a error message
     });
   }
 
