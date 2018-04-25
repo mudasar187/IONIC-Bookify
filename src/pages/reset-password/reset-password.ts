@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { ToastMessages } from '../../toastMessages/ToastMessages';
 import { LoginPage } from '../login/login';
+import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 
 /**
  * This class contains methods so a user can reset password

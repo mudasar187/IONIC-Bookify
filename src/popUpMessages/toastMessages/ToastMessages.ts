@@ -6,8 +6,7 @@ import { ToastController } from 'ionic-angular';
 
 export class ToastMessages {
 
-  constructor(
-    private toast: ToastController) {
+  constructor(private toast: ToastController) {
   }
 
   // Global toast message with 1500ms duration

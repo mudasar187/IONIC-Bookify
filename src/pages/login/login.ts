@@ -5,7 +5,7 @@ import { User } from '../../models/User';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { TabControllerPage } from '../tab-controller/tab-controller';
-import { ToastMessages } from '../../toastMessages/ToastMessages';
+import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 
 /**
  * This class is LoginPage

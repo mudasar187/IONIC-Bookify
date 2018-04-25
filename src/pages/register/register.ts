@@ -5,8 +5,8 @@ import { OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { User } from '../../models/User';
 import { Observable } from 'rxjs/Observable';
-import { ToastMessages } from '../../toastMessages/ToastMessages';
 import { LoginPage } from '../login/login';
+import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 
 /**
  * THis class contains the functionality to create a new user and add user to own collection

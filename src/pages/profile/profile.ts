@@ -5,7 +5,11 @@ import { LoginPage } from '../login/login';
 import { User } from '../../models/User';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { AngularFireStorage } from 'angularfire2/storage';
+import { PhotoOptions } from '../../cameraOptions/PhotoOptions';
+import { ActionSheetMessages } from '../../popUpMessages/actionSheets/ActionSheetMessages';
+import { AlertMessages } from '../../popUpMessages/alertMessages/AlertMessages';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { LoaderMessages } from '../../popUpMessages/loaderMessages/LoaderMessages';
 
 /**
  * This class contains user's profile
@@ -18,31 +22,35 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 })
 export class ProfilePage {
 
-  user = {} as User; // create an object of user
   userObject: any;
   profileImage: string;
-  loadingPopUp: any;
-  alertPopUp: any;
   actionSheetPopUp: any;
+
+  actionSheetMessages: ActionSheetMessages;
+  alertMessages: AlertMessages;
+  photoOptions: PhotoOptions;
+  loadingMessages: LoaderMessages;
 
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore,
-    private camera: Camera,
     private afStorage: AngularFireStorage,
     private photoViewer: PhotoViewer,
-    private loader: LoadingController,
-    private alert: AlertController,
-    private actionSheet: ActionSheetController) {
+    private camera: Camera,
+    private loaderCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    private actionSheetCtrl: ActionSheetController) {
 
+    this.loadingMessages = new LoaderMessages(this.loaderCtrl);
+    this.alertMessages = new AlertMessages(this.alertCtrl);
+    this.photoOptions = new PhotoOptions(this.camera, this.photoViewer);
     this.userObject = this.af.app.auth().currentUser;
   }
 
-  // show preview of picture bigger when user press on profile picture
-  resizeImage() {
-    this.photoViewer.show(this.userObject.photoURL);
+  makeImageBigger() {
+    this.photoOptions.resizeImage(this.userObject.photoURL);
   }
 
   executeCamera(sourceType: number) {
@@ -61,33 +69,8 @@ export class ProfilePage {
     })
   }
 
-  // present loader for chaning profil picture, to show user that something is happening if connection is slow
-  presentLoader(title: string) {
-    this.loadingPopUp = this.loader.create({
-      spinner: "bubbles",
-      content: title
-    });
-    this.loadingPopUp.present();
-  }
-
-  // dismiss loader when profile picture is updated
-  dismissLoader() {
-    this.loadingPopUp.dismiss();
-  }
-
-  // present alert if profile picture cannot be changed, specify that something is wrong, connection or firebase
-  presentAlert(title: string) {
-    let alert = this.alert.create({
-      title: title,
-      buttons: ['OK'],
-      enableBackdropDismiss: false // make user not allowed to press outside, must press ok
-    });
-    alert.present();
-  }
-
-  // show user where to get picture, either take a new or from gallery
   presentActionSheet() {
-    this.actionSheetPopUp = this.actionSheet.create({
+    this.actionSheetPopUp = this.actionSheetCtrl.create({
       buttons: [
         {
           text: 'Ta nytt bilde',
@@ -107,8 +90,10 @@ export class ProfilePage {
     this.actionSheetPopUp.present();
   }
 
+
   // to add profile picture to firestorage
   addProfilePicture() {
+
     // generate a filename for the image we're going to upload based on user's email and second
     let imageFileName = `${this.af.app.auth().currentUser.email}_${new Date().getTime()}.png`;
 
@@ -122,18 +107,14 @@ export class ProfilePage {
     let uploadEvent = task.downloadURL();
 
     // when the image is uploaded, we can now get the URL accsess
-    this.presentLoader('Oppdaterer profilbildet'); // show user that picture is being updated
+    this.loadingMessages.presentLoader('Oppdaterer profilbildet'); // show user that picture is being updated
     uploadEvent.subscribe((uploadImgUrl) => {
-      this.af.app.auth().currentUser.updateProfile({ displayName: this.user.nickname, photoURL: uploadImgUrl });
-      this.dismissLoader(); // dismiss when its updated
+      this.af.app.auth().currentUser.updateProfile({ displayName: this.userObject.displayName, photoURL: uploadImgUrl });
+      this.loadingMessages.dismissLoader(); // dismiss when its updated
     }, (err: any) => {
-      this.dismissLoader();
-      this.presentAlert('Oppss.. Noe gikk galt..');
+      this.loadingMessages.dismissLoader();
+      this.alertMessages.presentAlert('Oppss.. Noe gikk galt...')
     });
-  }
-
-  deleteLastProfilePicture(lastImageURL: string) {
-    // delete last previous image
   }
 
   // logout from app
