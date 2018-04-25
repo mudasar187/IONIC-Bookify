@@ -13,6 +13,9 @@ import { LoaderMessages } from '../../popUpMessages/loaderMessages/LoaderMessage
 
 /**
  * This class contains user's profile
+ * Navigate to MySalesPage and MyBuysPage
+ * User can log out from here
+ * And user can also take a new profile picture
  */
 
 @IonicPage()
@@ -22,14 +25,13 @@ import { LoaderMessages } from '../../popUpMessages/loaderMessages/LoaderMessage
 })
 export class ProfilePage {
 
-  userObject: any;
-  profileImage: string;
-  actionSheetPopUp: any;
+  userObject: any; // crate an object of any to save user credentials from firestore
+  profileImage: string; // to upload the image
 
-  actionSheetMessages: ActionSheetMessages;
-  alertMessages: AlertMessages;
-  photoOptions: PhotoOptions;
-  loadingMessages: LoaderMessages;
+  actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
+  alertMessages: AlertMessages; // create an object of type AlertMessages
+  photoOptions: PhotoOptions; // create an object of type PhotoOptions
+  loadingMessages: LoaderMessages; // create an object of type LoaderMessages
 
 
   constructor(
@@ -43,16 +45,18 @@ export class ProfilePage {
     private alertCtrl: AlertController,
     private actionSheetCtrl: ActionSheetController) {
 
-    this.loadingMessages = new LoaderMessages(this.loaderCtrl);
-    this.alertMessages = new AlertMessages(this.alertCtrl);
-    this.photoOptions = new PhotoOptions(this.camera, this.photoViewer);
-    this.userObject = this.af.app.auth().currentUser;
+    this.loadingMessages = new LoaderMessages(this.loaderCtrl); // a new instance of LoaderMessage
+    this.alertMessages = new AlertMessages(this.alertCtrl); // a new instance of AlertMessages
+    this.photoOptions = new PhotoOptions(this.photoViewer); // a new instance of PhotoOptions
+    this.userObject = this.af.app.auth().currentUser; // get user credentials from firestore
   }
 
+  // make picture bigger when user click on profile picture
   makeImageBigger() {
-    this.photoOptions.resizeImage(this.userObject.photoURL);
+    this.photoOptions.resizeImage(this.userObject.photoURL); // take the image url string in parameter
   }
 
+  // create own class for this one !!
   executeCamera(sourceType: number) {
     let options: CameraOptions = {
       quality: 50,
@@ -69,25 +73,26 @@ export class ProfilePage {
     })
   }
 
+  // delete when its fixed up, have own class for this one too !
   presentActionSheet() {
-    this.actionSheetPopUp = this.actionSheetCtrl.create({
+    let actionSheetPopUp = this.actionSheetCtrl.create({
       buttons: [
         {
           text: 'Ta nytt bilde',
           icon: 'camera',
           handler: () => {
-            this.executeCamera(1); // take new picture
+            this.executeCamera(1);
           }
         }, {
           text: 'Hent fra galleri',
           icon: 'images',
           handler: () => {
-            this.executeCamera(0); // from existing gallery
+            this.executeCamera(0);
           }
         }
       ]
     });
-    this.actionSheetPopUp.present();
+    actionSheetPopUp.present();
   }
 
 

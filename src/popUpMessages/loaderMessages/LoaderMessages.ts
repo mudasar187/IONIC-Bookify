@@ -1,12 +1,16 @@
 import { LoadingController } from 'ionic-angular';
+
+/**
+ * This class contains all LoadingController boxes
+ */
 export class LoaderMessages {
 
-  loadingPopUp: any;
+  loadingPopUp: any; // creating an loadingPopUp type of any so i can use it outside methods
 
   constructor(private loaderCtrl: LoadingController) {
   }
 
-   // present loader for chaning profil picture, to show user that something is happening if connection is slow
+   // present loader with own custom title
    presentLoader(title: string) {
     this.loadingPopUp = this.loaderCtrl.create({
       spinner: "bubbles",
@@ -15,7 +19,7 @@ export class LoaderMessages {
     this.loadingPopUp.present();
   }
 
-  // dismiss loader when profile picture is updated
+  // dismiss loader
   dismissLoader() {
     this.loadingPopUp.dismiss();
   }

@@ -9,7 +9,7 @@ import { LoginPage } from '../login/login';
 import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 
 /**
- * THis class contains the functionality to create a new user and add user to own collection
+ * THis class contains the functionality to create a new user
  */
 
 @IonicPage()
@@ -19,7 +19,7 @@ import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 })
 export class RegisterPage implements OnInit {
 
-  user = {} as User; // create an object of user so i can validate whats come in input fields
+  user = {} as User; // create an object of user
   userForm: FormGroup; // create a form to validate
   myCustomToast: ToastMessages; // create an object of ToastMessages
 
@@ -50,6 +50,7 @@ export class RegisterPage implements OnInit {
       // Send email verification to user
       userObject.sendEmailVerification();
 
+      // update the profile with nickname, no photo, user own option if he/she want to upload picture in ProfilePage
       this.af.app.auth().currentUser.updateProfile({displayName: user.nickname, photoURL: null});
 
       this.navigateToPage(LoginPage);

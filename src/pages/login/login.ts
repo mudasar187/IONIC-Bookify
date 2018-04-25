@@ -8,10 +8,9 @@ import { TabControllerPage } from '../tab-controller/tab-controller';
 import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 
 /**
- * This class is LoginPage
- * A user can login with existing email and password
- * A user can registrate a new account
- * A user can reset password if password is forgotton
+ * This class is the LoginPage
+ * A user can login with right credentials
+ * Can also navigate to ResetPasswordPage and RegisterPage
  */
 
 @Component({
@@ -20,7 +19,7 @@ import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 })
 export class LoginPage implements OnInit {
 
-  user = {} as User; // create an object of user so i can validate whats come in input fields
+  user = {} as User; // create an object of user
   loginForm: FormGroup; // create a form to validate
   myCustomToast: ToastMessages; // create a object type of ToastMessages
 

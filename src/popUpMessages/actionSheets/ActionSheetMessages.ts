@@ -1,5 +1,8 @@
 import { AlertController, ActionSheetController } from "ionic-angular";
 
+/**
+ * This class contains all types of ActionSheetController popup
+ */
 export class ActionSheetMessages {
 
   constructor(

@@ -32,7 +32,7 @@ export class ResetPasswordPage implements OnInit {
     });
   }
 
-  // reset the password
+  // reset the password by sending an reset email to user's email account
   resetPassword(email: string) {
 
     return this.af.app.auth().sendPasswordResetEmail(email).then(() =>
