@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertCmp, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertCmp, AlertController, ActionSheetController } from 'ionic-angular';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { LoginPage } from '../login/login';
 import { User } from '../../models/User';
-import { Camera } from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 
@@ -23,6 +23,7 @@ export class ProfilePage {
   profileImage: string;
   loadingPopUp: any;
   alertPopUp: any;
+  actionSheetPopUp: any;
 
 
   constructor(
@@ -33,25 +34,27 @@ export class ProfilePage {
     private afStorage: AngularFireStorage,
     private photoViewer: PhotoViewer,
     private loader: LoadingController,
-    private alert: AlertController) {
+    private alert: AlertController,
+    private actionSheet: ActionSheetController) {
 
     this.userObject = this.af.app.auth().currentUser;
-    this.user.nickname = this.userObject.displayName;
-    this.user.email = this.userObject.email;
   }
 
   resizeImage() {
     this.photoViewer.show(this.userObject.photoURL);
   }
 
-  // execute camera and then add to firestorage
-  executeCamera() {
-    this.camera.getPicture({
+  executeCamera(sourceType: number) {
+    let options: CameraOptions = {
+      quality: 50,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       cameraDirection: this.camera.Direction.BACK,
-      correctOrientation: true
-    }).then(imgBase64 => {
+      correctOrientation: true,
+      sourceType: sourceType,
+    }
+
+    this.camera.getPicture(options).then(imgBase64 => {
       this.profileImage = imgBase64;
     }).then(() => {
       this.addProfilePicture();
@@ -60,11 +63,11 @@ export class ProfilePage {
 
   // present loader for chaning profil picture, to show user that something is happening if connection is slow
   presentLoader(title: string) {
-      this.loadingPopUp = this.loader.create({
-        spinner: "bubbles",
-        content: title
-      });
-      this.loadingPopUp.present();
+    this.loadingPopUp = this.loader.create({
+      spinner: "bubbles",
+      content: title
+    });
+    this.loadingPopUp.present();
   }
 
   // dismiss loader when profile picture is updated
@@ -80,6 +83,28 @@ export class ProfilePage {
       enableBackdropDismiss: false // make user not allowed to press outside, must press ok
     });
     alert.present();
+  }
+
+  // show user where to get picture, either take a new or from gallery
+  presentActionSheet() {
+    this.actionSheetPopUp = this.actionSheet.create({
+      buttons: [
+        {
+          text: 'Ta nytt bilde',
+          icon: 'camera',
+          handler: () => {
+            this.executeCamera(1); // take new picture
+          }
+        }, {
+          text: 'Hent fra galleri',
+          icon: 'images',
+          handler: () => {
+            this.executeCamera(0); // from existing gallery
+          }
+        }
+      ]
+    });
+    this.actionSheetPopUp.present();
   }
 
   // to add profile picture to firestorage
@@ -101,7 +126,7 @@ export class ProfilePage {
     uploadEvent.subscribe((uploadImgUrl) => {
       this.af.app.auth().currentUser.updateProfile({ displayName: this.user.nickname, photoURL: uploadImgUrl });
       this.dismissLoader(); // dismiss when its updated
-    }, (err : any) => {
+    }, (err: any) => {
       this.dismissLoader();
       this.presentAlert('Oppss.. Noe gikk galt..');
     });

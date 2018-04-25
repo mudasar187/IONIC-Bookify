@@ -7,14 +7,14 @@
     <ion-item class="card">
       <ion-avatar>
         <img src="{{userObject.photoURL}}" (click)="resizeImage()">
-        <ion-icon class="cameraIcon" name="camera" (click)="executeCamera()"></ion-icon>
+        <ion-icon class="cameraIcon" name="camera" (click)="presentActionSheet()"></ion-icon>
       </ion-avatar>
     </ion-item>
     <ion-item class="card">
-      <p class="userDetails">{{user.nickname}}</p>
+      <p class="userDetails">{{userObject.displayName}}</p>
     </ion-item>
     <ion-item class="card">
-      <p class="userDetails">{{user.email}}</p>
+      <p class="userDetails">{{userObject.email}}</p>
     </ion-item>
   </ion-card>
 
