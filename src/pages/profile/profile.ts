@@ -40,6 +40,7 @@ export class ProfilePage {
     this.userObject = this.af.app.auth().currentUser;
   }
 
+  // show preview of picture bigger when user press on profile picture
   resizeImage() {
     this.photoViewer.show(this.userObject.photoURL);
   }
@@ -53,7 +54,6 @@ export class ProfilePage {
       correctOrientation: true,
       sourceType: sourceType,
     }
-
     this.camera.getPicture(options).then(imgBase64 => {
       this.profileImage = imgBase64;
     }).then(() => {
