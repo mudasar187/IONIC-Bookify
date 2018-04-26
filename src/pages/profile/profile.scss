@@ -8,14 +8,17 @@ page-profile {
         text-align: center;
         font-weight: bold;
         font-size: 15px;
+        background: transparent;
     }
     .card {
         background-color: map-get($colors, globalBackgroundColor)
     }
-    .cameraIcon {
-        position: absolute;
-        top: 80%;
-        left: 65%;
-        font-size: 20px;
+    .changeProfileText {
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 10px;
+    }
+    .userDetailsItems {
+        background: transparent;
     }
 }

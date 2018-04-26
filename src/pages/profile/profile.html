@@ -7,24 +7,26 @@
     <ion-item class="card">
       <ion-avatar>
         <img src="{{userObject.photoURL}}" (click)="makeImageBigger()">
-        <ion-icon class="cameraIcon" name="camera" (click)="presentActionSheet()"></ion-icon>
+        <ion-row>
+          <button class="changeProfileText" ion-button (click)="presentActionSheet()" clear>
+            Bytt profilbilde
+          </button>
+          <ion-item class="userDetailsItems">
+            <p class="userDetails">{{userObject.displayName}}</p>
+            <p class="userDetails">{{userObject.email}}</p>
+          </ion-item>
+        </ion-row>
       </ion-avatar>
-    </ion-item>
-    <ion-item class="card">
-      <p class="userDetails">{{userObject.displayName}}</p>
-    </ion-item>
-    <ion-item class="card">
-      <p class="userDetails">{{userObject.email}}</p>
     </ion-item>
   </ion-card>
 
-  <ion-row padding-top="30%">
+  <ion-row>
     <button ion-button block color="globalColor" (click)="navigateToPage('MyBuysPage')">MINE KJØP</button>
   </ion-row>
-  <ion-row padding-top="30%">
+  <ion-row  padding-top="15%">
     <button ion-button block color="globalColor" (click)="navigateToPage('MySalesPage')">MINE SALG</button>
   </ion-row>
-  <ion-row padding-top="30%">
+  <ion-row  padding-top="15%">
     <button ion-button block color="globalColor" (click)="logOut()">LOGG UT</button>
   </ion-row>
 </ion-content>
