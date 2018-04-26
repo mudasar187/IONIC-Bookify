@@ -14,7 +14,7 @@ import { PlaceProvider } from '../../providers/place/place';
 })
 export class SellBookPage {
 
-  locationAddress: string = "";
+  locationAddress: string;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -25,18 +25,16 @@ export class SellBookPage {
 
   findGeoLocation() {
     this.geoLocation.getCurrentPosition()
-        .then(position => {
-          this.placeProvider.getAddressBasedOnLatLng(
-            position.coords.latitude,
-            position.coords.longitude
-          ).then((place: any) => {
-            console.log(place);
-
-            this.locationAddress = place.results[1].formatted_address;
-          });
-        }).catch(error => {
-          console.error(error);
+      .then(position => {
+        this.placeProvider.getAddressBasedOnLatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        ).then((place: any) => {
+          this.locationAddress = place.results[1].formatted_address;
         });
+      }).catch(error => {
+        console.error(error);
+      });
   }
 
 }
