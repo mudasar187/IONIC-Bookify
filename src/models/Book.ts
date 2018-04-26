@@ -6,5 +6,7 @@ export interface Book {
   price: string,
   location: string,
   sold: false
-  conditions: string
+  conditions: string,
+  lat: number,
+  lng: number
 }

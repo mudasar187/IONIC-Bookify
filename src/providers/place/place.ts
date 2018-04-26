@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import apiKeys from '../../env/apiKeys'; // import the api key
+import { Geolocation } from '@ionic-native/geolocation';
 
 /*
 * This class is a provider for Google Maps
@@ -9,7 +10,8 @@ import apiKeys from '../../env/apiKeys'; // import the api key
 @Injectable()
 export class PlaceProvider {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+    private geoLocation: Geolocation) {
   }
 
   // get adress based on lat and lng by using geoLocation
@@ -25,6 +27,25 @@ export class PlaceProvider {
           }
         )
     });
+  }
+
+  // get location where user is right now this moment
+  findGeoLocation(doneFetching: (lat: number, lng: number, adress: string) => void) {
+    var lat: number;
+    var lng: number;
+    this.geoLocation.getCurrentPosition()
+      .then(position => { // get position
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
+        this.getAddressBasedOnLatLng( // now get the location by calling this method
+          position.coords.latitude, // insert lat
+          position.coords.longitude // inser lng
+        ).then((place: any) => { // place contains an array of different values for the lat and lng place
+          doneFetching(lat, lng, place.results[1].formatted_address);
+        });
+      }).catch(error => {
+        console.error(error);
+      });
   }
 
 }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController, LoadingController, AlertController } from 'ionic-angular';
-import { Geolocation } from '@ionic-native/geolocation';
 import { PlaceProvider } from '../../providers/place/place';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
@@ -36,7 +35,6 @@ export class SellBookPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private geoLocation: Geolocation,
     private placeProvider: PlaceProvider,
     private af: AngularFirestore,
     private afStorage: AngularFireStorage,
@@ -71,48 +69,37 @@ export class SellBookPage {
   // add a book to book collection
   addBookToCollection() {
 
-    // generate a filename for the image we're going to upload based on user's email and second
-    let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
+    this.placeProvider.findGeoLocation((lat, lng, adress) => {
+      // generate a filename for the image we're going to upload based on user's email and second
+      let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
 
-    // make a task that upload the picture
-    let task = this.afStorage
-      .ref(`${this.userObject.email}`) // create a folder to upload image to user's folder named as user's email
-      .child(imageFileName) // fileName for the file
-      .putString(this.previewImage, 'base64', { contentType: 'image/png' }); // set as string
+      // make a task that upload the picture
+      let task = this.afStorage
+        .ref(`${this.userObject.email}`) // create a folder to upload image to user's folder named as user's email
+        .child(imageFileName) // fileName for the file
+        .putString(this.previewImage, 'base64', { contentType: 'image/png' }); // set as string
 
-    // make a event to we can follow when the picture is uploaded
-    let uploadEvent = task.downloadURL();
+      // make a event to we can follow when the picture is uploaded
+      let uploadEvent = task.downloadURL();
 
-    // when the image is uploaded, we can now get the URL accsess and book is finished adding to databse
-    this.loadingMessages.presentLoader('Legger bok til salgs...'); // show user that picture is being updated and book is adding to collection
-    uploadEvent.subscribe((uploadImgUrl) => {
-      this.bookProvider.addBookToCollection(this.userObject.uid,
-        this.userObject.displayName,
-        uploadImgUrl,
-        "title",
-        "200",
-        this.locationAddress,
-        "brukt");
-      this.loadingMessages.dismissLoader(); // dismiss when its updated
-    }, (err: any) => {
-      this.loadingMessages.dismissLoader(); // dissmiss if any error
-      this.alertMessages.presentAlert('Oppss.. Noe gikk galt...') // show a error message
-    });
-  }
-
-  // get location where user is right now this moment
-  findGeoLocation() {
-    this.geoLocation.getCurrentPosition()
-      .then(position => { // get position
-        this.placeProvider.getAddressBasedOnLatLng( // now get the location by calling this method
-          position.coords.latitude, // insert lat
-          position.coords.longitude // inser lng
-        ).then((place: any) => { // place contains an array of different values for the lat and lng place
-          this.locationAddress = place.results[1].formatted_address; // we want index 1 and save it to a string, can also get other index'es
-        });
-      }).catch(error => {
-        console.error(error);
+      // when the image is uploaded, we can now get the URL accsess and book is finished adding to databse
+      this.loadingMessages.presentLoader('Legger bok til salgs...'); // show user that picture is being updated and book is adding to collection
+      uploadEvent.subscribe((uploadImgUrl) => {
+        this.bookProvider.addBookToCollection(this.userObject.uid,
+          this.userObject.displayName,
+          uploadImgUrl,
+          "title",
+          "200",
+          adress,
+          "brukt",
+          lat,
+          lng);
+        this.loadingMessages.dismissLoader(); // dismiss when its updated
+      }, (err: any) => {
+        this.loadingMessages.dismissLoader(); // dissmiss if any error
+        this.alertMessages.presentAlert('Oppss.. Noe gikk galt...') // show a error message
       });
+    });
   }
 
 }
