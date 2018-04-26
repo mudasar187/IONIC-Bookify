@@ -32,6 +32,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PlaceProvider } from '../providers/place/place';
 import { HttpClientModule } from '@angular/common/http';
+import { BookProvider } from '../providers/book/book';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { HttpClientModule } from '@angular/common/http';
     Camera,
     PhotoViewer,
     Geolocation,
-    PlaceProvider
+    PlaceProvider,
+    BookProvider
   ]
 })
 export class AppModule { }

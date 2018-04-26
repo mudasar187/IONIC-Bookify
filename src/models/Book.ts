@@ -1,11 +1,10 @@
 export interface Book {
-  userUid: string,
-  nicknameOwner: string,
+  userId: string,
+  nickname: string,
   bookImage: string,
   bookTitle: string,
-  price: number,
+  price: string,
   location: string,
-  aboutBookText: string,
   sold: false
   conditions: string
 }

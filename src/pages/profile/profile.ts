@@ -76,7 +76,7 @@ export class ProfilePage {
   addProfilePicture(imgBase64: string) {
 
     // generate a filename for the image we're going to upload based on user's email and second
-    let imageFileName = `${this.af.app.auth().currentUser.email}_${new Date().getTime()}.png`;
+    let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
 
     // make a task that upload the picture
     let task = this.afStorage
