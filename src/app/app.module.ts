@@ -29,6 +29,9 @@ import { RegisterPageModule } from '../pages/register/register.module';
 import { RegisterPage } from '../pages/register/register';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { Geolocation } from '@ionic-native/geolocation';
+import { PlaceProvider } from '../providers/place/place';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
     AngularFireModule.initializeApp(env), // Initalize the environment .ts file
     AngularFireAuthModule,
     AngularFirestoreModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -68,7 +72,9 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     Camera,
-    PhotoViewer
+    PhotoViewer,
+    Geolocation,
+    PlaceProvider
   ]
 })
 export class AppModule { }
