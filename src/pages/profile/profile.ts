@@ -10,6 +10,7 @@ import { ActionSheetMessages } from '../../popUpMessages/actionSheets/ActionShee
 import { AlertMessages } from '../../popUpMessages/alertMessages/AlertMessages';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { LoaderMessages } from '../../popUpMessages/loaderMessages/LoaderMessages';
+import { PlaceProvider } from '../../providers/place/place';
 
 /**
  * This class contains user's profile
@@ -27,6 +28,7 @@ export class ProfilePage {
 
   userObject: any; // crate an object of any to save user credentials from firestore
   profileImage: string; // to upload the image
+  checkifSomething: any;
 
   actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
   alertMessages: AlertMessages; // create an object of type AlertMessages
@@ -43,13 +45,15 @@ export class ProfilePage {
     private camera: Camera,
     private loaderCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private actionSheetCtrl: ActionSheetController) {
+    private actionSheetCtrl: ActionSheetController,
+    private placeProvider: PlaceProvider) {
 
     this.loadingMessages = new LoaderMessages(this.loaderCtrl); // a new instance of LoaderMessage
     this.alertMessages = new AlertMessages(this.alertCtrl); // a new instance of AlertMessages
     this.photoOptions = new PhotoOptions(this.photoViewer, this.camera); // a new instance of PhotoOptions
     this.actionSheetMessages = new ActionSheetMessages(this.actionSheetCtrl);
     this.userObject = this.af.app.auth().currentUser; // get user credentials from firestore
+    this.checkifSomething = this.userObject.photoURL;
   }
 
   // make picture bigger when user click on profile picture
@@ -61,22 +65,29 @@ export class ProfilePage {
   // use camera or gallery
   presentActionSheet() {
     this.actionSheetMessages.presentActionSheet(() => {
-        this.photoOptions.executeCamera((base64Img) => {
-            this.addProfilePicture(base64Img);
-        });
+      this.photoOptions.executeCamera((base64Img) => {
+        this.addProfilePicture(base64Img);
+      });
     }, () => {
       this.photoOptions.getFromGallery((base64Img) => {
-          this.addProfilePicture(base64Img);
+        this.addProfilePicture(base64Img);
       });
     });
   }
 
+  deleteImage(doneDeleting: (success: boolean) => void) {
+    let deleteImageName = `${this.userObject.email}_${this.userObject.uid}.png`;
+    let deleteTask = this.afStorage.ref(this.userObject.email).child(deleteImageName).ref.delete()
+      .then((success) => {
+        doneDeleting(true);
+      }).catch((error) => {
+        doneDeleting(false);
+      });
+  }
 
-  // to add profile picture to firestorage
-  addProfilePicture(imgBase64: string) {
+  uploadImage(imgBase64: string, doneUploading: (success: boolean) => void) {
 
-    // generate a filename for the image we're going to upload based on user's email and second
-    let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
+    let imageFileName = `${this.userObject.email}_${this.userObject.uid}.png`;
 
     // make a task that upload the picture
     let task = this.afStorage
@@ -93,11 +104,26 @@ export class ProfilePage {
     uploadEvent.subscribe((uploadImgUrl) => {
       this.af.app.auth().currentUser.updateProfile({ displayName: this.userObject.displayName, photoURL: uploadImgUrl }); // update profile
       this.loadingMessages.dismissLoader(); // dismiss when its updated
+      doneUploading(true);
     }, (err: any) => {
       this.loadingMessages.dismissLoader(); // dissmiss if any error
       this.alertMessages.presentAlert('Oppss.. Noe gikk galt...') // show a error message
+      doneUploading(false);
     });
   }
+
+
+  // to add profile picture to firestorage
+  addProfilePicture(imgBase64: string) {
+
+    /*this.deleteImage((success) => {*/
+      this.uploadImage(imgBase64, (success) => {
+        if (success) {
+          console.log("DONE WITH DELETING AND UPLOADING NEW IMAGE");
+        }
+      });
+  }/* );
+  } */
 
   // logout from app
   logOut() {
@@ -108,5 +134,10 @@ export class ProfilePage {
   // navigate to page depend on which page
   navigateToPage(page: any) {
     this.navCtrl.push(page);
+  }
+
+  ionViewDidEnter() {
+    console.log(this.checkifSomething);
+
   }
 }
