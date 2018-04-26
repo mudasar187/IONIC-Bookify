@@ -3,12 +3,13 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-row>
-    <img *ngIf="previewImage.length > 0" style="height: 200px" [src]="'data:image/jpeg;base64,' + previewImage" />
-  </ion-row>
+  <img src="assets/imgs/placeholder.png">
   <ion-row>
       <ion-icon class="cameraIcon" name="camera" (click)="presentActionSheet()"></ion-icon>
   </ion-row>
+  <br>
+  <br>
+  <br>
   <button ion-button block (click)="findGeoLocation()">Hent GPS</button>
   <button ion-button block (click)="addBookToCollection()">Add book</button>
   <br>

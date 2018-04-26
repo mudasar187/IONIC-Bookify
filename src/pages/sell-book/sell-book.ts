@@ -71,7 +71,7 @@ export class SellBookPage {
   // add a book to book collection
   addBookToCollection() {
 
-    // Her genererer vi et filnavn for bildet vi skal laste opp, basert på innlogget brukers email-adresse og sekunder siden UNIX epoch (1.1.1970).
+    // generate a filename for the image we're going to upload based on user's email and second
     let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
 
     // make a task that upload the picture
@@ -80,13 +80,11 @@ export class SellBookPage {
       .child(imageFileName) // fileName for the file
       .putString(this.previewImage, 'base64', { contentType: 'image/png' }); // set as string
 
-    // Så lager vi en event vi kan bruke for å lytte på når bildet er ferdig lastet opp
+    // make a event to we can follow when the picture is uploaded
     let uploadEvent = task.downloadURL();
 
-    // when the image is uploaded, we can now get the URL accsess
-    this.loadingMessages.presentLoader('Legger bok til salgs...'); // show user that picture is being updated
-
-    // Her lytter vi på når bildet er ferdig lastet opp. Når det er det, får vi tilgang til bildets URL på serveren til Firebase
+    // when the image is uploaded, we can now get the URL accsess and book is finished adding to databse
+    this.loadingMessages.presentLoader('Legger bok til salgs...'); // show user that picture is being updated and book is adding to collection
     uploadEvent.subscribe((uploadImgUrl) => {
       this.bookProvider.addBookToCollection(this.userObject.uid,
         this.userObject.displayName,
