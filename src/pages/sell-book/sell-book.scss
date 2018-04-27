@@ -1,14 +1,14 @@
 page-sell-book {
-    img {
-        width: 50%;
-        height: auto;
+    .img-wrap {
+        width: 60%;
         margin: 0 auto;
         display: block;
-    }
-    .cameraIcon {
-        position: absolute;
-        top: 30%;
-        left: 47%;
-        font-size: 30px;
+        overflow: hidden;
+        height: auto;
+        max-height: 220px;
+        img {
+            width: 100%;
+            height: auto;
+        }
     }
 }

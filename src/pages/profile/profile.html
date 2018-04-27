@@ -6,7 +6,8 @@
   <ion-card>
     <ion-item class="card">
       <ion-avatar>
-        <img src="{{userObject.photoURL}}" (click)="makeImageBigger()">
+        <img *ngIf="!showProfileImage" src="assets/imgs/placeholderperson.png">
+        <img *ngIf="showProfileImage" src="{{userObject.photoURL}}" (click)="makeImageBigger()">
         <ion-row>
           <button class="changeProfileText" ion-button (click)="presentActionSheet()" clear>
             Bytt profilbilde

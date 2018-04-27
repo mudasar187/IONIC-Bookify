@@ -38,5 +38,38 @@ export class ActionSheetMessages {
     actionSheetPopUp.present();
   }
 
+  presentActionSheetForProfilePicture(cameraAction: () => void, galleryAction: () => void, deleteProfilePicture: () => void) {
+    let actionSheetPopUp = this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: 'Ta nytt bilde',
+          icon: 'camera',
+          handler: () => {
+            cameraAction(); // execute camera
+          }
+        }, {
+          text: 'Hent fra galleri',
+          icon: 'images',
+          handler: () => {
+            galleryAction(); // get from gallery
+          }
+        }, {
+            text: 'Slett profilbildet',
+            icon: 'trash',
+            handler: () => {
+              deleteProfilePicture(); // delete profile picture
+            }
+        }, {
+          text: 'Avbryt',
+          icon: 'close-circle',
+          handler: ()=> {
+              actionSheetPopUp.dismiss(); // cancel actionsheet
+          }
+        }
+      ]
+    });
+    actionSheetPopUp.present();
+  }
+
 
 }
