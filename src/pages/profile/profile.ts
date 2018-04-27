@@ -27,18 +27,15 @@ import { PlaceProvider } from '../../providers/place/place';
 export class ProfilePage {
 
   userObject: any; // crate an object of any to save user credentials from firestore
-  profileImage: string; // to upload the image
-  checkifSomething: any;
 
-  actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
-  alertMessages: AlertMessages; // create an object of type AlertMessages
-  photoOptions: PhotoOptions; // create an object of type PhotoOptions
-  loadingMessages: LoaderMessages; // create an object of type LoaderMessages
-
+  private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
+  private alertMessages: AlertMessages; // create an object of type AlertMessages
+  private photoOptions: PhotoOptions; // create an object of type PhotoOptions
+  private loadingMessages: LoaderMessages; // create an object of type LoaderMessages
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
+    private navCtrl: NavController,
+    private navParams: NavParams,
     private af: AngularFirestore,
     private afStorage: AngularFireStorage,
     private photoViewer: PhotoViewer,
@@ -53,7 +50,6 @@ export class ProfilePage {
     this.photoOptions = new PhotoOptions(this.photoViewer, this.camera); // a new instance of PhotoOptions
     this.actionSheetMessages = new ActionSheetMessages(this.actionSheetCtrl);
     this.userObject = this.af.app.auth().currentUser; // get user credentials from firestore
-    this.checkifSomething = this.userObject.photoURL;
   }
 
   // make picture bigger when user click on profile picture
@@ -61,7 +57,7 @@ export class ProfilePage {
     this.photoOptions.resizeImage(this.userObject.photoURL); // take the image url string in parameter
   }
 
-  // give user a options on which way to add a profilepicture
+  // present ActionSheetController to give user options where to get image to add a profilepicture
   // use camera or gallery
   presentActionSheet() {
     this.actionSheetMessages.presentActionSheet(() => {
@@ -75,18 +71,20 @@ export class ProfilePage {
     });
   }
 
-  deleteImage(doneDeleting: (success: boolean) => void) {
-    let deleteImageName = `${this.userObject.email}_${this.userObject.uid}.png`;
-    let deleteTask = this.afStorage.ref(this.userObject.email).child(deleteImageName).ref.delete()
-      .then((success) => {
-        doneDeleting(true);
-      }).catch((error) => {
-        doneDeleting(false);
+  // to add profile picture to firestorage
+  // delete the previous image before adding a new profile picture
+  addProfilePicture(imgBase64: string) {
+    this.deleteImage((success) => {
+      this.uploadImage(imgBase64, (success) => {
+        if (success) {
+          console.log("DONE WITH DELETING AND UPLOADING NEW IMAGE");
+        }
       });
+    });
   }
 
-  uploadImage(imgBase64: string, doneUploading: (success: boolean) => void) {
-
+  // uploading the profile picture to firebase storage
+  private uploadImage(imgBase64: string, doneUploading: (success: boolean) => void) {
     let imageFileName = `${this.userObject.email}_${this.userObject.uid}.png`;
 
     // make a task that upload the picture
@@ -112,18 +110,17 @@ export class ProfilePage {
     });
   }
 
-
-  // to add profile picture to firestorage
-  addProfilePicture(imgBase64: string) {
-
-    /*this.deleteImage((success) => {*/
-      this.uploadImage(imgBase64, (success) => {
-        if (success) {
-          console.log("DONE WITH DELETING AND UPLOADING NEW IMAGE");
-        }
+  // delete previous profile picture image when taking a new one
+  // avoid to add many profile pictures at firebase storage
+  private deleteImage(doneDeleting: (success: boolean) => void) {
+    let deleteImageName = `${this.userObject.email}_${this.userObject.uid}.png`; // profice picture name
+    let deleteTask = this.afStorage.storage.ref(this.userObject.email).child(deleteImageName).delete()
+      .then((success) => {
+        doneDeleting(true);
+      }).catch((error) => {
+        doneDeleting(false);
       });
-  }/* );
-  } */
+  }
 
   // logout from app
   logOut() {
@@ -136,8 +133,4 @@ export class ProfilePage {
     this.navCtrl.push(page);
   }
 
-  ionViewDidEnter() {
-    console.log(this.checkifSomething);
-
-  }
 }

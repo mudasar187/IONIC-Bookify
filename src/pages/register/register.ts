@@ -21,13 +21,14 @@ export class RegisterPage implements OnInit {
 
   user = {} as User; // create an object of user
   userForm: FormGroup; // create a form to validate
-  myCustomToast: ToastMessages; // create an object of ToastMessages
 
-  constructor(public navCtrl: NavController,
+  private myCustomToast: ToastMessages; // create an object of ToastMessages
+
+  constructor(private navCtrl: NavController,
     private af: AngularFirestore,
     private toast: ToastController,
     private navParams: NavParams) {
-      this.myCustomToast = new ToastMessages(this.toast); // send ToastController to constructor in ToastMessages
+    this.myCustomToast = new ToastMessages(this.toast); // send ToastController to constructor in ToastMessages
   }
 
   // Init the FormGroup
@@ -50,7 +51,7 @@ export class RegisterPage implements OnInit {
       userObject.sendEmailVerification();
 
       // update the profile with nickname, no photo, user own option if he/she want to upload picture in ProfilePage
-      this.af.app.auth().currentUser.updateProfile({displayName: user.nickname, photoURL: null});
+      this.af.app.auth().currentUser.updateProfile({ displayName: user.nickname, photoURL: null });
 
       this.navigateToPage(LoginPage);
 
@@ -64,7 +65,7 @@ export class RegisterPage implements OnInit {
   }
 
   // Check if the password and re-type password is the same, to ensure that user have entred the password he/she choosed
-  equalto(field_name): ValidatorFn {
+  private equalto(field_name): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
 
       let isValid = control.root.value[field_name] == control.value

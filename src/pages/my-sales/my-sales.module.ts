@@ -12,4 +12,4 @@ import { ComponentsModule } from '../../components/components.module';
     ComponentsModule
   ],
 })
-export class MySalesPageModule {}
+export class MySalesPageModule { }

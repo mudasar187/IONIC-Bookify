@@ -17,7 +17,8 @@ export class ResetPasswordPage implements OnInit {
 
   email: string; // to validate email
   resetForm: FormGroup; // create a object of FormGroup to validate email
-  myCustomToast: ToastMessages; // create a object of type ToastMessages
+  
+  private myCustomToast: ToastMessages; // create a object of type ToastMessages
 
   constructor(private af: AngularFirestore,
     private toast: ToastController,

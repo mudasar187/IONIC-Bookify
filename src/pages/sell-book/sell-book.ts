@@ -23,18 +23,17 @@ import { LoaderMessages } from '../../popUpMessages/loaderMessages/LoaderMessage
 })
 export class SellBookPage {
 
-  locationAddress: string;
   previewImage: string = "";
-  userObject: any;
   book = {} as Book;
+  private userObject: any;
 
-  actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
-  alertMessages: AlertMessages; // create an object of type AlertMessages
-  photoOptions: PhotoOptions; // create an object of type PhotoOptions
-  loadingMessages: LoaderMessages; // create an object of type LoaderMessages
+  private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
+  private alertMessages: AlertMessages; // create an object of type AlertMessages
+  private photoOptions: PhotoOptions; // create an object of type PhotoOptions
+  private loadingMessages: LoaderMessages; // create an object of type LoaderMessages
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
+    private navParams: NavParams,
     private placeProvider: PlaceProvider,
     private af: AngularFirestore,
     private afStorage: AngularFireStorage,
@@ -66,10 +65,12 @@ export class SellBookPage {
     });
   }
 
-  // add a book to book collection
+  // get location and then add a book to book collection
   addBookToCollection() {
 
+    // get lat, lng and adress
     this.placeProvider.findGeoLocation((lat, lng, adress) => {
+
       // generate a filename for the image we're going to upload based on user's email and second
       let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
 

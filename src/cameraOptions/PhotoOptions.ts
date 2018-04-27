@@ -2,12 +2,12 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoViewer } from "@ionic-native/photo-viewer";
 
 /**
- * This class contains all operations with getting pictures by camera, gallery and showing pictures
+ * This class contains operations with getting pictures by camera, gallery and showing picture at bigger size
  */
 export class PhotoOptions {
 
   constructor(private photoViewer: PhotoViewer,
-              private camera: Camera) {
+    private camera: Camera) {
   }
 
   // show preview of picture bigger when user press on picture
@@ -15,8 +15,7 @@ export class PhotoOptions {
     this.photoViewer.show(image);
   }
 
-  // get a picture using camera
-  // JavaScript Closure
+  // get a picture by using camera
   executeCamera(getImage: (base64: string) => void) {
     let options: CameraOptions = {
       quality: 50,
@@ -24,7 +23,7 @@ export class PhotoOptions {
       encodingType: this.camera.EncodingType.JPEG,
       cameraDirection: this.camera.Direction.BACK,
       correctOrientation: true,
-      sourceType: this.camera.PictureSourceType.CAMERA, // use camera
+      sourceType: this.camera.PictureSourceType.CAMERA,
     }
     this.camera.getPicture(options).then(imgBase64 => {
       getImage(imgBase64);
@@ -32,7 +31,6 @@ export class PhotoOptions {
   }
 
   // get a picture from gallery
-  // JavaScript Closure
   getFromGallery(getImage: (base64: string) => void) {
     let options: CameraOptions = {
       quality: 50,
@@ -40,7 +38,7 @@ export class PhotoOptions {
       encodingType: this.camera.EncodingType.JPEG,
       cameraDirection: this.camera.Direction.BACK,
       correctOrientation: true,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY, // use gallery
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
     }
     this.camera.getPicture(options).then(imgBase64 => {
       getImage(imgBase64);

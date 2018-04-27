@@ -21,12 +21,13 @@ export class LoginPage implements OnInit {
 
   user = {} as User; // create an object of user
   loginForm: FormGroup; // create a form to validate
-  myCustomToast: ToastMessages; // create a object type of ToastMessages
 
-  constructor(public navCtrl: NavController,
+  private myCustomToast: ToastMessages; // create a object type of ToastMessages
+
+  constructor(private navCtrl: NavController,
     private af: AngularFirestore,
     private toast: ToastController) {
-      this.myCustomToast = new ToastMessages(this.toast); // send ToastController to ToastMessages constructor
+    this.myCustomToast = new ToastMessages(this.toast); // send ToastController to ToastMessages constructor
   }
 
   // init FormGroup
@@ -38,11 +39,13 @@ export class LoginPage implements OnInit {
   }
 
   // login user, also handle if user type right or wrong username/password
+  // if not verified, present a toast that email is not verified
+  // if verified redirect to TabControllerPage
   loginUser(user: User) {
 
     this.af.app.auth().signInWithEmailAndPassword(user.email, user.password).then(() => {
 
-      if (!this.af.app.auth().currentUser.emailVerified) { // if not verified, send a toast message to remind user to verify email
+      if (!this.af.app.auth().currentUser.emailVerified) {
         this.myCustomToast.presentCustomToast('Verifiser emailen før du logger inn');
       } else {
         this.navigateToPage(TabControllerPage); // If user have verified account, go to TabControllerPage
