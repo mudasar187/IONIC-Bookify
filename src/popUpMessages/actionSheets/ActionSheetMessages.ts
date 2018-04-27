@@ -10,7 +10,6 @@ export class ActionSheetMessages {
   }
 
   // show user where to get picture, either take a new or from gallery
-  // JavaScript closures
   presentActionSheet(cameraAction: () => void, galleryAction: () => void) {
     let actionSheetPopUp = this.actionSheetCtrl.create({
       buttons: [
@@ -38,6 +37,8 @@ export class ActionSheetMessages {
     actionSheetPopUp.present();
   }
 
+  // show user where to get picture, either take a new or from gallery
+  // also delete profile picture if wanted
   presentActionSheetForProfilePicture(cameraAction: () => void, galleryAction: () => void, deleteProfilePicture: () => void) {
     let actionSheetPopUp = this.actionSheetCtrl.create({
       buttons: [

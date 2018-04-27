@@ -27,7 +27,7 @@ import { PlaceProvider } from '../../providers/place/place';
 export class ProfilePage {
 
   userObject: any; // crate an object of any to save user credentials from firestore
-  showProfileImage: boolean;
+  showProfileImage: boolean; // boolean value to set true if profile picture exists, or false it not
 
   private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
   private alertMessages: AlertMessages; // create an object of type AlertMessages
@@ -53,26 +53,6 @@ export class ProfilePage {
     this.userObject = this.af.app.auth().currentUser; // get user credentials from firestore
   }
 
-  checkIfProfilePictureExists() {
-    this.afStorage.storage.ref(this.userObject.email).child(`${this.userObject.email}_${this.userObject.uid}.png`).getDownloadURL().then((imageUrl) => {
-        this.showProfileImage = true;
-    }).catch((error) => {
-        this.showProfileImage = false;
-    });
-    /*
-    try {
-      this.afStorage.storage.ref(this.userObject.email).child(`${this.userObject.email}_${this.userObject.uid}.png`);
-      console.log('Picture exists!!');
-      this.showProfileImage = true;
-    } catch (error) {
-      if (error.code_ = 'storage/invalid-argument') {
-        this.showProfileImage = false;
-        console.log("Profile picture noe exists");
-      }
-    }*/
-  }
-
-
   // make picture bigger when user click on profile picture
   makeImageBigger() {
     this.photoOptions.resizeImage(this.userObject.photoURL); // take the image url string in parameter
@@ -80,6 +60,7 @@ export class ProfilePage {
 
   // present ActionSheetController to give user options where to get image to add a profilepicture
   // use camera or gallery
+  // also choose to delete picture from profile picture
   presentActionSheet() {
     this.actionSheetMessages.presentActionSheetForProfilePicture(() => {
       this.photoOptions.executeCamera((base64Img) => {
@@ -98,7 +79,7 @@ export class ProfilePage {
 
   // to add profile picture to firestorage
   // delete the previous image before adding a new profile picture
-  addProfilePicture(imgBase64: string) {
+  private addProfilePicture(imgBase64: string) {
     this.deleteImage((success) => {
       this.uploadImage(imgBase64, (success) => {
         if (success) {
@@ -146,6 +127,15 @@ export class ProfilePage {
       }).catch((error) => {
         doneDeleting(false);
       });
+  }
+
+  // checks if profile picture exists in firestorage by looking for specific name for profile image
+  private checkIfProfilePictureExists() {
+    this.afStorage.storage.ref(this.userObject.email).child(`${this.userObject.email}_${this.userObject.uid}.png`).getDownloadURL().then((imageUrl) => {
+        this.showProfileImage = true;
+    }).catch((error) => {
+        this.showProfileImage = false;
+    });
   }
 
   // logout from app
