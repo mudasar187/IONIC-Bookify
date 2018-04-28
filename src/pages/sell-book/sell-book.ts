@@ -103,4 +103,8 @@ export class SellBookPage {
     });
   }
 
+  ionViewDidEnter() {
+    this.actionSheetMessages.presentActionSheetSellBookOptions();
+  }
+
 }
