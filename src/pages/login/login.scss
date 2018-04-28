@@ -5,21 +5,20 @@ page-login {
         margin: 0 auto;
         display: block;
     }
-    .forgotBtnColor {
+    .forgotPasswordText {
         color: map-get($colors, textColor);
         font-size: 10px;
-        left: 50%;
-        transform: translateX(-50%);
     }
     .footer {
         background-color: map-get($colors, globalColor)
     }
-    .textColor {
-        color: map-get($colors, textColor);
-        text-align: center;
-    }
     .footerText {
         text-align: center;
         color: map-get($colors, footerText)
+    }
+    .row {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
     }
 }

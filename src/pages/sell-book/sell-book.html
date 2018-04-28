@@ -3,13 +3,17 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="img-wrap">
+  <ion-row>
+    <div class="img-wrap">
       <img *ngIf="previewImage.length > 0" [src]="'data:image/jpeg;base64,' + previewImage" />
       <img *ngIf="previewImage.length === 0" src="assets/imgs/placeholder.png">
-  </div>
-  <ion-buttons>
-    <ion-icon icon-only name="camera" (click)="presentActionSheet()"></ion-icon>
-  </ion-buttons>
+    </div>
+  </ion-row>
+  <ion-row>
+    <button class="icon" icon-only ion-button (click)="presentActionSheet()" clear>
+      <ion-icon name="camera"></ion-icon>
+    </button>
+  </ion-row>
   <br>
   <br>
   <br>

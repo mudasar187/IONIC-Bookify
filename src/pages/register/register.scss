@@ -3,10 +3,7 @@ page-register {
         color: map-get($colors, textColor);
         text-align: center;
     }
-    .errorBox {
+    .item {
         background-color: transparent;
-    }
-    .requiredText {
-        color: map-get($colors, textColor);
     }
 }

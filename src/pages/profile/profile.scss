@@ -4,21 +4,23 @@ page-profile {
         width: 100px !important;
         height: 110px !important;
     }
-    .userDetails {
-        text-align: center;
+    .userDetailtext {
         font-weight: bold;
         font-size: 15px;
-        background: transparent;
     }
     .card {
-        background-color: map-get($colors, globalBackgroundColor)
+      background: transparent !important;
     }
     .changeProfileText {
-        left: 50%;
-        transform: translateX(-50%);
         font-size: 10px;
     }
-    .userDetailsItems {
-        background: transparent;
+    .row {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .item {
+        background: transparent !important;
+        text-align: center;
     }
 }

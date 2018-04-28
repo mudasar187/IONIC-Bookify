@@ -11,4 +11,9 @@ page-sell-book {
             height: auto;
         }
     }
+    .row {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
 }

@@ -14,21 +14,6 @@ export class PlaceProvider {
     private geoLocation: Geolocation) {
   }
 
-  // get adress based on lat and lng by using geoLocation
-  getAddressBasedOnLatLng(lat: number, lng: number) {
-    return new Promise((resolve, reject) => {
-      this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${apiKeys.GOOGLE_API_KEY}`) // use Google Map
-        .subscribe(
-          (response) => {
-            resolve(response);
-          },
-          (error) => {
-            reject(error);
-          }
-        )
-    });
-  }
-
   // get location where user is right now this moment
   findGeoLocation(doneFetching: (lat: number, lng: number, adress: string) => void) {
     var lat: number;
@@ -46,6 +31,21 @@ export class PlaceProvider {
       }).catch(error => {
         console.error(error);
       });
+  }
+
+   // get adress based on lat and lng by using geoLocation
+   private getAddressBasedOnLatLng(lat: number, lng: number) {
+    return new Promise((resolve, reject) => {
+      this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${apiKeys.GOOGLE_API_KEY}`) // use Google Map
+        .subscribe(
+          (response) => {
+            resolve(response);
+          },
+          (error) => {
+            reject(error);
+          }
+        )
+    });
   }
 
 }

@@ -4,7 +4,7 @@
 
 <ion-content padding>
   <ion-card>
-    <ion-item class="card">
+    <ion-item>
       <ion-avatar>
         <img *ngIf="!showProfileImage" src="assets/imgs/placeholderperson.png">
         <img *ngIf="showProfileImage" src="{{userObject.photoURL}}" (click)="makeImageBigger()">
@@ -12,9 +12,9 @@
           <button class="changeProfileText" ion-button (click)="presentActionSheet()" clear>
             Bytt profilbilde
           </button>
-          <ion-item class="userDetailsItems">
-            <p class="userDetails">{{userObject.displayName}}</p>
-            <p class="userDetails">{{userObject.email}}</p>
+          <ion-item>
+            <p class="userDetailtext">{{userObject.displayName}}</p>
+            <p class="userDetailtext">{{userObject.email}}</p>
           </ion-item>
         </ion-row>
       </ion-avatar>
