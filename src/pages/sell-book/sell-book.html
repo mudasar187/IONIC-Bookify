@@ -14,63 +14,80 @@
       <ion-icon name="camera"></ion-icon>
     </button>
   </ion-row>
-  <ion-row>
-    <ion-item>
-      <ion-label floating>Brukernavn</ion-label>
-      <ion-input type="text" value=""></ion-input>
-    </ion-item>
 
-    <ion-item no-lines>
-      <span class="global__input-error">
-        * Velg brukernavn</span>
-      <br>
-    </ion-item>
-
-    <ion-item>
-      <ion-label floating>Email</ion-label>
-      <ion-input type="email" value=""></ion-input>
-    </ion-item>
-
-    <ion-item no-lines>
-      <span class="global__input-error">
-        * Email må fylles inn</span>
-      <br>
-      <span class="global__input-error">
-        * Ugyldig email
-      </span>
-    </ion-item>
-
-    <ion-item>
-      <ion-label floating>Passord</ion-label>
-      <ion-input type="password" value=""></ion-input>
-    </ion-item>
-
-    <ion-item no-lines>
-
-      <span class="global__input-error">
-        * Passord må fylles ut
-      </span>
-
-    </ion-item>
-
-
-    <ion-list no-lines>
-
+  <form novalidate (ngSubmit)="addBookToCollection(book)" [formGroup]="bookForm">
+    <ion-row>
       <ion-item>
-        <ion-label>Ny</ion-label>
-        <ion-checkbox></ion-checkbox>
+        <ion-label floating>ISBN</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="book.isbn" formControlName="isbn"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines *ngIf="bookForm.get('isbn').hasError('required') && bookForm.get('isbn').touched">
+        <span class="global__input-error">
+          * ISBN må fylles ut</span>
+        <br>
       </ion-item>
 
       <ion-item>
-        <ion-label>Brukt</ion-label>
-        <ion-checkbox disabled="true"></ion-checkbox>
+        <ion-label floating>Overskrift</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="book.heading" formControlName="heading"></ion-input>
       </ion-item>
 
-    </ion-list>
-  </ion-row>
+      <ion-item no-lines *ngIf="bookForm.get('heading').hasError('required') && bookForm.get('heading').touched">
+        <span class="global__input-error">
+          * Overskrift må fylles ut</span>
+        <br>
+      </ion-item>
 
-  <ion-row>
-    <button ion-button color="globalColor" block (click)="addBookToCollection()">Legg bok til salgs</button>
-  </ion-row>
+      <ion-item>
+        <ion-label floating>Beskrivelse</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="book.description" formControlName="description"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines *ngIf="bookForm.get('description').hasError('required') && bookForm.get('description').touched">
+
+        <span class="global__input-error">
+          * Beskrivelse må fylles ut
+        </span>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Pris i kr</ion-label>
+        <ion-input type="tel" value="" [(ngModel)]="book.price" formControlName="price"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines *ngIf="bookForm.get('price').hasError('required') && bookForm.get('price').touched">
+
+        <span class="global__input-error">
+          * Pris i kr må fylles ut
+        </span>
+      </ion-item>
+
+      <ion-row>
+        <ion-list no-lines>
+          <ion-item>
+            <ion-label>Ny</ion-label>
+            <ion-checkbox color="globalColor" formControlName="conditions"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-label>Brukt</ion-label>
+            <ion-checkbox color="globalColor" formControlName="conditions"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ion-row>
+
+      <ion-item no-lines *ngIf="bookForm.get('conditions').hasError('required') && bookForm.get('conditions').touched">
+
+          <span class="global__input-error">
+            * Er boken ny eller brukt?
+          </span>
+        </ion-item>
+    </ion-row>
+
+    <ion-row padding-top="30%">
+      <button ion-button block color="globalColor" [disabled]="bookForm.invalid">Legg ut for salg</button>
+    </ion-row>
+  </form>
 
 </ion-content>

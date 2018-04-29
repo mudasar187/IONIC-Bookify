@@ -19,16 +19,17 @@ export class BookProvider {
   }
 
   // add a user to the collection
-  addBookToCollection(userUid, nickname, bookImage, bookTitle, bookPrice, location, bookConditions, lat, lng) {
+  addBookToCollection(userUid, nickName, bookImage, bookIsbn, saleHeading, bookDescription, bookPrice, bookConditions, location, lat, lng) {
     this.bookListCollection.add({
       userId: userUid,
-      nickname: nickname,
-      bookImage: bookImage,
-      bookTitle: bookTitle,
+      nickName: nickName,
+      image: bookImage,
+      isbn: bookIsbn,
+      heading: saleHeading,
+      description: bookDescription,
       price: bookPrice,
-      location: location,
-      sold: false,
       conditions: bookConditions,
+      location: location,
       lat: lat,
       lng: lng
     } as Book);

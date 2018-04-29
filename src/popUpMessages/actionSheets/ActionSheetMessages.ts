@@ -73,7 +73,7 @@ export class ActionSheetMessages {
   }
 
   // show user where to get picture, either take a new or from gallery
-  presentActionSheetSellBookOptions() {
+  presentActionSheetSellBookOptions(barCodeAction: () => void) {
     let actionSheetPopUp = this.actionSheetCtrl.create({
       title: 'Hva ønsker du å gjøre?',
       buttons: [
@@ -81,19 +81,19 @@ export class ActionSheetMessages {
           text: 'Legge inn bok manuelt',
           icon: 'create',
           handler: () => {
-
+            actionSheetPopUp.dismiss(); // cancel actionsheet
           }
         }, {
           text: 'Bruk strekkode scanner',
           icon: 'barcode',
           handler: () => {
-
+            barCodeAction();
           }
         }, {
           text: 'Avbryt',
           icon: 'close-circle',
           handler: ()=> {
-
+            actionSheetPopUp.dismiss(); // cancel actionsheet
           }
         }
       ]

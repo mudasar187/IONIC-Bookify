@@ -33,6 +33,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { PlaceProvider } from '../providers/place/place';
 import { HttpClientModule } from '@angular/common/http';
 import { BookProvider } from '../providers/book/book';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
 
 @NgModule({
   declarations: [
@@ -76,7 +78,8 @@ import { BookProvider } from '../providers/book/book';
     PhotoViewer,
     Geolocation,
     PlaceProvider,
-    BookProvider
+    BookProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule { }

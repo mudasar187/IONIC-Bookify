@@ -11,6 +11,10 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Camera } from '@ionic-native/camera';
 import { AlertMessages } from '../../popUpMessages/alertMessages/AlertMessages';
 import { LoaderMessages } from '../../popUpMessages/loaderMessages/LoaderMessages';
+import { BarcodeScan } from '../../barcodeScanner/BarcodeScan';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 /**
  * This class contains where a seller can add a book to a sale
@@ -21,16 +25,19 @@ import { LoaderMessages } from '../../popUpMessages/loaderMessages/LoaderMessage
   selector: 'page-sell-book',
   templateUrl: 'sell-book.html',
 })
-export class SellBookPage {
+export class SellBookPage implements OnInit {
 
   previewImage: string = "";
+  bookForm: FormGroup; // create a form to validate
   book = {} as Book;
-  private userObject: any;
+  scanData: string;
 
+  private userObject: any;
   private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
   private alertMessages: AlertMessages; // create an object of type AlertMessages
   private photoOptions: PhotoOptions; // create an object of type PhotoOptions
   private loadingMessages: LoaderMessages; // create an object of type LoaderMessages
+  private barCodeScan: BarcodeScan;
 
   constructor(public navCtrl: NavController,
     private navParams: NavParams,
@@ -42,13 +49,25 @@ export class SellBookPage {
     private camera: Camera,
     private actionSheetCtrl: ActionSheetController,
     private loaderCtrl: LoadingController,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController,
+    private barCodeScanner: BarcodeScanner) {
 
     this.actionSheetMessages = new ActionSheetMessages(this.actionSheetCtrl);
     this.photoOptions = new PhotoOptions(this.photoViewer, this.camera); // a new instance of PhotoOptions
     this.loadingMessages = new LoaderMessages(this.loaderCtrl); // a new instance of LoaderMessage
     this.alertMessages = new AlertMessages(this.alertCtrl); // a new instance of AlertMessages
+    this.barCodeScan = new BarcodeScan(this.barCodeScanner);
     this.userObject = this.af.app.auth().currentUser;
+  }
+
+  ngOnInit() {
+    this.bookForm = new FormGroup({
+      isbn: new FormControl('', [Validators.required]),
+      heading: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required]),
+      price: new FormControl('', [Validators.required]),
+      conditions: new FormControl('', [Validators.required])
+    });
   }
 
   // give user a options on which way to add a profilepicture
@@ -66,7 +85,7 @@ export class SellBookPage {
   }
 
   // get location and then add a book to book collection
-  addBookToCollection() {
+  addBookToCollection(book: Book) {
 
     // get lat, lng and adress
     this.placeProvider.findGeoLocation((lat, lng, adress) => {
@@ -86,13 +105,16 @@ export class SellBookPage {
       // when the image is uploaded, we can now get the URL accsess and book is finished adding to databse
       this.loadingMessages.presentLoader('Legger bok til salgs...'); // show user that picture is being updated and book is adding to collection
       uploadEvent.subscribe((uploadImgUrl) => {
-        this.bookProvider.addBookToCollection(this.userObject.uid,
+        this.bookProvider.addBookToCollection(
+          this.userObject.uid,
           this.userObject.displayName,
           uploadImgUrl,
-          "title",
-          "200",
+          book.isbn,
+          book.heading,
+          book.description,
+          book.price,
+          book.conditions,
           adress,
-          "brukt",
           lat,
           lng);
         this.loadingMessages.dismissLoader(); // dismiss when its updated
@@ -103,8 +125,16 @@ export class SellBookPage {
     });
   }
 
-  ionViewDidEnter() {
-    this.actionSheetMessages.presentActionSheetSellBookOptions();
+  barCodeAction() {
+    this.actionSheetMessages.presentActionSheetSellBookOptions(() => {
+        this.barCodeScan.scanBarcode((barCodeData) => {
+          this.scanData = JSON.stringify(barCodeData);
+          console.log(this.scanData);
+
+        });
+    });
+
+
   }
 
 }
