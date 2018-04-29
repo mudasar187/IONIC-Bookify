@@ -27,10 +27,10 @@ import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from
 })
 export class SellBookPage implements OnInit {
 
-  previewImage: string = "";
+  previewImage: string = ""; // to hold previewImage base64 code
   bookForm: FormGroup; // create a form to validate
-  book = {} as Book;
-  bookIsNew = true; // set default value
+  book = {} as Book; // create an object of book
+  bookIsNew = true; // set default value for checkBox
 
   private userObject: any;
   private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
@@ -71,8 +71,8 @@ export class SellBookPage implements OnInit {
 
   // give user a options on which way to add a profilepicture
   // use camera or gallery
-  presentActionSheet() {
-    this.actionSheetMessages.presentActionSheet(() => {
+  presentActionSheet(title: string) {
+    this.actionSheetMessages.presentActionSheet(title,() => {
       this.photoOptions.executeCamera((base64Img) => {
         this.previewImage = base64Img;
       });
@@ -86,6 +86,7 @@ export class SellBookPage implements OnInit {
   // get location and then add a book to book collection
   addBookToCollection(book: Book) {
 
+    // to ensure that we have a picture, if not then present a actionSheetController to tell user that user need to take a picture
     if (this.previewImage !== "") {
 
       // get lat, lng and adress
@@ -126,7 +127,8 @@ export class SellBookPage implements OnInit {
         });
       });
     } else {
-      this.presentActionSheet();
+      // present user to tell that user need to take a picture
+      this.presentActionSheet('Du må ta bilde av boken');
     }
   }
 
