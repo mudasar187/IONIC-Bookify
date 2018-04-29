@@ -10,13 +10,16 @@
     </div>
   </ion-row>
   <ion-row>
-    <button class="icon" icon-only ion-button (click)="presentActionSheet()" clear>
-      <ion-icon name="camera"></ion-icon>
-    </button>
+    <button ion-button block color="globalColor" (click)="presentActionSheet()">Ta bilde av boka</button>
+  </ion-row>
+  <ion-row>
+    <button ion-button block color="globalColor" (click)="barCodeAction(book.isbn)">Bruk strekkode scanner</button>
   </ion-row>
 
   <form novalidate (ngSubmit)="addBookToCollection(book)" [formGroup]="bookForm">
+
     <ion-row>
+
       <ion-item>
         <ion-label floating>ISBN</ion-label>
         <ion-input type="text" value="" [(ngModel)]="book.isbn" formControlName="isbn"></ion-input>
@@ -45,11 +48,9 @@
       </ion-item>
 
       <ion-item no-lines *ngIf="bookForm.get('description').hasError('required') && bookForm.get('description').touched">
-
         <span class="global__input-error">
           * Beskrivelse må fylles ut
         </span>
-
       </ion-item>
 
       <ion-item>
@@ -58,36 +59,29 @@
       </ion-item>
 
       <ion-item no-lines *ngIf="bookForm.get('price').hasError('required') && bookForm.get('price').touched">
-
         <span class="global__input-error">
           * Pris i kr må fylles ut
         </span>
       </ion-item>
 
-      <ion-row>
+      <ion-row padding-top="10%">
         <ion-list no-lines>
           <ion-item>
             <ion-label>Ny</ion-label>
-            <ion-checkbox color="globalColor" formControlName="conditions"></ion-checkbox>
+            <ion-checkbox color="globalColor" checked="{{bookIsNew}}" (click)="changeBookStatus()"></ion-checkbox>
           </ion-item>
           <ion-item>
             <ion-label>Brukt</ion-label>
-            <ion-checkbox color="globalColor" formControlName="conditions"></ion-checkbox>
+            <ion-checkbox color="globalColor" checked="{{!bookIsNew}}" (click)="changeBookStatus()"></ion-checkbox>
           </ion-item>
         </ion-list>
       </ion-row>
-
-      <ion-item no-lines *ngIf="bookForm.get('conditions').hasError('required') && bookForm.get('conditions').touched">
-
-          <span class="global__input-error">
-            * Er boken ny eller brukt?
-          </span>
-        </ion-item>
     </ion-row>
 
-    <ion-row padding-top="30%">
+    <ion-row>
       <button ion-button block color="globalColor" [disabled]="bookForm.invalid">Legg ut for salg</button>
     </ion-row>
+
   </form>
 
 </ion-content>

@@ -75,10 +75,10 @@ export class ActionSheetMessages {
   // show user where to get picture, either take a new or from gallery
   presentActionSheetSellBookOptions(barCodeAction: () => void) {
     let actionSheetPopUp = this.actionSheetCtrl.create({
-      title: 'Hva ønsker du å gjøre?',
+      title: 'Hvordan ønsker du legge inn ISBN nummer?',
       buttons: [
         {
-          text: 'Legge inn bok manuelt',
+          text: 'Legge inn manuelt',
           icon: 'create',
           handler: () => {
             actionSheetPopUp.dismiss(); // cancel actionsheet

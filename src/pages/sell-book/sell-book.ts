@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { PlaceProvider } from '../../providers/place/place';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
@@ -30,14 +30,14 @@ export class SellBookPage implements OnInit {
   previewImage: string = "";
   bookForm: FormGroup; // create a form to validate
   book = {} as Book;
-  scanData: string;
+  bookIsNew = true; // set default value
 
   private userObject: any;
   private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
   private alertMessages: AlertMessages; // create an object of type AlertMessages
   private photoOptions: PhotoOptions; // create an object of type PhotoOptions
   private loadingMessages: LoaderMessages; // create an object of type LoaderMessages
-  private barCodeScan: BarcodeScan;
+  private barCodeScan: BarcodeScan; // create an object of type BarScodeScan
 
   constructor(public navCtrl: NavController,
     private navParams: NavParams,
@@ -65,8 +65,7 @@ export class SellBookPage implements OnInit {
       isbn: new FormControl('', [Validators.required]),
       heading: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      price: new FormControl('', [Validators.required]),
-      conditions: new FormControl('', [Validators.required])
+      price: new FormControl('', [Validators.required])
     });
   }
 
@@ -87,54 +86,82 @@ export class SellBookPage implements OnInit {
   // get location and then add a book to book collection
   addBookToCollection(book: Book) {
 
-    // get lat, lng and adress
-    this.placeProvider.findGeoLocation((lat, lng, adress) => {
+    if (this.previewImage !== "") {
 
-      // generate a filename for the image we're going to upload based on user's email and second
-      let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
+      // get lat, lng and adress
+      this.placeProvider.findGeoLocation((lat, lng, adress) => {
 
-      // make a task that upload the picture
-      let task = this.afStorage
-        .ref(`${this.userObject.email}`) // create a folder to upload image to user's folder named as user's email
-        .child(imageFileName) // fileName for the file
-        .putString(this.previewImage, 'base64', { contentType: 'image/png' }); // set as string
+        // generate a filename for the image we're going to upload based on user's email and second
+        let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
 
-      // make a event to we can follow when the picture is uploaded
-      let uploadEvent = task.downloadURL();
+        // make a task that upload the picture
+        let task = this.afStorage
+          .ref(`${this.userObject.email}`) // create a folder to upload image to user's folder named as user's email
+          .child(imageFileName) // fileName for the file
+          .putString(this.previewImage, 'base64', { contentType: 'image/png' }); // set as string
 
-      // when the image is uploaded, we can now get the URL accsess and book is finished adding to databse
-      this.loadingMessages.presentLoader('Legger bok til salgs...'); // show user that picture is being updated and book is adding to collection
-      uploadEvent.subscribe((uploadImgUrl) => {
-        this.bookProvider.addBookToCollection(
-          this.userObject.uid,
-          this.userObject.displayName,
-          uploadImgUrl,
-          book.isbn,
-          book.heading,
-          book.description,
-          book.price,
-          book.conditions,
-          adress,
-          lat,
-          lng);
-        this.loadingMessages.dismissLoader(); // dismiss when its updated
-      }, (err: any) => {
-        this.loadingMessages.dismissLoader(); // dissmiss if any error
-        this.alertMessages.presentAlert('Oppss.. Noe gikk galt...') // show a error message
+        // make a event to we can follow when the picture is uploaded
+        let uploadEvent = task.downloadURL();
+
+        // when the image is uploaded, we can now get the URL accsess and book is finished adding to databse
+        this.loadingMessages.presentLoader('Legger bok til salgs...'); // show user that picture is being updated and book is adding to collection
+        uploadEvent.subscribe((uploadImgUrl) => {
+          this.bookProvider.addBookToCollection(
+            this.userObject.uid,
+            this.userObject.displayName,
+            uploadImgUrl,
+            book.isbn,
+            book.heading,
+            book.description,
+            book.price,
+            this.getBookStatus(book),
+            adress,
+            lat,
+            lng);
+          this.clearInputFields(); // clear input fields
+          this.loadingMessages.dismissLoader(); // dismiss when its updated
+        }, (err: any) => {
+          this.loadingMessages.dismissLoader(); // dissmiss if any error
+          this.alertMessages.presentAlert('Oppss.. Noe gikk galt..'); // show a error message
+        });
+      });
+    } else {
+      this.presentActionSheet();
+    }
+  }
+
+  barCodeAction(book: Book) {
+    this.actionSheetMessages.presentActionSheetSellBookOptions(() => {
+      this.barCodeScan.scanBarcode((barCodeData: any) => {
+        this.book.isbn = barCodeData.text as string;
+      }, () => {
+        this.alertMessages.presentAlert('Kunne ikke finne kode, prøv igjen..'); // show a error message
       });
     });
   }
 
-  barCodeAction() {
-    this.actionSheetMessages.presentActionSheetSellBookOptions(() => {
-        this.barCodeScan.scanBarcode((barCodeData) => {
-          this.scanData = JSON.stringify(barCodeData);
-          console.log(this.scanData);
+  changeBookStatus() {
+    this.bookIsNew = !this.bookIsNew;
+  }
 
-        });
-    });
+  private clearInputFields() {
+    this.book.isbn = "";
+    this.book.heading = "";
+    this.book.description = "";
+    this.book.price = null;
+    this.previewImage = "";
+  }
 
+  private getBookStatus(book: Book) {
+    if (this.bookIsNew) {
+      return book.conditions = "Ny";
+    } else {
+      return book.conditions = "Brukt";
+    }
+  }
 
+  ionViewDidEnter() {
+    this.barCodeAction(this.book);
   }
 
 }
