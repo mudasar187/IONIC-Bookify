@@ -3,5 +3,50 @@
 </ion-header>
 
 <ion-content padding>
-  <p>Kjøp bøker</p>
+  <ion-row>
+  <ion-searchbar
+  [(ngModel)]="myInput"
+  [showCancelButton]="shouldShowCancel"
+  (ionInput)="onInput($event)"
+  (ionCancel)="onCancel($event)">
+</ion-searchbar>
+</ion-row>
+
+<ion-card>
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="{{userObject.photoURL}}"> <!-- Bilde av bruker-->
+      </ion-avatar>
+      <h2>nickname hvem som legger ut</h2>
+      <p>dato for når det ble lagt ut</p>
+    </ion-item>
+
+    <img src="img/advance-card-bttf.png"> <!-- Bilde av boka -->
+
+    <ion-card-content>
+      <p>Beskrivelse står her</p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="person"></ion-icon>
+          <div>Kontakt brukeren</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="map"></ion-icon>
+          <div>Åpne kartet</div>
+        </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          Sted hvor boka befinner seg
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
 </ion-content>

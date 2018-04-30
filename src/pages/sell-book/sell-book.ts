@@ -72,7 +72,7 @@ export class SellBookPage implements OnInit {
   // give user a options on which way to add a profilepicture
   // use camera or gallery
   presentActionSheet(title: string) {
-    this.actionSheetMessages.presentActionSheet(title,() => {
+    this.actionSheetMessages.presentActionSheet(title, () => {
       this.photoOptions.executeCamera((base64Img) => {
         this.previewImage = base64Img;
       });
@@ -116,6 +116,7 @@ export class SellBookPage implements OnInit {
             book.description,
             book.price,
             this.getBookStatus(book),
+            false,
             adress,
             lat,
             lng);

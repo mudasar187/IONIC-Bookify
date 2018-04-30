@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Book } from '../../models/Book';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
 
 /*
   Book provider class
@@ -10,8 +11,10 @@ import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/fires
 @Injectable()
 export class BookProvider {
 
-  public bookListCollection: AngularFirestoreCollection<Book>; // collection keep the referance to our user
-  book = {} as Book;
+  private book = {} as Book;
+  private bookListCollection: AngularFirestoreCollection<Book>; // collection keep the referance to our user
+  private books: Observable<Book[]>
+
 
   constructor(private http: HttpClient,
     private af: AngularFirestore) {
@@ -19,7 +22,7 @@ export class BookProvider {
   }
 
   // add a user to the collection
-  addBookToCollection(userUid, nickName, bookImage, bookIsbn, saleHeading, bookDescription, bookPrice, bookConditions, location, lat, lng) {
+  addBookToCollection(userUid, nickName, bookImage, bookIsbn, saleHeading, bookDescription, bookPrice, bookConditions, sold, location, lat, lng) {
     this.bookListCollection.add({
       userId: userUid,
       nickName: nickName,
@@ -29,9 +32,24 @@ export class BookProvider {
       description: bookDescription,
       price: bookPrice,
       conditions: bookConditions,
+      sold: sold,
       location: location,
       lat: lat,
       lng: lng
     } as Book);
+  }
+
+  getAllBooksOutForSale() {
+    this.books = this.bookListCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map(action => {
+          let data = action.payload.doc.data() as Book;
+          let id = action.payload.doc.id;
+          return {
+            id,
+            ...data
+          };
+        })
+      });
   }
 }

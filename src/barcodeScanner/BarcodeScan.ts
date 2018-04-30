@@ -6,6 +6,7 @@ export class BarcodeScan {
   constructor(private barcodeScanner: BarcodeScanner) {
   }
 
+  // Method for scanning barcodes
   scanBarcode(getData: (data: {}) => void, error: () => void) {
     this.options = {
       prompt: "Scan your code"

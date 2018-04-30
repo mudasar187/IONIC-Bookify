@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { BookProvider } from '../../providers/book/book';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 
 /**
@@ -13,8 +15,13 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 })
 export class BuyBookPage {
 
+  userObject: any;
+
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams) {
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private af: AngularFirestore,
+    private bookProvider: BookProvider) {
+      this.userObject = this.af.app.auth().currentUser;
   }
 }
