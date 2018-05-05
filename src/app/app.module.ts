@@ -34,6 +34,8 @@ import { PlaceProvider } from '../providers/place/place';
 import { HttpClientModule } from '@angular/common/http';
 import { BookProvider } from '../providers/book/book';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { DetailPageModule } from '../pages/detail/detail.module';
+import { DetailPage } from '../pages/detail/detail';
 
 
 @NgModule({
@@ -52,6 +54,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     ComponentsModule,
     ResetPasswordPageModule,
     RegisterPageModule,
+    DetailPageModule,
     AngularFireModule.initializeApp(env), // Initalize the environment .ts file
     AngularFireAuthModule,
     AngularFirestoreModule,
@@ -68,7 +71,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     MessagesPage,
     TabControllerPage,
     ResetPasswordPage,
-    RegisterPage
+    RegisterPage,
+    DetailPage
   ],
   providers: [
     StatusBar,

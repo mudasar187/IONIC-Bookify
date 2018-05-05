@@ -4,6 +4,7 @@ import { BookProvider } from '../../providers/book/book';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { Book } from '../../models/Book';
+import { DetailPage } from '../detail/detail';
 
 
 /**
@@ -27,6 +28,10 @@ export class BuyBookPage {
     private bookProvider: BookProvider) {
       this.userObject = this.af.app.auth().currentUser;
       this.books = this.bookProvider.getAllBooksOutForSale();
+  }
+
+  goToDetailPage(book: Book) {
+    this.navCtrl.push(DetailPage);
   }
 
 }

@@ -13,42 +13,12 @@
 </ion-row>
 
 <ion-list *ngFor="let book of books | async">
-<ion-card>
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="{{userObject.photoURL}}"> <!-- Bilde av bruker-->
-      </ion-avatar>
-      <h2>{{book.userNickName}}</h2>
-      <p>{{book.created}}</p>
-    </ion-item>
-
-    <ion-item>
-    <img src="{{book.bookImage}}"> <!-- Bilde av boka -->
+  <ion-item (click)="goToDetailPage(book)">
+    <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>
+    <ion-list item-contain>
+        <p>Halla</p>
+        <p>Ok</p>
+    </ion-list>
   </ion-item>
-
-    <ion-card-content text-center>
-      {{book.bookDescription}}
-    </ion-card-content>
-
-    <ion-row>
-      <ion-col>
-        <button ion-button icon-left clear small>
-          <ion-icon name="chatbubbles"></ion-icon>
-          <div>Send melding</div>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button ion-button icon-right clear small>
-          <div>Åpne kartet</div>
-          <ion-icon name="map"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-
-    <ion-item text-center>
-      {{book.bookConditions}}
-    </ion-item>
-
-  </ion-card>
 </ion-list>
 </ion-content>

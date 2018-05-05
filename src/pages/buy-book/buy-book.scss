@@ -2,10 +2,4 @@ page-buy-book {
   .searchbar-md .searchbar-input {
     background-color: map-get($colors, cardColor);
     }
-    .card {
-        background-color: map-get($colors, cardColor);
-    }
-    .item {
-        background: transparent !important;
-    }
 }
