@@ -13,7 +13,7 @@
     <button ion-button block color="globalColor" (click)="presentActionSheet('Velg alternativ')">Ta bilde av boka</button>
   </ion-row>
   <ion-row>
-    <button ion-button block color="globalColor" (click)="barCodeAction(book.isbn)">Bruk strekkode scanner</button>
+    <button ion-button block color="globalColor" (click)="barCodeAction(book.bookIsbn)">Bruk strekkode scanner</button>
   </ion-row>
 
   <form novalidate (ngSubmit)="addBookToCollection(book)" [formGroup]="bookForm">
@@ -22,7 +22,7 @@
 
       <ion-item>
         <ion-label floating>ISBN</ion-label>
-        <ion-input type="text" value="" [(ngModel)]="book.isbn" formControlName="isbn"></ion-input>
+        <ion-input type="text" value="" [(ngModel)]="book.bookIsbn" formControlName="isbn"></ion-input>
       </ion-item>
 
       <ion-item no-lines *ngIf="bookForm.get('isbn').hasError('required') && bookForm.get('isbn').touched">
@@ -32,30 +32,30 @@
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Overskrift</ion-label>
-        <ion-input type="text" value="" [(ngModel)]="book.heading" formControlName="heading"></ion-input>
+        <ion-label floating>Bok tittel</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="book.bookTitle" formControlName="title"></ion-input>
       </ion-item>
 
-      <ion-item no-lines *ngIf="bookForm.get('heading').hasError('required') && bookForm.get('heading').touched">
+      <ion-item no-lines *ngIf="bookForm.get('title').hasError('required') && bookForm.get('title').touched">
         <span class="global__input-error">
-          * Overskrift må fylles ut</span>
+          * Bok tittel må fylles ut</span>
         <br>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Beskrivelse</ion-label>
-        <ion-input type="text" value="" [(ngModel)]="book.description" formControlName="description"></ion-input>
+        <ion-label floating>Om boken</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="book.bookDescription" formControlName="description"></ion-input>
       </ion-item>
 
       <ion-item no-lines *ngIf="bookForm.get('description').hasError('required') && bookForm.get('description').touched">
         <span class="global__input-error">
-          * Beskrivelse må fylles ut
+          * Om boken må fylles ut
         </span>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Pris i kr</ion-label>
-        <ion-input type="tel" value="" [(ngModel)]="book.price" formControlName="price"></ion-input>
+        <ion-input type="tel" value="" [(ngModel)]="book.bookPrice" formControlName="price"></ion-input>
       </ion-item>
 
       <ion-item no-lines *ngIf="bookForm.get('price').hasError('required') && bookForm.get('price').touched">

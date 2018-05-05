@@ -18,7 +18,7 @@ export class PlaceProvider {
   findGeoLocation(doneFetching: (lat: number, lng: number, adress: string) => void) {
     var lat: number;
     var lng: number;
-    this.geoLocation.getCurrentPosition()
+    this.geoLocation.getCurrentPosition({ timeout: 3000 })
       .then(position => { // get position
         lat = position.coords.latitude;
         lng = position.coords.longitude;
@@ -27,14 +27,17 @@ export class PlaceProvider {
           position.coords.longitude // inser lng
         ).then((place: any) => { // place contains an array of different values for the lat and lng place
           doneFetching(lat, lng, place.results[1].formatted_address);
+        }).catch((error) => {
+          doneFetching(-99, -99, "PlaceholderGOOGLE FEIL");
         });
       }).catch(error => {
+        doneFetching(-99, -99, "Placeholder TELEFON GPS ERROR");
         console.error(error);
       });
   }
 
-   // get adress based on lat and lng by using geoLocation
-   private getAddressBasedOnLatLng(lat: number, lng: number) {
+  // get adress based on lat and lng by using geoLocation
+  private getAddressBasedOnLatLng(lat: number, lng: number) {
     return new Promise((resolve, reject) => {
       this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${apiKeys.GOOGLE_API_KEY}`) // use Google Map
         .subscribe(

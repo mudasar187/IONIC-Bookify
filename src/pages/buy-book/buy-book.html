@@ -4,49 +4,49 @@
 
 <ion-content padding>
   <ion-row>
-  <ion-searchbar
-  [(ngModel)]="myInput"
-  [showCancelButton]="shouldShowCancel"
-  (ionInput)="onInput($event)"
-  (ionCancel)="onCancel($event)">
-</ion-searchbar>
-</ion-row>
+    <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+    </ion-searchbar>
+  </ion-row>
 
-<ion-card>
+  <ion-list *ngFor="let book of books | async">
+    <ion-card>
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{userObject.photoURL}}">
+          <!-- Bilde av bruker-->
+        </ion-avatar>
+        <h2>{{book.userNickName}}</h2>
+        <p>{{book.created}}</p>
+      </ion-item>
 
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="{{userObject.photoURL}}"> <!-- Bilde av bruker-->
-      </ion-avatar>
-      <h2>nickname hvem som legger ut</h2>
-      <p>dato for når det ble lagt ut</p>
-    </ion-item>
+      <ion-item>
+        <img src="{{book.bookImage}}">
+        <!-- Bilde av boka -->
+      </ion-item>
 
-    <img src="img/advance-card-bttf.png"> <!-- Bilde av boka -->
+      <ion-card-content text-center>
+        {{book.bookDescription}}
+      </ion-card-content>
 
-    <ion-card-content>
-      <p>Beskrivelse står her</p>
-    </ion-card-content>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left clear small>
+            <ion-icon name="chatbubbles"></ion-icon>
+            <div>Send melding</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-right clear small>
+            <div>Åpne kartet</div>
+            <ion-icon name="map"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
 
-    <ion-row>
-      <ion-col>
-        <button ion-button icon-left clear small>
-          <ion-icon name="person"></ion-icon>
-          <div>Kontakt brukeren</div>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button ion-button icon-left clear small>
-          <ion-icon name="map"></ion-icon>
-          <div>Åpne kartet</div>
-        </button>
-      </ion-col>
-      <ion-col center text-center>
-        <ion-note>
-          Sted hvor boka befinner seg
-        </ion-note>
-      </ion-col>
-    </ion-row>
+      <ion-item text-center>
+        {{book.bookConditions}}
+      </ion-item>
 
-  </ion-card>
+    </ion-card>
+  </ion-list>
 </ion-content>

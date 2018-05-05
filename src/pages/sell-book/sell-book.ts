@@ -32,6 +32,10 @@ export class SellBookPage implements OnInit {
   book = {} as Book; // create an object of book
   bookIsNew = true; // set default value for checkBox
 
+  private lat = -99;
+  private lng = -99;
+  private adress = "";
+  private date: any;
   private userObject: any;
   private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
   private alertMessages: AlertMessages; // create an object of type AlertMessages
@@ -58,12 +62,17 @@ export class SellBookPage implements OnInit {
     this.alertMessages = new AlertMessages(this.alertCtrl); // a new instance of AlertMessages
     this.barCodeScan = new BarcodeScan(this.barCodeScanner);
     this.userObject = this.af.app.auth().currentUser;
+    this.placeProvider.findGeoLocation((lat, lng, adress) => {
+      this.lat = lat;
+      this.lng = lng;
+      this.adress = adress;
+    });
   }
 
   ngOnInit() {
     this.bookForm = new FormGroup({
       isbn: new FormControl('', [Validators.required]),
-      heading: new FormControl('', [Validators.required]),
+      title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required])
     });
@@ -86,12 +95,13 @@ export class SellBookPage implements OnInit {
   // get location and then add a book to book collection
   addBookToCollection(book: Book) {
 
+    this.date = new Date().toLocaleDateString();
+
     // to ensure that we have a picture, if not then present a actionSheetController to tell user that user need to take a picture
     if (this.previewImage !== "") {
-
       // get lat, lng and adress
+      this.loadingMessages.presentLoader('Legger bok til salgs...');
       this.placeProvider.findGeoLocation((lat, lng, adress) => {
-
         // generate a filename for the image we're going to upload based on user's email and second
         let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
 
@@ -105,21 +115,24 @@ export class SellBookPage implements OnInit {
         let uploadEvent = task.downloadURL();
 
         // when the image is uploaded, we can now get the URL accsess and book is finished adding to databse
-        this.loadingMessages.presentLoader('Legger bok til salgs...'); // show user that picture is being updated and book is adding to collection
+        // show user that picture is being updated and book is adding to collection
         uploadEvent.subscribe((uploadImgUrl) => {
           this.bookProvider.addBookToCollection(
             this.userObject.uid,
             this.userObject.displayName,
+            this.userObject.photoURL,
             uploadImgUrl,
-            book.isbn,
-            book.heading,
-            book.description,
-            book.price,
+            book.bookIsbn,
+            book.bookTitle,
+            book.bookDescription,
+            book.bookPrice,
             this.getBookStatus(book),
             false,
             adress,
             lat,
-            lng);
+            lng,
+            "",
+            this.date);
           this.clearInputFields(); // clear input fields
           this.loadingMessages.dismissLoader(); // dismiss when its updated
         }, (err: any) => {
@@ -136,7 +149,7 @@ export class SellBookPage implements OnInit {
   barCodeAction(book: Book) {
     this.actionSheetMessages.presentActionSheetSellBookOptions(() => {
       this.barCodeScan.scanBarcode((barCodeData: any) => {
-        this.book.isbn = barCodeData.text as string;
+        this.book.bookIsbn = barCodeData.text as string;
       }, () => {
         this.alertMessages.presentAlert('Kunne ikke finne kode, prøv igjen..'); // show a error message
       });
@@ -148,18 +161,18 @@ export class SellBookPage implements OnInit {
   }
 
   private clearInputFields() {
-    this.book.isbn = "";
-    this.book.heading = "";
-    this.book.description = "";
-    this.book.price = null;
+    this.book.bookIsbn = "";
+    this.book.bookTitle = "";
+    this.book.bookDescription = "";
+    this.book.bookPrice = null;
     this.previewImage = "";
   }
 
   private getBookStatus(book: Book) {
     if (this.bookIsNew) {
-      return book.conditions = "Ny";
+      return book.bookConditions = "Ny";
     } else {
-      return book.conditions = "Brukt";
+      return book.bookConditions = "Brukt";
     }
   }
 

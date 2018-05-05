@@ -13,34 +13,38 @@ export class BookProvider {
 
   private book = {} as Book;
   private bookListCollection: AngularFirestoreCollection<Book>; // collection keep the referance to our user
-  private books: Observable<Book[]>
 
 
   constructor(private http: HttpClient,
     private af: AngularFirestore) {
-    this.bookListCollection = af.collection<Book>('books');
+      this.bookListCollection = this.af.collection<Book>('books', (ref) => {
+        return ref.where('bookSold', '==', false);
+      });
   }
 
   // add a user to the collection
-  addBookToCollection(userUid, nickName, bookImage, bookIsbn, saleHeading, bookDescription, bookPrice, bookConditions, sold, location, lat, lng) {
+  addBookToCollection(userUid, userNickName, userImage, bookImage, bookIsbn, bookTitle, bookDescription, bookPrice, bookConditions, sold, location, lat, lng, buyer, created) {
     this.bookListCollection.add({
       userId: userUid,
-      nickName: nickName,
-      image: bookImage,
-      isbn: bookIsbn,
-      heading: saleHeading,
-      description: bookDescription,
-      price: bookPrice,
-      conditions: bookConditions,
-      sold: sold,
+      userNickName: userNickName,
+      userImage: userImage,
+      bookImage: bookImage,
+      bookIsbn: bookIsbn,
+      bookTitle: bookTitle,
+      bookDescription: bookDescription,
+      bookPrice: bookPrice,
+      bookConditions: bookConditions,
+      bookSold: sold,
       location: location,
       lat: lat,
-      lng: lng
+      lng: lng,
+      buyer: buyer,
+      created: created
     } as Book);
   }
 
   getAllBooksOutForSale() {
-    this.books = this.bookListCollection.snapshotChanges()
+    return this.bookListCollection.snapshotChanges()
       .map(actions => {
         return actions.map(action => {
           let data = action.payload.doc.data() as Book;
