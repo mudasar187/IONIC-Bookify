@@ -1,0 +1,31 @@
+<ion-header>
+    <custom-header pageName="Mine kjøp og salg"></custom-header>
+    <div padding>
+      <ion-segment color="globalColor" [(ngModel)]="myBuysAndSales">
+          <ion-segment-button value="mineKjøp">
+              Mine Kjøp
+          </ion-segment-button>
+          <ion-segment-button value="mineSalg">
+              Mine Salg
+          </ion-segment-button>
+      </ion-segment>
+    </div>
+</ion-header>
+
+
+<ion-content padding>
+
+  <div [ngSwitch]="myBuysAndSales">
+    <ion-list *ngSwitchCase="'mineKjøp'">
+        <ion-item *ngFor="let book of myBuys | async">
+
+        </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'mineSalg'">
+        <ion-item *ngFor="let book of mySales | async">
+
+        </ion-item>
+    </ion-list>
+  </div>
+
+</ion-content>

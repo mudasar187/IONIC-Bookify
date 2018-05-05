@@ -17,9 +17,6 @@ export class BookProvider {
 
   constructor(private http: HttpClient,
     private af: AngularFirestore) {
-      this.bookListCollection = this.af.collection<Book>('books', (ref) => {
-        return ref.where('bookSold', '==', false);
-      });
   }
 
   // add a user to the collection
@@ -44,6 +41,44 @@ export class BookProvider {
   }
 
   getAllBooksOutForSale() {
+    this.bookListCollection = this.af.collection<Book>('books', (ref) => {
+      return ref.where('bookSold', '==', false);
+    });
+    return this.bookListCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map(action => {
+          let data = action.payload.doc.data() as Book;
+          let id = action.payload.doc.id;
+          // dismiss
+          return {
+            id,
+            ...data
+          };
+        })
+      });
+  }
+
+  getAllBooksOwnedByUserAndNotSold(uid: string) {
+    this.bookListCollection = this.af.collection<Book>('books', (ref) => {
+      return ref.where('userId', '==', ''+uid+'');
+    });
+    return this.bookListCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map(action => {
+          let data = action.payload.doc.data() as Book;
+          let id = action.payload.doc.id;
+          return {
+            id,
+            ...data
+          };
+        })
+      });
+  }
+
+  getAllBooksOwnedByUserAndAreSold(uid: string) {
+    this.bookListCollection = this.af.collection<Book>('books', (ref) => {
+      return ref.where('userId', '==', ''+uid+'').where('bookSold', '==', true)
+    });
     return this.bookListCollection.snapshotChanges()
       .map(actions => {
         return actions.map(action => {

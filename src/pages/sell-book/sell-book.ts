@@ -15,6 +15,7 @@ import { BarcodeScan } from '../../barcodeScanner/BarcodeScan';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { ApiProvider } from '../../providers/api/api';
 
 /**
  * This class contains where a seller can add a book to a sale
@@ -43,6 +44,10 @@ export class SellBookPage implements OnInit {
   private loadingMessages: LoaderMessages; // create an object of type LoaderMessages
   private barCodeScan: BarcodeScan; // create an object of type BarScodeScan
 
+  authors: [any];
+  title: string;
+  description: string;
+
   constructor(public navCtrl: NavController,
     private navParams: NavParams,
     private placeProvider: PlaceProvider,
@@ -54,7 +59,8 @@ export class SellBookPage implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private loaderCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private barCodeScanner: BarcodeScanner) {
+    private barCodeScanner: BarcodeScanner,
+    private apiProvider: ApiProvider) {
 
     this.actionSheetMessages = new ActionSheetMessages(this.actionSheetCtrl);
     this.photoOptions = new PhotoOptions(this.photoViewer, this.camera); // a new instance of PhotoOptions
@@ -149,7 +155,16 @@ export class SellBookPage implements OnInit {
   barCodeAction(book: Book) {
     this.actionSheetMessages.presentActionSheetSellBookOptions(() => {
       this.barCodeScan.scanBarcode((barCodeData: any) => {
+        //Show wait alert
+        this.loadingMessages.presentLoader('Henter bok fra databasen');
         this.book.bookIsbn = barCodeData.text as string;
+        this.getInfoFromApi(this.book.bookIsbn, (error) => {
+          this.loadingMessages.dismissLoader();
+          if (error) {
+            
+            //Dismiss current alert and present error alert
+          }
+        });
       }, () => {
         this.alertMessages.presentAlert('Kunne ikke finne kode, prøv igjen..'); // show a error message
       });
@@ -178,6 +193,25 @@ export class SellBookPage implements OnInit {
 
   ionViewDidEnter() {
     this.barCodeAction(this.book);
+  }
+
+
+  private getInfoFromApi(isbn: string, done: (error: boolean) => void) {
+      this.apiProvider.getInfoFromApi(isbn).then((success: any) => {
+          console.log(JSON.stringify(success));
+          console.log("TEST: " + success);
+
+          let items = success.items[0].volumeInfo;
+          this.book.bookTitle = items.title;
+          this.book.bookDescription = items.description;
+          this.authors = items.authors;
+          this.title = items.title;
+          this.description = items.description;
+          done(false);
+      }).catch((error) => {
+          console.log("Error occured: " + error);
+          done(true);
+      });
   }
 
 }

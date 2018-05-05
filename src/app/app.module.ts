@@ -36,6 +36,7 @@ import { BookProvider } from '../providers/book/book';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { DetailPageModule } from '../pages/detail/detail.module';
 import { DetailPage } from '../pages/detail/detail';
+import { ApiProvider } from '../providers/api/api';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import { DetailPage } from '../pages/detail/detail';
     Geolocation,
     PlaceProvider,
     BookProvider,
-    BarcodeScanner
+    BarcodeScanner,
+    ApiProvider
   ]
 })
 export class AppModule { }

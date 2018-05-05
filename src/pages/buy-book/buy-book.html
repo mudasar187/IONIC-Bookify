@@ -3,15 +3,6 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-row>
-  <ion-searchbar
-  [(ngModel)]="myInput"
-  [showCancelButton]="shouldShowCancel"
-  (ionInput)="onInput($event)"
-  (ionCancel)="onCancel($event)">
-</ion-searchbar>
-</ion-row>
-
 <ion-list *ngFor="let book of books | async">
   <ion-item (click)="goToDetailPage(book)">
     <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>

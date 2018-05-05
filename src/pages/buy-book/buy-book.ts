@@ -31,7 +31,7 @@ export class BuyBookPage {
   }
 
   goToDetailPage(book: Book) {
-    this.navCtrl.push(DetailPage);
+    this.navCtrl.push('DetailPage', {'book': book});
   }
 
 }
