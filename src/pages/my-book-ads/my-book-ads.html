@@ -1,0 +1,43 @@
+<ion-header>
+  <custom-header pageName="Mine annonser"></custom-header>
+  <div padding>
+    <ion-segment color="globalColor" [(ngModel)]="myBookAds">
+        <ion-segment-button value="myActiveSales">
+            Aktive annonser
+        </ion-segment-button>
+        <ion-segment-button value="myInactiveSales">
+          Inaktive annonser
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</ion-header>
+
+
+<ion-content padding>
+
+    <div [ngSwitch]="myBookAds">
+        <ion-list *ngSwitchCase="'myActiveSales'">
+            <ion-item *ngFor="let book of myActiveSales | async">
+              <ion-item no-lines>
+                  <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>
+                  <ion-list item-contain>
+                      <p>Halla</p>
+                      <p>Ok</p>
+                  </ion-list>
+              </ion-item>
+            </ion-item>
+        </ion-list>
+        <ion-list *ngSwitchCase="'myInactiveSales'">
+            <ion-item *ngFor="let book of myInactiveSales | async">
+              <ion-item no-lines>
+                    <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>
+                    <ion-list item-contain>
+                        <p>Halla</p>
+                        <p>Ok</p>
+                    </ion-list>
+              </ion-item>
+            </ion-item>
+        </ion-list>
+      </div>
+
+</ion-content>

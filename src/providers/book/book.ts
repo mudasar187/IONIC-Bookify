@@ -20,7 +20,7 @@ export class BookProvider {
   }
 
   // add a user to the collection
-  addBookToCollection(userUid, userNickName, userImage, bookImage, bookIsbn, bookTitle, bookDescription, bookPrice, bookConditions, sold, location, lat, lng, buyer, created) {
+  addBookToCollection(userUid, userNickName, userImage, bookImage, bookIsbn, bookTitle, bookDescription, bookPrice, bookConditions, sold, active, location, lat, lng, created) {
     this.bookListCollection.add({
       userId: userUid,
       userNickName: userNickName,
@@ -32,18 +32,18 @@ export class BookProvider {
       bookPrice: bookPrice,
       bookConditions: bookConditions,
       bookSold: sold,
+      active: active,
       location: location,
       lat: lat,
       lng: lng,
-      buyer: buyer,
       created: created
     } as Book);
   }
 
-  // get all books out for sale using query to get all book which is 'bookSold' == false
+  // get all books out for sale using query to get all book which is 'bookSold' == false and 'active' == true
   getAllBooksOutForSale() {
     this.bookListCollection = this.af.collection<Book>('books', (ref) => {
-      return ref.where('bookSold', '==', false);
+      return ref.where('bookSold', '==', false).where('active', '==', true)
     });
     return this.bookListCollection.snapshotChanges()
       .map(actions => {
@@ -59,10 +59,10 @@ export class BookProvider {
       });
   }
 
-  // get all books owned by specific user by query that are not sold at still out for sale
-  getAllBooksOwnedByUserAndNotSold(uid: string) {
+  // get all books owned by specific user by query that are not sold at still out for sale and still active
+  getAllBooksOwnedByUserAndNotSoldAndStillActive(uid: string) {
     this.bookListCollection = this.af.collection<Book>('books', (ref) => {
-      return ref.where('userId', '==', ''+uid+'');
+      return ref.where('userId', '==', ''+uid+'').where('active', '==', true)
     });
     return this.bookListCollection.snapshotChanges()
       .map(actions => {
@@ -77,10 +77,10 @@ export class BookProvider {
       });
   }
 
-  // get all books owned by by specific user that are owned by specific user and is sold
-  getAllBooksOwnedByUserAndAreSold(uid: string) {
+  // get all books owned by by specific user that are owned by specific user and is sold and now inactive
+  getAllBooksOwnedByUserAndAreSoldAndIsInactive(uid: string) {
     this.bookListCollection = this.af.collection<Book>('books', (ref) => {
-      return ref.where('userId', '==', ''+uid+'').where('bookSold', '==', true)
+      return ref.where('userId', '==', ''+uid+'').where('bookSold', '==', true).where('active', '==', false)
     });
     return this.bookListCollection.snapshotChanges()
       .map(actions => {

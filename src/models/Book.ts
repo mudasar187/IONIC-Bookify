@@ -9,9 +9,9 @@ export interface Book {
   bookPrice: number,
   bookConditions: string,
   bookSold: false,
+  active: true,
   location: string,
   lat: number,
   lng: number,
-  buyer: string,
   created: any;
 }

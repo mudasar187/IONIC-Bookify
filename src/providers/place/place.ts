@@ -9,7 +9,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 @Injectable()
 export class PlaceProvider {
 
-
+  private GOOGLE_API_KEY = "";
 
   constructor(private http: HttpClient,
     private geoLocation: Geolocation) {
