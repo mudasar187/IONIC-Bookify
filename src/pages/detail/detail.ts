@@ -27,7 +27,7 @@ export class DetailPage {
 
   // initialize the map with lat and lng coordinates
   private initMap() {
-    let theMapLocation = new google.maps.LatLng(59.915939, 10.76036);
+    let theMapLocation = new google.maps.LatLng(this.book.lat, this.book.lng);
     let mapOptions = {
       center: theMapLocation,
       zoom: 15

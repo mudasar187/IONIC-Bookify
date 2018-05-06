@@ -16,6 +16,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ApiProvider } from '../../providers/api/api';
+import { Geolocation } from '@ionic-native/geolocation';
 
 /**
  * This class contains where a seller can add a book to a sale
@@ -33,9 +34,6 @@ export class SellBookPage implements OnInit {
   book = {} as Book; // create an object of book
   bookIsNew = true; // set default value for checkBox
 
-  private lat = -99;
-  private lng = -99;
-  private adress = "";
   private date: any;
   private userObject: any;
   private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
@@ -59,7 +57,8 @@ export class SellBookPage implements OnInit {
     private loaderCtrl: LoadingController,
     private alertCtrl: AlertController,
     private barCodeScanner: BarcodeScanner,
-    private apiProvider: ApiProvider) {
+    private apiProvider: ApiProvider,
+    private geoLocation: Geolocation) {
 
     this.actionSheetMessages = new ActionSheetMessages(this.actionSheetCtrl);
     this.photoOptions = new PhotoOptions(this.photoViewer, this.camera); // a new instance of PhotoOptions
@@ -67,11 +66,6 @@ export class SellBookPage implements OnInit {
     this.alertMessages = new AlertMessages(this.alertCtrl); // a new instance of AlertMessages
     this.barCodeScan = new BarcodeScan(this.barCodeScanner);
     this.userObject = this.af.app.auth().currentUser;
-    this.placeProvider.findGeoLocation((lat, lng, adress) => {
-      this.lat = lat;
-      this.lng = lng;
-      this.adress = adress;
-    });
   }
 
   // init the FormGroup validator
@@ -185,6 +179,8 @@ export class SellBookPage implements OnInit {
     });
   }
 
+
+
   // clear the input fields when book is added for sale
   private clearInputFields() {
     this.book.bookIsbn = "";
@@ -198,6 +194,8 @@ export class SellBookPage implements OnInit {
   private ionViewDidEnter() {
     this.barCodeAction(this.book);
   }
+
+
 
   // retrive information from the API by ISBN number
   private getInfoFromApi(isbn: string, done: (error: boolean) => void) {
@@ -213,5 +211,8 @@ export class SellBookPage implements OnInit {
           done(true);
       });
   }
+
+
+
 
 }
