@@ -30,6 +30,7 @@ export class BuyBookPage {
       this.books = this.bookProvider.getAllBooksOutForSale();
   }
 
+  // redirect to detail page for the book user click on, send the book object to detail page to show details about the specific book
   goToDetailPage(book: Book) {
     this.navCtrl.push('DetailPage', {'book': book});
   }

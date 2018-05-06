@@ -28,10 +28,10 @@ export class PlaceProvider {
         ).then((place: any) => { // place contains an array of different values for the lat and lng place
           doneFetching(lat, lng, place.results[1].formatted_address);
         }).catch((error) => {
-          doneFetching(-99, -99, "PlaceholderGOOGLE FEIL");
+          doneFetching(-99, -99, "PlaceholderGOOGLE FEIL"); // if error
         });
       }).catch(error => {
-        doneFetching(-99, -99, "Placeholder TELEFON GPS ERROR");
+        doneFetching(-99, -99, "Placeholder TELEFON GPS ERROR"); // if error
         console.error(error);
       });
   }

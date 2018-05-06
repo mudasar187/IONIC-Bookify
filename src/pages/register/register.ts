@@ -9,7 +9,7 @@ import { LoginPage } from '../login/login';
 import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 
 /**
- * THis class contains the functionality to create a new user
+ * This class contains the functionality to create a new user
  */
 
 @IonicPage()

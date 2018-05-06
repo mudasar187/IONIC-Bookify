@@ -43,10 +43,9 @@ export class SellBookPage implements OnInit {
   private photoOptions: PhotoOptions; // create an object of type PhotoOptions
   private loadingMessages: LoaderMessages; // create an object of type LoaderMessages
   private barCodeScan: BarcodeScan; // create an object of type BarScodeScan
-
-  authors: [any];
-  title: string;
-  description: string;
+  private authors: [any];
+  private title: string;
+  private description: string;
 
   constructor(public navCtrl: NavController,
     private navParams: NavParams,
@@ -75,6 +74,7 @@ export class SellBookPage implements OnInit {
     });
   }
 
+  // init the FormGroup validator
   ngOnInit() {
     this.bookForm = new FormGroup({
       isbn: new FormControl('', [Validators.required]),
@@ -152,29 +152,40 @@ export class SellBookPage implements OnInit {
     }
   }
 
-  barCodeAction(book: Book) {
-    this.actionSheetMessages.presentActionSheetSellBookOptions(() => {
-      this.barCodeScan.scanBarcode((barCodeData: any) => {
-        //Show wait alert
-        this.loadingMessages.presentLoader('Henter bok fra databasen');
-        this.book.bookIsbn = barCodeData.text as string;
-        this.getInfoFromApi(this.book.bookIsbn, (error) => {
-          this.loadingMessages.dismissLoader();
-          if (error) {
-            
-            //Dismiss current alert and present error alert
-          }
-        });
-      }, () => {
-        this.alertMessages.presentAlert('Kunne ikke finne kode, prøv igjen..'); // show a error message
-      });
-    });
-  }
-
+  // To change the checkbox, if marking 'Ny' then unmark 'Brukt' and same the other way
   changeBookStatus() {
     this.bookIsNew = !this.bookIsNew;
   }
 
+    // get status from the checkbox
+    private getBookStatus(book: Book) {
+      if (this.bookIsNew) {
+        return book.bookConditions = "Ny";
+      } else {
+        return book.bookConditions = "Brukt";
+      }
+    }
+
+  // method for barcode, when barcode is scanned and isbn number is added, then get information about the book from the API
+  private barCodeAction(book: Book) {
+    this.actionSheetMessages.presentActionSheetSellBookOptions(() => {
+      this.barCodeScan.scanBarcode((barCodeData: any) => {
+        //Show wait alert
+        this.loadingMessages.presentLoader('Henter bok fra databasen'); // Loading information from the API database
+        this.book.bookIsbn = barCodeData.text as string;
+        this.getInfoFromApi(this.book.bookIsbn, (error) => {
+          this.loadingMessages.dismissLoader(); // Dismiss loader when retriving information is finished
+          if (error) {
+              // Show message if there was no book found in the API
+          }
+        });
+      }, () => {
+        this.alertMessages.presentAlert('Kunne ikke finne kode, prøv igjen..'); // show a error message if barcode was not read
+      });
+    });
+  }
+
+  // clear the input fields when book is added for sale
   private clearInputFields() {
     this.book.bookIsbn = "";
     this.book.bookTitle = "";
@@ -183,24 +194,14 @@ export class SellBookPage implements OnInit {
     this.previewImage = "";
   }
 
-  private getBookStatus(book: Book) {
-    if (this.bookIsNew) {
-      return book.bookConditions = "Ny";
-    } else {
-      return book.bookConditions = "Brukt";
-    }
-  }
-
-  ionViewDidEnter() {
+  // To load a actionSheet for asking user if he/she want to manually create the book or by using barcode scanner
+  private ionViewDidEnter() {
     this.barCodeAction(this.book);
   }
 
-
+  // retrive information from the API by ISBN number
   private getInfoFromApi(isbn: string, done: (error: boolean) => void) {
       this.apiProvider.getInfoFromApi(isbn).then((success: any) => {
-          console.log(JSON.stringify(success));
-          console.log("TEST: " + success);
-
           let items = success.items[0].volumeInfo;
           this.book.bookTitle = items.title;
           this.book.bookDescription = items.description;
@@ -209,7 +210,6 @@ export class SellBookPage implements OnInit {
           this.description = items.description;
           done(false);
       }).catch((error) => {
-          console.log("Error occured: " + error);
           done(true);
       });
   }

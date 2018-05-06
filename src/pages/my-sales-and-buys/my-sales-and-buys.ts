@@ -6,10 +6,10 @@ import { Book } from '../../models/Book';
 import { BookProvider } from '../../providers/book/book';
 
 /**
- * Generated class for the MySalesAndBuysPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * This class contains overview for a user's specific history
+ * Overview for books on sales (active)
+ * Overview for book which was on sale (inactive) after sold
+ * Overview for books who is buyed from the specific user
  */
 
 @IonicPage()
@@ -19,24 +19,24 @@ import { BookProvider } from '../../providers/book/book';
 })
 export class MySalesAndBuysPage {
 
-  myBuysAndSales: string;
+  myBuysAndSales: string; // Variable for segment
   mySales: Observable<Book[]>;
   myBuys: Observable<Book[]>;
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
+    private navParams: NavParams,
     private af: AngularFirestore,
     private bookProvider: BookProvider) {
-      this.getMySales();
-      this.getMyBuys();
+    this.getMySales();
+    this.getMyBuys();
   }
 
-  getMySales() {
+  private getMySales() {
+    this.mySales = this.bookProvider.getAllBooksOwnedByUserAndAreSold(this.af.app.auth().currentUser.uid);
+  }
+
+  private getMyBuys() {
     this.myBuys = this.bookProvider.getAllBooksOwnedByUserAndNotSold(this.af.app.auth().currentUser.uid);
-  }
-
-  getMyBuys() {
-      this.mySales = this.bookProvider.getAllBooksOwnedByUserAndAreSold(this.af.app.auth().currentUser.uid);
   }
 
 }

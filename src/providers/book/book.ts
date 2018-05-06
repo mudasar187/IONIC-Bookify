@@ -40,6 +40,7 @@ export class BookProvider {
     } as Book);
   }
 
+  // get all books out for sale using query to get all book which is 'bookSold' == false
   getAllBooksOutForSale() {
     this.bookListCollection = this.af.collection<Book>('books', (ref) => {
       return ref.where('bookSold', '==', false);
@@ -58,6 +59,7 @@ export class BookProvider {
       });
   }
 
+  // get all books owned by specific user by query that are not sold at still out for sale
   getAllBooksOwnedByUserAndNotSold(uid: string) {
     this.bookListCollection = this.af.collection<Book>('books', (ref) => {
       return ref.where('userId', '==', ''+uid+'');
@@ -75,6 +77,7 @@ export class BookProvider {
       });
   }
 
+  // get all books owned by by specific user that are owned by specific user and is sold
   getAllBooksOwnedByUserAndAreSold(uid: string) {
     this.bookListCollection = this.af.collection<Book>('books', (ref) => {
       return ref.where('userId', '==', ''+uid+'').where('bookSold', '==', true)

@@ -1,4 +1,8 @@
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
+
+/**
+ * This class contains operations with scanning barcodes
+ */
 export class BarcodeScan {
 
   options: BarcodeScannerOptions;
@@ -6,7 +10,7 @@ export class BarcodeScan {
   constructor(private barcodeScanner: BarcodeScanner) {
   }
 
-  // Method for scanning barcodes
+  // scan barcode
   scanBarcode(getData: (data: {}) => void, error: () => void) {
     this.options = {
       prompt: "Scan your code"
