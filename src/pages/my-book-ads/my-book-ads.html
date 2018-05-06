@@ -15,25 +15,33 @@
 
 <ion-content padding>
 
-    <div [ngSwitch]="myBookAds">
+    <div [ngSwitch]="myBookAds" class="divClass">
         <ion-list *ngSwitchCase="'myActiveSales'">
             <ion-item *ngFor="let book of myActiveSales | async">
-              <ion-item no-lines>
+              <ion-item no-lines class="itemStyle">
                   <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>
                   <ion-list item-contain>
-                      <p>Halla</p>
-                      <p>Ok</p>
+                    <p>{{book.bookTitle}}</p>
+                    <br/>
+                    <p>{{book.location}}</p>
+                    <p>{{book.bookPrice}} kr</p>
+                    <br/>
+                    <p>Lagt ut: {{book.created}}</p>
                   </ion-list>
               </ion-item>
             </ion-item>
         </ion-list>
         <ion-list *ngSwitchCase="'myInactiveSales'">
             <ion-item *ngFor="let book of myInactiveSales | async">
-              <ion-item no-lines>
+              <ion-item no-lines class="itemStyle">
                     <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>
                     <ion-list item-contain>
-                        <p>Halla</p>
-                        <p>Ok</p>
+                      <p>{{book.bookTitle}}</p>
+                      <br/>
+                      <p>{{book.location}}</p>
+                      <p>{{book.bookPrice}} kr</p>
+                      <br/>
+                      <p>Lagt ut: {{book.created}}</p>
                     </ion-list>
               </ion-item>
             </ion-item>

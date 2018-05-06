@@ -4,11 +4,15 @@
 
 <ion-content padding>
 <ion-list *ngFor="let book of books | async">
-  <ion-item (click)="goToDetailPage(book)">
+  <ion-item (click)="goToDetailPage(book)" class="itemStyle">
     <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>
     <ion-list item-contain>
-        <p>Halla</p>
-        <p>Ok</p>
+        <p>{{book.bookTitle}}</p>
+        <br/>
+        <p>{{book.location}}</p>
+        <p>{{book.bookPrice}} kr</p>
+        <br/>
+        <p>Lagt ut: {{book.created}}</p>
     </ion-list>
   </ion-item>
 </ion-list>
