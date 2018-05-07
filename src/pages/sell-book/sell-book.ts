@@ -95,7 +95,7 @@ export class SellBookPage implements OnInit {
   // add book to collection
   addBookToCollection(book: Book) {
 
-    this.date = new Date().toLocaleDateString(); // get the date
+    this.date = new Date().toLocaleDateString('en-GB'); // get the date, 'en-GB' is to show like this -> 07/05/2018
 
     // to ensure that we have a picture, if not then present a actionSheetController to tell user that user need to take a picture
     if (this.previewImage !== "") {
