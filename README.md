@@ -15,9 +15,23 @@
 - JavaScript
 - [Firestore](https://firebase.google.com/) You need an account here and set up before test application
 
+###### - Must do to test application
+- Create an account on [Firestore](https://firebase.google.com/) , then add a new project and then go to a symbol like this '</>', click there and get the api key, and make a file inside 'env' folder called 'env.ts' and paste the key inside there like this:
+
+export default { <br />
+  apiKey: "-----------------------------------",<br />
+  authDomain: "-----------------------------------",<br />
+  databaseURL: "-----------------------------------",<br />
+  projectId: "-----------------------------------",<br />
+  storageBucket: "-----------------------------------",<br />
+  messagingSenderId: "-----------------------------------"<br />
+};
+- You also need to set up firestore database, not realtime database
+- Enable SignIN method with email and password
+
 ###### - Functionality
 - Login system
-- Register system
+- Register system with email verification
 - Reset password system
 - Feed page where all books is listed
 - Add new book for sale
