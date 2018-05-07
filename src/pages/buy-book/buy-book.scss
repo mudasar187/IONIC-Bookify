@@ -1,13 +1,9 @@
 page-buy-book {
-  .searchbar-md .searchbar-input {
-    background-color: map-get($colors, cardColor);
-    }
-
     .itemStyle {
-      border-bottom: 2px solid red !important;
-      border-top: 2px solid red !important;
-      border-left: 2px solid red !important;
-      border-right: 2px solid red !important;
-      background-color: transparent !important;
+        border-bottom: 2px solid red !important;
+        border-top: 2px solid red !important;
+        border-left: 2px solid red !important;
+        border-right: 2px solid red !important;
+        background-color: transparent !important;
     }
 }

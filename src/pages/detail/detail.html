@@ -3,8 +3,19 @@
 </ion-header>
 
 <ion-content padding>
-  <p>Random</p>
-
+  <ion-item>
+      <img src="{{book.bookImage}}" (click)="makeImageBigger(book.bookImage)">
+  </ion-item>
+    <ion-item text-wrap>
+        <p>Pris: {{book.bookPrice}}</p>
+        <p>Tilstand: {{book.bookConditions}}</p>
+        <br/>
+        <br/>
+        <p>Om boken</p>
+        <p>{{book.bookDescription}}</p>
+        <br/>
+        <button ion-button color="globalColor">Kontakt selger</button>
+    </ion-item>
   <div #map id="theMap"></div>
 
 </ion-content>
