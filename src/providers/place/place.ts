@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
+import apiKey from '../../env/apiKey';
 
 /*
 * This class is a provider for Google Maps
@@ -8,8 +9,6 @@ import { Geolocation } from '@ionic-native/geolocation';
 */
 @Injectable()
 export class PlaceProvider {
-
-  private GOOGLE_API_KEY = "";
 
   constructor(private http: HttpClient,
     private geoLocation: Geolocation) {
@@ -40,7 +39,7 @@ export class PlaceProvider {
   // get adress based on lat and lng by using geoLocation
   private getAddressBasedOnLatLng(lat: number, lng: number) {
     return new Promise((resolve, reject) => {
-      this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${this.GOOGLE_API_KEY}`) // use Google Map
+      this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${apiKey.GOOGLE_API_KEY}`) // use Google Map
         .subscribe(
           (response) => {
             resolve(response);

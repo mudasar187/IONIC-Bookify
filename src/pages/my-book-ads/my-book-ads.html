@@ -1,12 +1,12 @@
 <ion-header>
   <custom-header pageName="Mine annonser"></custom-header>
   <div padding>
-    <ion-segment color="globalColor" [(ngModel)]="myBookAds">
-        <ion-segment-button value="myActiveSales">
-            Aktive annonser
-        </ion-segment-button>
-        <ion-segment-button value="myInactiveSales">
-          Inaktive annonser
+    <ion-segment [(ngModel)]="myBookAds">
+      <ion-segment-button value="myActiveSales">
+        Aktive annonser
+      </ion-segment-button>
+      <ion-segment-button value="myInactiveSales">
+        Inaktive annonser
       </ion-segment-button>
     </ion-segment>
   </div>
@@ -15,37 +15,39 @@
 
 <ion-content padding>
 
-    <div [ngSwitch]="myBookAds" class="divClass">
-        <ion-list *ngSwitchCase="'myActiveSales'">
-            <ion-item *ngFor="let book of myActiveSales | async">
-              <ion-item no-lines class="itemStyle">
-                  <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>
-                  <ion-list item-contain>
-                    <p>{{book.bookTitle}}</p>
-                    <br/>
-                    <p>{{book.location}}</p>
-                    <p>{{book.bookPrice}} kr</p>
-                    <br/>
-                    <p>Lagt ut: {{book.created}}</p>
-                  </ion-list>
-              </ion-item>
-            </ion-item>
-        </ion-list>
-        <ion-list *ngSwitchCase="'myInactiveSales'">
-            <ion-item *ngFor="let book of myInactiveSales | async">
-              <ion-item no-lines class="itemStyle">
-                    <img item-start width="30%" height="100%" src="{{book.bookImage}}"/>
-                    <ion-list item-contain>
-                      <p>{{book.bookTitle}}</p>
-                      <br/>
-                      <p>{{book.location}}</p>
-                      <p>{{book.bookPrice}} kr</p>
-                      <br/>
-                      <p>Lagt ut: {{book.created}}</p>
-                    </ion-list>
-              </ion-item>
-            </ion-item>
-        </ion-list>
-      </div>
+  <div [ngSwitch]="myBookAds">
+    <ion-list *ngSwitchCase="'myActiveSales'">
+      <ion-item *ngFor="let book of myActiveSales | async">
+        <ion-item no-lines class="itemStyle">
+          <img item-start width="30%" height="100%" src="{{book.bookImage}}" />
+          <ion-list item-contain>
+            <p>{{book.bookTitle}}</p>
+            <br/>
+            <p>{{book.location}}</p>
+            <p>{{book.bookPrice}} kr</p>
+            <br/>
+            <p>Lagt ut: {{book.created}}</p>
+            <button ion-button name="created" color="globalColor" (click)="markBookAsSold(book)">Marker solgt</button>
+          </ion-list>
+        </ion-item>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'myInactiveSales'">
+      <ion-item *ngFor="let book of myInactiveSales | async">
+        <ion-item no-lines class="itemStyle">
+          <img item-start width="30%" height="100%" src="{{book.bookImage}}" />
+          <ion-list item-contain>
+            <p>{{book.bookTitle}}</p>
+            <br/>
+            <p>{{book.location}}</p>
+            <p>{{book.bookPrice}} kr</p>
+            <br/>
+            <p>Lagt ut: {{book.created}}</p>
+            <button ion-button name="created" color="globalColor" (click)="deleteBookFromMyAds(book)">Slett annonse</button>
+          </ion-list>
+        </ion-item>
+      </ion-item>
+    </ion-list>
+  </div>
 
 </ion-content>

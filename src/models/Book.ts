@@ -1,4 +1,5 @@
 export interface Book {
+  id?: string,
   userId: string,
   userNickName: string,
   userImage: string,
@@ -9,7 +10,6 @@ export interface Book {
   bookPrice: number,
   bookConditions: string,
   bookSold: false,
-  active: true,
   location: string,
   lat: number,
   lng: number,

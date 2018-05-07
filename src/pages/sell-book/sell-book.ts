@@ -128,7 +128,6 @@ export class SellBookPage implements OnInit {
             book.bookPrice,
             this.getBookStatus(book),
             false,
-            true,
             adress,
             lat,
             lng,
