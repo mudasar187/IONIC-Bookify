@@ -1,12 +1,11 @@
 import { AlertController } from "ionic-angular";
 
 /**
- * This class contains all AlertController popups
+ * AlertController class
  */
 export class AlertMessages {
 
-  constructor(private alert: AlertController) {
-  }
+  constructor(private alert: AlertController) { }
 
   // present alert with own custom title
   presentAlert(title: string) {

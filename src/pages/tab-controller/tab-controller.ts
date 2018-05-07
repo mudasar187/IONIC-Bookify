@@ -21,9 +21,9 @@ export class TabControllerPage {
   }
 
   // Set each page to a variabel
-  public tab1Root = BuyBookPage;
-  public tab2Root = SellBookPage;
-  public tab3Root = MessagesPage;
-  public tab4Root = ProfilePage;
+  public tab1Root = BuyBookPage; // where all the feed is
+  public tab2Root = SellBookPage; // Where a user can add a book for sale
+  public tab3Root = MessagesPage; // Where all messages with seller and buyers contains
+  public tab4Root = ProfilePage; // User profile page
 
 }

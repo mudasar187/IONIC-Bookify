@@ -1,17 +1,16 @@
 import { LoadingController } from 'ionic-angular';
 
 /**
- * This class contains all LoadingController popups
+ * LoadingController class
  */
 export class LoaderMessages {
 
   loadingPopUp: any; // creating an loadingPopUp type of any so i can use it outside methods
 
-  constructor(private loaderCtrl: LoadingController) {
-  }
+  constructor(private loaderCtrl: LoadingController) { }
 
-   // present loader with own custom title
-   presentLoader(title: string) {
+  // present loader with own custom title
+  presentLoader(title: string) {
     this.loadingPopUp = this.loaderCtrl.create({
       spinner: "bubbles",
       content: title

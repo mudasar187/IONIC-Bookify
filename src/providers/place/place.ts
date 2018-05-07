@@ -4,13 +4,13 @@ import { Geolocation } from '@ionic-native/geolocation';
 import apiKey from '../../env/apiKey';
 
 /*
-* This class is a provider for Google Maps
-* Value we get here is location based on lat, lng and api key from Google
+* GeoLocation and Places provider class
 */
 @Injectable()
 export class PlaceProvider {
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private geoLocation: Geolocation) {
   }
 
@@ -18,7 +18,7 @@ export class PlaceProvider {
   findGeoLocation(doneFetching: (lat: number, lng: number, adress: string) => void) {
     var lat: number;
     var lng: number;
-    this.geoLocation.getCurrentPosition()
+    this.geoLocation.getCurrentPosition({ timeout: 10000}) // to ensure not hanging up here if nothing happens in 10 seconds
       .then(position => { // get position
         lat = position.coords.latitude;
         lng = position.coords.longitude;

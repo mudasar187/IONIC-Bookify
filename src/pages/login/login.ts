@@ -8,7 +8,7 @@ import { TabControllerPage } from '../tab-controller/tab-controller';
 import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 
 /**
- * This class is the LoginPage
+ * Login class
  * A user can login with right credentials
  * Can also navigate to ResetPasswordPage and RegisterPage
  */
@@ -24,7 +24,8 @@ export class LoginPage implements OnInit {
 
   private myCustomToast: ToastMessages; // create a object type of ToastMessages
 
-  constructor(private navCtrl: NavController,
+  constructor(
+    private navCtrl: NavController,
     private af: AngularFirestore,
     private toast: ToastController) {
     this.myCustomToast = new ToastMessages(this.toast); // send ToastController to ToastMessages constructor
@@ -45,8 +46,8 @@ export class LoginPage implements OnInit {
 
     this.af.app.auth().signInWithEmailAndPassword(user.email, user.password).then(() => {
 
-      if (!this.af.app.auth().currentUser.emailVerified) {
-        this.myCustomToast.presentCustomToast('Verifiser emailen før du logger inn');
+      if (!this.af.app.auth().currentUser.emailVerified) { // check if user is verified
+        this.myCustomToast.presentCustomToast('Verifiser emailen før du logger inn'); // if not , show toast message
       } else {
         this.navigateToPage(TabControllerPage); // If user have verified account, go to TabControllerPage
       }

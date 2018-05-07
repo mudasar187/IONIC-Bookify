@@ -2,11 +2,14 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoViewer } from "@ionic-native/photo-viewer";
 
 /**
- * This class contains operations with getting pictures by camera, gallery and showing picture at bigger size
+ * Camera and PhotoViwer class
+ * Camera -> https://ionicframework.com/docs/native/camera/
+ * PhotoViewer -> https://ionicframework.com/docs/native/photo-viewer/
  */
 export class PhotoOptions {
 
-  constructor(private photoViewer: PhotoViewer,
+  constructor(
+    private photoViewer: PhotoViewer,
     private camera: Camera) {
   }
 
@@ -16,6 +19,7 @@ export class PhotoOptions {
   }
 
   // get a picture by using camera
+  // return the imageBase64 picture
   executeCamera(getImage: (base64: string) => void) {
     let options: CameraOptions = {
       quality: 50,
@@ -31,6 +35,7 @@ export class PhotoOptions {
   }
 
   // get a picture from gallery
+  // return imageBase64 picture
   getFromGallery(getImage: (base64: string) => void) {
     let options: CameraOptions = {
       quality: 50,

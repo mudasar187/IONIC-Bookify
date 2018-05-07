@@ -19,7 +19,7 @@ import { ApiProvider } from '../../providers/api/api';
 import { Geolocation } from '@ionic-native/geolocation';
 
 /**
- * This class contains where a seller can add a book to a sale
+ * Sell book class
  */
 
 @IonicPage()
@@ -34,16 +34,16 @@ export class SellBookPage implements OnInit {
   book = {} as Book; // create an object of book
   bookIsNew = true; // set default value for checkBox
 
-  private date: any;
-  private userObject: any;
+  private date: any; // to save when book was out for sale
+  private userObject: any; // to save user credentials
   private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
   private alertMessages: AlertMessages; // create an object of type AlertMessages
   private photoOptions: PhotoOptions; // create an object of type PhotoOptions
   private loadingMessages: LoaderMessages; // create an object of type LoaderMessages
   private barCodeScan: BarcodeScan; // create an object of type BarScodeScan
-  private authors: [any];
-  private title: string;
-  private description: string;
+  private authors: [any]; // to hold authors from Google book API
+  private title: string; // to hold title from Google book API
+  private description: string; // to hold description from Google book API
 
   constructor(public navCtrl: NavController,
     private navParams: NavParams,
@@ -60,7 +60,7 @@ export class SellBookPage implements OnInit {
     private apiProvider: ApiProvider,
     private geoLocation: Geolocation) {
 
-    this.actionSheetMessages = new ActionSheetMessages(this.actionSheetCtrl);
+    this.actionSheetMessages = new ActionSheetMessages(this.actionSheetCtrl); // a new instance of ActionSheetMessage
     this.photoOptions = new PhotoOptions(this.photoViewer, this.camera); // a new instance of PhotoOptions
     this.loadingMessages = new LoaderMessages(this.loaderCtrl); // a new instance of LoaderMessage
     this.alertMessages = new AlertMessages(this.alertCtrl); // a new instance of AlertMessages
@@ -83,25 +83,25 @@ export class SellBookPage implements OnInit {
   presentActionSheet(title: string) {
     this.actionSheetMessages.presentActionSheet(title, () => {
       this.photoOptions.executeCamera((base64Img) => {
-        this.previewImage = base64Img;
+        this.previewImage = base64Img; // set the base64Img returned from camera to previewImage to save it in fireStorage
       });
     }, () => {
       this.photoOptions.getFromGallery((base64Img) => {
-        this.previewImage = base64Img;
+        this.previewImage = base64Img; // set the base64Img returned from gallery to previewImage to save it in fireStorage
       });
     });
   }
 
-  // get location and then add a book to book collection
+  // add book to collection
   addBookToCollection(book: Book) {
 
-    this.date = new Date().toLocaleDateString();
+    this.date = new Date().toLocaleDateString(); // get the date
 
     // to ensure that we have a picture, if not then present a actionSheetController to tell user that user need to take a picture
     if (this.previewImage !== "") {
-      // get lat, lng and adress
-      this.loadingMessages.presentLoader('Legger bok til salgs...');
-      this.placeProvider.findGeoLocation((lat, lng, adress) => {
+      this.loadingMessages.presentLoader('Legger bok til salgs...'); // present a message that operations starting from here
+      this.placeProvider.findGeoLocation((lat, lng, adress) => {  // get lat, lng and adress
+
         // generate a filename for the image we're going to upload based on user's email and second
         let imageFileName = `${this.userObject.email}_${new Date().getTime()}.png`;
 
@@ -149,26 +149,25 @@ export class SellBookPage implements OnInit {
     this.bookIsNew = !this.bookIsNew;
   }
 
-    // get status from the checkbox
-    private getBookStatus(book: Book) {
-      if (this.bookIsNew) {
-        return book.bookConditions = "Ny";
-      } else {
-        return book.bookConditions = "Brukt";
-      }
+  // get status from the checkbox
+  private getBookStatus(book: Book) {
+    if (this.bookIsNew) {
+      return book.bookConditions = "Ny";
+    } else {
+      return book.bookConditions = "Brukt";
     }
+  }
 
   // method for barcode, when barcode is scanned and isbn number is added, then get information about the book from the API
   private barCodeAction(book: Book) {
     this.actionSheetMessages.presentActionSheetSellBookOptions(() => {
       this.barCodeScan.scanBarcode((barCodeData: any) => {
-        //Show wait alert
-        this.loadingMessages.presentLoader('Henter bok fra databasen'); // Loading information from the API database
+        this.loadingMessages.presentLoader('Henter bok fra databasen..'); // Loading information from the API database
         this.book.bookIsbn = barCodeData.text as string;
         this.getInfoFromApi(this.book.bookIsbn, (error) => {
           this.loadingMessages.dismissLoader(); // Dismiss loader when retriving information is finished
           if (error) {
-              // Show message if there was no book found in the API
+            this.alertMessages.presentAlert('Fant ingen bok i databasen..'); // if no book found in Google book API
           }
         });
       }, () => {
@@ -197,20 +196,16 @@ export class SellBookPage implements OnInit {
 
   // retrive information from the API by ISBN number
   private getInfoFromApi(isbn: string, done: (error: boolean) => void) {
-      this.apiProvider.getInfoFromApi(isbn).then((success: any) => {
-          let items = success.items[0].volumeInfo;
-          this.book.bookTitle = items.title;
-          this.book.bookDescription = items.description;
-          this.authors = items.authors;
-          this.title = items.title;
-          this.description = items.description;
-          done(false);
-      }).catch((error) => {
-          done(true);
-      });
+    this.apiProvider.getInfoFromApi(isbn).then((success: any) => {
+      let items = success.items[0].volumeInfo; // get information from array 0 in items from Google book api
+      this.book.bookTitle = items.title; // get the book title
+      this.book.bookDescription = items.description; // get the description
+      this.authors = items.authors; // get the authors
+      this.title = items.title; // get the title
+      this.description = items.description; // get description
+      done(false); // operation done
+    }).catch((error) => {
+      done(true); // if false show message
+    });
   }
-
-
-
-
 }

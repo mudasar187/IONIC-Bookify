@@ -9,7 +9,7 @@ import { LoginPage } from '../login/login';
 import { ToastMessages } from '../../popUpMessages/toastMessages/ToastMessages';
 
 /**
- * This class contains the functionality to create a new user
+ * Register user class
  */
 
 @IonicPage()
@@ -24,7 +24,8 @@ export class RegisterPage implements OnInit {
 
   private myCustomToast: ToastMessages; // create an object of ToastMessages
 
-  constructor(private navCtrl: NavController,
+  constructor(
+    private navCtrl: NavController,
     private af: AngularFirestore,
     private toast: ToastController,
     private navParams: NavParams) {
@@ -42,24 +43,25 @@ export class RegisterPage implements OnInit {
 
   }
 
-  // Make a new account for new registered user and also create a user in user collection
+  // Make a new account for new registered user
+  // When registered send a verification mail and also update the nickname in displayName in firestore
   registerUser(user: User) {
 
     this.af.app.auth().createUserWithEmailAndPassword(user.email, user.password).then(() => {
       let userObject = this.af.app.auth().currentUser; // to get user information like uid, email
-      // Send email verification to user
-      userObject.sendEmailVerification();
+
+      userObject.sendEmailVerification(); // Send email verification to user
 
       // update the profile with nickname, no photo, user own option if he/she want to upload picture in ProfilePage
       this.af.app.auth().currentUser.updateProfile({ displayName: user.nickname, photoURL: null });
 
-      this.navigateToPage(LoginPage);
+      this.navigateToPage(LoginPage); // navigate back to LoginPage
 
     }).catch((error) => { // If error
       if (error.code == 'auth/email-already-in-use') {
-        this.myCustomToast.presentCustomToast('Emailen er i bruk');
+        this.myCustomToast.presentCustomToast('Emailen er i bruk'); // Email already in use
       } else {
-        this.myCustomToast.presentCustomToast('Konto ikke opprettet, prøv igjen');
+        this.myCustomToast.presentCustomToast('Konto ikke opprettet, prøv igjen'); // Something went wrong, try again
       }
     });
   }

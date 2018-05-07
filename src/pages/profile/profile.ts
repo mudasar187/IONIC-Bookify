@@ -13,10 +13,9 @@ import { LoaderMessages } from '../../popUpMessages/loaderMessages/LoaderMessage
 import { PlaceProvider } from '../../providers/place/place';
 
 /**
- * This class contains user's profile
- * Navigate to MySalesPage and MyBuysPage
- * User can log out from here
- * And user can also take a new profile picture
+ * User profile class
+ * Navigate to MyAds page and log ot from app
+ * See user credentials and also give options if user want to take a profile picture
  */
 
 @IonicPage()
@@ -55,35 +54,35 @@ export class ProfilePage {
 
   // make picture bigger when user click on profile picture
   makeImageBigger() {
-    this.photoOptions.resizeImage(this.userObject.photoURL); // take the image url string in parameter
+    this.photoOptions.resizeImage(this.userObject.photoURL); // take the image url string in parameter from
   }
 
-  // present ActionSheetController to give user options where to get image to add a profilepicture
+  // present ActionSheetController to give user options where to get image from to add a profilepicture
   // use camera or gallery
   // also choose to delete picture from profile picture
   presentActionSheet() {
     this.actionSheetMessages.presentActionSheetForProfilePicture(() => {
       this.photoOptions.executeCamera((base64Img) => {
-        this.addProfilePicture(base64Img);
+        this.addProfilePicture(base64Img); // use camera and return the base64Img and add as profile picture
       });
     }, () => {
       this.photoOptions.getFromGallery((base64Img) => {
-        this.addProfilePicture(base64Img);
+        this.addProfilePicture(base64Img); // use gallery and return the base64Img and add as profile picture
       });
     }, () => {
       this.deleteImage((success) => {
-        this.showProfileImage = false;
+        this.showProfileImage = false; // delete the profile picture
       });
     });
   }
 
   // to add profile picture to firestorage
-  // delete the previous image before adding a new profile picture
+  // delete the previous image before adding a new profile picture to avoid uploading a lot of profile pictures
   private addProfilePicture(imgBase64: string) {
     this.deleteImage((success) => {
       this.uploadImage(imgBase64, (success) => {
         if (success) {
-          console.log("DONE WITH DELETING AND UPLOADING NEW IMAGE");
+          this.alertMessages.presentAlert('Profil bilde oppdatert!'); // profile picture is updated
         }
       });
     });
@@ -91,7 +90,7 @@ export class ProfilePage {
 
   // uploading the profile picture to firebase storage
   private uploadImage(imgBase64: string, doneUploading: (success: boolean) => void) {
-    let imageFileName = `${this.userObject.email}_${this.userObject.uid}.png`;
+    let imageFileName = `${this.userObject.email}_${this.userObject.uid}.png`; // give a name to the picture, user email and uid
 
     // make a task that upload the picture
     let task = this.afStorage
@@ -130,6 +129,7 @@ export class ProfilePage {
   }
 
   // checks if profile picture exists in firestorage by looking for specific name for profile image
+  // this is done by trying to get downloadUrl
   private checkIfProfilePictureExists() {
     this.afStorage.storage.ref(this.userObject.email).child(`${this.userObject.email}_${this.userObject.uid}.png`).getDownloadURL().then((imageUrl) => {
         this.showProfileImage = true;

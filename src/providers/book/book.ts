@@ -5,17 +5,16 @@ import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/fires
 import { Observable } from 'rxjs/Observable';
 
 /*
-  Book provider class
-  Contains all operations against book collection
+* BookCollection provider class
 */
 @Injectable()
 export class BookProvider {
 
   private book = {} as Book;
-  private bookListCollection: AngularFirestoreCollection<Book>; // collection keep the referance to our user
+  private bookListCollection: AngularFirestoreCollection<Book>;
 
-
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private af: AngularFirestore) {
   }
 
@@ -93,12 +92,14 @@ export class BookProvider {
       });
   }
 
+  // update the field bookSold = true
   markBookAsSold(book: Book) {
     this.bookListCollection.doc(book.id).update({
       bookSold: true
     });
   }
 
+  // delete the book from collection
   deleteBook(book: Book) {
     this.bookListCollection.doc(book.id).delete();
   }

@@ -8,7 +8,8 @@ import { DetailPage } from '../detail/detail';
 
 
 /**
- * This class contains all the books published by sellers
+ * Feed class
+ * Where all the books for sale contains 
  */
 
 @IonicPage()
@@ -18,16 +19,12 @@ import { DetailPage } from '../detail/detail';
 })
 export class BuyBookPage {
 
-  userObject: any;
   books: Observable<Book[]>
 
   constructor(
     private navCtrl: NavController,
-    private navParams: NavParams,
-    private af: AngularFirestore,
     private bookProvider: BookProvider) {
-      this.userObject = this.af.app.auth().currentUser;
-      this.books = this.bookProvider.getAllBooksOutForSale();
+      this.books = this.bookProvider.getAllBooksOutForSale(); // initalize the list with all books
   }
 
   // redirect to detail page for the book user click on, send the book object to detail page to show details about the specific book

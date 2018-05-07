@@ -11,6 +11,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterAdressPipe implements PipeTransform {
 
+  // transform the information about adress
   transform(value: string, ...args) {
     let adress = value;
     let splitAdress = adress.split(",");

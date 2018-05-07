@@ -7,7 +7,8 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 declare var google: any;
 
 /**
- * This class show details about the specific book choosen from BuyBookPage
+ * Detail class
+ * To show details about a specific book
  */
 
 @IonicPage()
@@ -17,16 +18,18 @@ declare var google: any;
 })
 export class DetailPage {
 
-  @ViewChild('map') mapRef: ElementRef;
+  @ViewChild('map') mapRef: ElementRef; // references to map
 
-  private photoOptions: PhotoOptions; // create an object of type PhotoOptions
-  private map: any; // create a variable to hold the map
   book: Book; // create an object of type Book
 
-  constructor(private navCtrl: NavController,
+  private map: any; // create a variable to hold the map
+  private photoOptions: PhotoOptions; // create an object of type PhotoOptions
+
+  constructor(
+    private navCtrl: NavController,
     private navParams: NavParams,
-    private photoViewer: PhotoViewer,) {
-      this.photoOptions = new PhotoOptions(this.photoViewer, null); // a new instance of PhotoOptions
+    private photoViewer: PhotoViewer, ) {
+    this.photoOptions = new PhotoOptions(this.photoViewer, null); // a new instance of PhotoOptions
     this.book = navParams.get('book'); // get the specific book from BuyBuyPage
   }
 

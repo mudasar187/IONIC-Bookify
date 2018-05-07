@@ -1,7 +1,7 @@
 import { AlertController, ActionSheetController } from "ionic-angular";
 
 /**
- * This class contains all ActionSheetController popups
+ * ActionSheetController class
  */
 export class ActionSheetMessages {
 
@@ -12,7 +12,7 @@ export class ActionSheetMessages {
   // show user where to get picture, either take a new or from gallery
   presentActionSheet(title: string, cameraAction: () => void, galleryAction: () => void) {
     let actionSheetPopUp = this.actionSheetCtrl.create({
-      title: title,
+      title: title, // title for the actionsheet
       buttons: [
         {
           text: 'Ta nytt bilde',
@@ -35,7 +35,7 @@ export class ActionSheetMessages {
         }
       ]
     });
-    actionSheetPopUp.present();
+    actionSheetPopUp.present(); // present actionsheet
   }
 
   // show user where to get picture, either take a new or from gallery
@@ -71,7 +71,7 @@ export class ActionSheetMessages {
         }
       ]
     });
-    actionSheetPopUp.present();
+    actionSheetPopUp.present(); // present actionsheet
   }
 
   // show user where to get picture, either take a new or from gallery
@@ -100,7 +100,7 @@ export class ActionSheetMessages {
         }
       ]
     });
-    actionSheetPopUp.present();
+    actionSheetPopUp.present(); // present actionsheet
   }
 
 
