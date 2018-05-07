@@ -9,7 +9,7 @@ page-profile {
         font-size: 15px;
     }
     .card {
-      background: transparent !important;
+        background: transparent !important;
     }
     .changeProfileText {
         font-size: 10px;
@@ -22,5 +22,9 @@ page-profile {
     .item {
         background: transparent !important;
         text-align: center;
+        p {
+            font-weight: bold;
+            font-size: 15px;
+        }
     }
 }

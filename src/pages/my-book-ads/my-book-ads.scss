@@ -1,12 +1,15 @@
 page-my-book-ads {
-    .itemStyle {
-        border-bottom: 2px solid red !important;
-        border-top: 2px solid red !important;
-        border-left: 2px solid red !important;
-        border-right: 2px solid red !important;
-    }
-
     .item {
-      background-color: transparent !important;
+        background-color: transparent !important;
+        .item {
+            border-bottom: 2px solid red !important;
+            border-top: 2px solid red !important;
+            border-left: 2px solid red !important;
+            border-right: 2px solid red !important;
+        }
+        img {
+          width: 30%;
+          height: 100%;
+        }
     }
 }
