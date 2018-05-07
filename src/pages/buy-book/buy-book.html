@@ -10,7 +10,7 @@
         <p>{{book.bookTitle}}</p>
         <br/>
         <p>{{book.bookPrice}} kr</p>
-        <p>{{book.location}}</p>
+        <p>{{ book.location | filterAdress}}</p>
         <br/>
         <p>Lagt ut: {{book.created}}</p>
     </ion-list>

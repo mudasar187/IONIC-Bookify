@@ -120,7 +120,6 @@ export class SellBookPage implements OnInit {
           this.bookProvider.addBookToCollection(
             this.userObject.uid,
             this.userObject.displayName,
-            this.userObject.photoURL,
             uploadImgUrl,
             book.bookIsbn,
             book.bookTitle,

@@ -23,7 +23,7 @@
           <ion-list item-contain>
             <p>{{book.bookTitle}}</p>
             <br/>
-            <p>{{book.location}}</p>
+            <p>{{ book.location | filterAdress}}</p>
             <p>{{book.bookPrice}} kr</p>
             <br/>
             <p>Lagt ut: {{book.created}}</p>
@@ -39,7 +39,7 @@
           <ion-list item-contain>
             <p>{{book.bookTitle}}</p>
             <br/>
-            <p>{{book.location}}</p>
+            <p>{{ book.location | filterAdress}}</p>
             <p>{{book.bookPrice}} kr</p>
             <br/>
             <p>Lagt ut: {{book.created}}</p>

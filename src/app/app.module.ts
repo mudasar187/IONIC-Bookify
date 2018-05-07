@@ -39,12 +39,16 @@ import { DetailPage } from '../pages/detail/detail';
 import { ApiProvider } from '../providers/api/api';
 import { MyBookAdsPageModule } from '../pages/my-book-ads/my-book-ads.module';
 import { MyBookAdsPage } from '../pages/my-book-ads/my-book-ads';
+import { ChatPageModule } from '../pages/chat/chat.module';
+import { ChatPage } from '../pages/chat/chat';
+import { ChatProvider } from '../providers/chat/chat';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
   declarations: [
     MyApp,
-    LoginPage
+    LoginPage,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,9 @@ import { MyBookAdsPage } from '../pages/my-book-ads/my-book-ads';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
-    HttpClientModule
+    HttpClientModule,
+    ChatPageModule,
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -77,7 +83,8 @@ import { MyBookAdsPage } from '../pages/my-book-ads/my-book-ads';
     ResetPasswordPage,
     RegisterPage,
     DetailPage,
-    MyBookAdsPage
+    MyBookAdsPage,
+    ChatPage
   ],
   providers: [
     StatusBar,
@@ -89,7 +96,8 @@ import { MyBookAdsPage } from '../pages/my-book-ads/my-book-ads';
     PlaceProvider,
     BookProvider,
     BarcodeScanner,
-    ApiProvider
+    ApiProvider,
+    ChatProvider
   ]
 })
 export class AppModule { }

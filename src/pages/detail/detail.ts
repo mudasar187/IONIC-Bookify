@@ -59,6 +59,11 @@ export class DetailPage {
     this.initMap();
   }
 
+  // navigate to page depend on which page
+  navigateToPage(page: any) {
+    this.navCtrl.push(page);
+  }
+
 
 
 
