@@ -19,4 +19,5 @@ export class FilterAdressPipe implements PipeTransform {
     let postCodeAndCity = splitAdress[1];
     return place + " , " + postCodeAndCity;
   }
+  
 }

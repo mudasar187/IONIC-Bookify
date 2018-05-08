@@ -183,7 +183,7 @@ export class SellBookPage implements OnInit {
     this.book.bookIsbn = "";
     this.book.bookTitle = "";
     this.book.bookDescription = "";
-    this.book.bookPrice = null;
+    this.book.bookPrice = null; // TypeScript standard -> undefined
     this.previewImage = "";
   }
 
@@ -208,4 +208,5 @@ export class SellBookPage implements OnInit {
       done(true); // if false show message
     });
   }
+  
 }

@@ -9,7 +9,7 @@ import { DetailPage } from '../detail/detail';
 
 /**
  * Feed class
- * Where all the books for sale contains 
+ * Where all the books for sale contains
  */
 
 @IonicPage()

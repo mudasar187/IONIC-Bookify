@@ -22,4 +22,5 @@ export class LoaderMessages {
   dismissLoader() {
     this.loadingPopUp.dismiss();
   }
+  
 }

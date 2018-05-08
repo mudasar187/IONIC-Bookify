@@ -53,7 +53,7 @@ export class RegisterPage implements OnInit {
       userObject.sendEmailVerification(); // Send email verification to user
 
       // update the profile with nickname, no photo, user own option if he/she want to upload picture in ProfilePage
-      this.af.app.auth().currentUser.updateProfile({ displayName: user.nickname, photoURL: null });
+      this.af.app.auth().currentUser.updateProfile({ displayName: user.nickname, photoURL: undefined }); // TypeScript standard , undefined , not null
 
       this.navigateToPage(LoginPage); // navigate back to LoginPage
 
@@ -75,7 +75,7 @@ export class RegisterPage implements OnInit {
       if (!isValid)
         return { 'equalTo': { isValid } }
       else
-        return null;
+        return undefined; // TypeScript standard, return undefined and not null
     };
   }
 

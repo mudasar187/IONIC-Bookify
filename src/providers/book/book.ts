@@ -103,4 +103,5 @@ export class BookProvider {
   deleteBook(book: Book) {
     this.bookListCollection.doc(book.id).delete();
   }
+  
 }

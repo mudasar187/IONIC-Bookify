@@ -29,13 +29,8 @@ export class DetailPage {
     private navCtrl: NavController,
     private navParams: NavParams,
     private photoViewer: PhotoViewer, ) {
-    this.photoOptions = new PhotoOptions(this.photoViewer, null); // a new instance of PhotoOptions
+    this.photoOptions = new PhotoOptions(this.photoViewer, undefined); // a new instance of PhotoOptions, note there is 'undefined' TypeScript standard
     this.book = navParams.get('book'); // get the specific book from BuyBuyPage
-  }
-
-  // make picture bigger when user click on profile picture
-  makeImageBigger(book: Book) {
-    this.photoOptions.resizeImage(book.bookImage); // take the image url string in parameter
   }
 
   // initialize the map with lat and lng coordinates
@@ -66,8 +61,5 @@ export class DetailPage {
   navigateToPage(page: any) {
     this.navCtrl.push(page);
   }
-
-
-
 
 }

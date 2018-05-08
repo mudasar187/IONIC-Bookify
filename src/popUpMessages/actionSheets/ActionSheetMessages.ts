@@ -103,5 +103,4 @@ export class ActionSheetMessages {
     actionSheetPopUp.present(); // present actionsheet
   }
 
-
 }

@@ -67,4 +67,5 @@ export class LoginPage implements OnInit {
   navigateToPage(page: any) {
     this.navCtrl.push(page);
   }
+  
 }
