@@ -10,7 +10,7 @@ export class ApiProvider {
   constructor(private http: HttpClient) { }
 
   // retrive information from the API by using isbn number
-  public getInfoFromApi(isbn: string) {
+  getInfoFromApi(isbn: string) {
     let urlRequest = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn;
     return new Promise((resolve, reject) => {
       this.http.get(urlRequest).subscribe((response) => {

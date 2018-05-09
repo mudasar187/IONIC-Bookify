@@ -15,8 +15,9 @@
         <br/>
         <p>{{book.bookDescription}}</p>
         <br/>
-        <button ion-button color="globalColor" (click)="navigateToPage('ChatPage')">Kontakt selger</button>
+        <button *ngIf="hideContactSellerBtn()" ion-button color="globalColor" (click)="navigateToPage('ChatPage')">Kontakt selger</button>
     </ion-item>
   <div #map id="theMap"></div>
+
 
 </ion-content>

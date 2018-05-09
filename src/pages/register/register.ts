@@ -53,9 +53,11 @@ export class RegisterPage implements OnInit {
       userObject.sendEmailVerification(); // Send email verification to user
 
       // update the profile with nickname, no photo, user own option if he/she want to upload picture in ProfilePage
-      this.af.app.auth().currentUser.updateProfile({ displayName: user.nickname, photoURL: undefined }); // TypeScript standard , undefined , not null
-
-      this.navigateToPage(LoginPage); // navigate back to LoginPage
+      this.af.app.auth().currentUser.updateProfile({ displayName: user.nickname, photoURL: undefined }).then(() => {
+          this.af.collection(userObject.uid).doc('profile').set({nickname: user.nickname, email: user.email}).then(() => {
+            this.navigateToPage(LoginPage); // navigate back to LoginPage
+          }).catch((error) => {});
+      }).catch((err) => {}); // TypeScript standard , undefined , not null
 
     }).catch((error) => { // If error
       if (error.code == 'auth/email-already-in-use') {

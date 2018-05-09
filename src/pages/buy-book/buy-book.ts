@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { Book } from '../../models/Book';
 import { DetailPage } from '../detail/detail';
 
-
 /**
  * Feed class
  * Where all the books for sale contains
@@ -23,7 +22,8 @@ export class BuyBookPage {
 
   constructor(
     private navCtrl: NavController,
-    private bookProvider: BookProvider) {
+    private bookProvider: BookProvider,
+    private platform: Platform) {
       this.books = this.bookProvider.getAllBooksOutForSale(); // initalize the list with all books
   }
 

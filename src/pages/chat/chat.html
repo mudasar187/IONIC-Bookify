@@ -5,4 +5,18 @@
 
 <ion-content padding>
 
+  <ion-list>
+    <ion-item *ngFor="let message of messages">
+      <p>{{message.message}}</p>
+      <p>{{giveChatPersonsName(message.from)}}</p>
+    </ion-item>
+  </ion-list>
+  <ion-item>
+    <ion-input placeholder="Write your message" [(ngModel)]="messageToBeSendt"></ion-input>
+
+  </ion-item>
+  <button ion-button default full (click)="sendMessage()">SEND</button>
 </ion-content>
+<ion-footer>
+
+</ion-footer>

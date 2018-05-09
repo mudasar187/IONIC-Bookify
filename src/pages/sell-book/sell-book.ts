@@ -34,7 +34,6 @@ export class SellBookPage implements OnInit {
   book = {} as Book; // create an object of book
   bookIsNew = true; // set default value for checkBox
 
-  private date: any; // to save when book was out for sale
   private userObject: any; // to save user credentials
   private actionSheetMessages: ActionSheetMessages; // create an object of type ActionSheetsMessages
   private alertMessages: AlertMessages; // create an object of type AlertMessages
@@ -95,7 +94,7 @@ export class SellBookPage implements OnInit {
   // add book to collection
   addBookToCollection(book: Book) {
 
-    this.date = new Date().toLocaleDateString('en-GB'); // get the date, 'en-GB' is to show like this -> 07/05/2018
+    let date = new Date().toLocaleDateString('en-GB'); // get the date, 'en-GB' is to show like this -> 07/05/2018
 
     // to ensure that we have a picture, if not then present a actionSheetController to tell user that user need to take a picture
     if (this.previewImage !== "") {
@@ -130,7 +129,7 @@ export class SellBookPage implements OnInit {
             adress,
             lat,
             lng,
-            this.date);
+            date);
           this.clearInputFields(); // clear input fields
           this.loadingMessages.dismissLoader(); // dismiss when its updated
         }, (err: any) => {
@@ -208,5 +207,5 @@ export class SellBookPage implements OnInit {
       done(true); // if false show message
     });
   }
-  
+
 }

@@ -4,4 +4,10 @@
 
 <ion-content padding>
   <p text-center>Coming soon</p>
+
+  <ion-list>
+    <ion-item *ngFor="let chat of myChats | async" (click)="goToChat(chat)">
+      <p>{{chat.chatName}}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

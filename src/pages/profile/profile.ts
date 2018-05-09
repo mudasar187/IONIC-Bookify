@@ -132,9 +132,9 @@ export class ProfilePage {
   // this is done by trying to get downloadUrl
   private checkIfProfilePictureExists() {
     this.afStorage.storage.ref(this.userObject.email).child(`${this.userObject.email}_${this.userObject.uid}.png`).getDownloadURL().then((imageUrl) => {
-        this.showProfileImage = true;
+      this.showProfileImage = true;
     }).catch((error) => {
-        this.showProfileImage = false;
+      this.showProfileImage = false;
     });
   }
 
