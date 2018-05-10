@@ -9,7 +9,7 @@
     <ion-item *ngFor="let message of messages | async">
       <p class="senderReceiver">{{giveChatPersonsName(message)}}</p>
       <br/>
-      <p class="messageText">{{message.message}}</p>
+      <p class="messageText" text-wrap>{{message.message}}</p>
     </ion-item>
   </ion-list>
   <br/>
@@ -17,7 +17,7 @@
 </ion-content>
 <ion-footer>
   <ion-item no-lines>
-    <ion-input item-first type="text" placeholder="Skriv melding" [(ngModel)]="messageToBeSendt" (input)="checkIfTextIsEmptyOrNot()"></ion-input>
+    <ion-input item-first type="text" (ionFocus)="scrollToBottom()" placeholder="Skriv melding" [(ngModel)]="messageToBeSendt" (input)="checkIfTextIsEmptyOrNot()"></ion-input>
     <button [disabled]="disableBtn" item-end ion-button icon (click)="sendMessage()" color="globalColor">
       <ion-icon name="send"></ion-icon>
     </button>

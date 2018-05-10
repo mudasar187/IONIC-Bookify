@@ -39,7 +39,7 @@ export class ChatPage {
     if (chatMessage.from == this.af.app.auth().currentUser.uid) {
       return "Jeg";
     } else {
-      return "Andre personen";
+      return "Bruker";
     }
   }
 
@@ -57,10 +57,15 @@ export class ChatPage {
     this.disableBtn = this.messageToBeSendt === "";
   }
 
-  
+
   // scroll to bottom each time send button is pressed
-  private scrollToBottom() {
+  scrollToBottom() {
     this.content.scrollToBottom();
+  }
+
+  // scroll to bottom when enter page so user can see last sent/recived message
+  ionViewDidEnter() {
+    this.scrollToBottom();
   }
 
 }
