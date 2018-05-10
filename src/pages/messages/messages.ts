@@ -6,7 +6,7 @@ import { ChatProvider } from '../../providers/chat/chat';
 
 /**
  * Messages class
- * Contains all the conversation with sellers and buyers
+ * Contains all the conversation
  */
 
 @IonicPage()
@@ -16,17 +16,19 @@ import { ChatProvider } from '../../providers/chat/chat';
 })
 export class MessagesPage {
 
-  myChats: Observable<Chat[]>;
+  myChats: Observable<Chat[]>; // create observable of myChats
 
   constructor(
     private navCtrl: NavController,
-    private navParams: NavParams, private chatProvider: ChatProvider) {
-      this.myChats = this.chatProvider.getMyChat();
+    private navParams: NavParams,
+    private chatProvider: ChatProvider) {
+    this.myChats = this.chatProvider.getMyChat(); // get all ongoing chats
   }
 
+  
+  // go to existing chat
   goToChat(chat: Chat) {
-    console.log("Chat: " + JSON.stringify(chat));
-      this.navCtrl.push('ChatPage', {chat: chat});
+    this.navCtrl.push('ChatPage', { chat: chat });
   }
 
 }

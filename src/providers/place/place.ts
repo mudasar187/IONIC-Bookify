@@ -14,11 +14,12 @@ export class PlaceProvider {
     private geoLocation: Geolocation) {
   }
 
+
   // get location where user is right now this moment
   findGeoLocation(doneFetching: (lat: number, lng: number, adress: string) => void) {
     let lat: number;
     let lng: number;
-    this.geoLocation.getCurrentPosition({ timeout: 10000}) // to ensure not hanging up here if nothing happens in 10 seconds
+    this.geoLocation.getCurrentPosition({ timeout: 10000 }) // to ensure not hanging up here if nothing happens in 10 seconds
       .then(position => { // get position
         lat = position.coords.latitude;
         lng = position.coords.longitude;
@@ -36,6 +37,7 @@ export class PlaceProvider {
       });
   }
 
+  
   // get adress based on lat and lng by using geoLocation
   private getAddressBasedOnLatLng(lat: number, lng: number) {
     return new Promise((resolve, reject) => {

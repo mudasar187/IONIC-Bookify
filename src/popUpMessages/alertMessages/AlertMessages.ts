@@ -7,6 +7,7 @@ export class AlertMessages {
 
   constructor(private alert: AlertController) { }
 
+  
   // present alert with own custom title
   presentAlert(title: string) {
     let alert = this.alert.create({
@@ -16,5 +17,5 @@ export class AlertMessages {
     });
     alert.present();
   }
-  
+
 }

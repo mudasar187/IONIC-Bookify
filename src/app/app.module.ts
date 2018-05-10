@@ -27,7 +27,7 @@ import { ResetPasswordPageModule } from '../pages/reset-password/reset-password.
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { RegisterPageModule } from '../pages/register/register.module';
 import { RegisterPage } from '../pages/register/register';
-import {Camera, CameraOptions} from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PlaceProvider } from '../providers/place/place';

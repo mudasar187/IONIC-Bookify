@@ -14,4 +14,4 @@ import { PipesModule } from '../../pipes/pipes.module';
     PipesModule
   ],
 })
-export class MyBookAdsPageModule {}
+export class MyBookAdsPageModule { }

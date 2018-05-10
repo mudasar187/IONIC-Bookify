@@ -12,7 +12,7 @@ declare var google: any;
 
 /**
  * Detail class
- * To show details about a specific book
+ * To show details about a specific book and start chat with seller
  */
 
 @IonicPage()
@@ -40,6 +40,30 @@ export class DetailPage {
     this.loadingMessage = new LoaderMessages(this.loadingCtrl);
   }
 
+
+  // starting a new chat with sellers
+  // check if the chatId exists, if exisst use same chat, otherwise create a new chat
+  navigateToPage(page: any) {
+    this.loadingMessage.presentLoader("Starter chat med selger..");
+    this.af.collection(this.af.app.auth().currentUser.uid).doc('messages').collection('myMessages').ref.where('chatId', '==', this.book.id)
+      .get().then((doc) => {
+        if (!doc.empty) { // if exists then use same chat
+          let chat = new Chat(this.book.id, this.book.bookTitle, new Date().getTime());
+          this.navCtrl.push(page, { chat: chat });
+        } else {
+          this.setUpChat(page); // set up a new chat if not exsists
+        }
+        this.loadingMessage.dismissLoader(); // dismiss loader
+      });
+  }
+
+
+  // hide contact seller button is ad is owned by currentUser
+  hideContactSellerBtn() {
+    return this.book.userId !== this.af.app.auth().currentUser.uid;
+  }
+
+
   // initialize the map with lat and lng coordinates
   private initMap() {
     let theMapLocation = new google.maps.LatLng(this.book.lat, this.book.lng);
@@ -51,6 +75,7 @@ export class DetailPage {
     this.addMarker(theMapLocation, this.map);
   }
 
+
   // add a marker on the map on the position
   private addMarker(position: any, map: any) {
     return new google.maps.Marker({
@@ -59,39 +84,21 @@ export class DetailPage {
     });
   }
 
+
   // load the map when entring the page
   private ionViewDidLoad() {
     this.initMap();
   }
 
-  // navigate to page depend on which page
-  navigateToPage(page: any) {
-    this.loadingMessage.presentLoader("Setting up chat");
-    this.af.collection(this.af.app.auth().currentUser.uid).doc('messages').collection('myMessages').ref.where('chatId', '==', this.book.id)
-    .get().then((doc) => {
-
-        if (!doc.empty) {
-            //ERROR message.
-            let chat = new Chat(this.book.id, this.book.bookTitle, new Date().getTime());
-            this.navCtrl.push(page, {chat: chat});
-        } else {
-          this.setUpChat(page);
-        }
-        this.loadingMessage.dismissLoader();
-    });
-
-  }
-
-  hideContactSellerBtn() {
-    return this.book.userId !== this.af.app.auth().currentUser.uid;
-  }
-
+  
+  // set up a new chat with sellers
+  // this methods run if chat not exists
   private setUpChat(page: any) {
     this.chatProvider.setChatInfoToSeller(this.book.userId, this.book.id, this.book.bookTitle, () => {
       this.chatProvider.setChatInfoToBuyer(this.book.id, this.book.bookTitle, () => {
-        this.loadingMessage.dismissLoader();
         let chat = new Chat(this.book.id, this.book.bookTitle, new Date().getTime());
-        this.navCtrl.push(page, {chat: chat});
+        this.loadingMessage.dismissLoader();
+        this.navCtrl.push(page, { chat: chat });
       });
     });
   }

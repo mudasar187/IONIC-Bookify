@@ -10,6 +10,7 @@ export class BarcodeScan {
 
   constructor(private barcodeScanner: BarcodeScanner) { }
 
+  
   // scan the barcode
   // return data from barcode
   scanBarcode(getData: (data: {}) => void, error: () => void) {
@@ -22,5 +23,5 @@ export class BarcodeScan {
       error(); // If error
     });
   }
-  
+
 }

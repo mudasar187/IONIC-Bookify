@@ -9,6 +9,7 @@ export class LoaderMessages {
 
   constructor(private loaderCtrl: LoadingController) { }
 
+
   // present loader with own custom title
   presentLoader(title: string) {
     this.loadingPopUp = this.loaderCtrl.create({
@@ -18,9 +19,10 @@ export class LoaderMessages {
     this.loadingPopUp.present();
   }
 
+  
   // dismiss loader
   dismissLoader() {
     this.loadingPopUp.dismiss();
   }
-  
+
 }

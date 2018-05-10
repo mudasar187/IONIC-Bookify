@@ -1,22 +1,25 @@
 <ion-header>
-    <custom-header pageName="Chat"></custom-header>
-  </ion-header>
+  <custom-header pageName="{{currentChat.chatName}}"></custom-header>
+</ion-header>
 
 
 <ion-content padding>
 
   <ion-list>
-    <ion-item *ngFor="let message of messages">
-      <p>{{message.message}}</p>
-      <p>{{giveChatPersonsName(message.from)}}</p>
+    <ion-item *ngFor="let message of messages | async">
+      <p class="senderReceiver">{{giveChatPersonsName(message)}}</p>
+      <br/>
+      <p class="messageText">{{message.message}}</p>
     </ion-item>
   </ion-list>
-  <ion-item>
-    <ion-input placeholder="Write your message" [(ngModel)]="messageToBeSendt"></ion-input>
-
-  </ion-item>
-  <button ion-button default full (click)="sendMessage()">SEND</button>
+  <br/>
+  <br/>
 </ion-content>
 <ion-footer>
-
+  <ion-item no-lines>
+    <ion-input item-first type="text" placeholder="Skriv melding" [(ngModel)]="messageToBeSendt" (input)="checkIfTextIsEmptyOrNot()"></ion-input>
+    <button [disabled]="disableBtn" item-end ion-button icon (click)="sendMessage()" color="globalColor">
+      <ion-icon name="send"></ion-icon>
+    </button>
+  </ion-item>
 </ion-footer>

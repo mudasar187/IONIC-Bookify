@@ -31,6 +31,7 @@ export class LoginPage implements OnInit {
     this.myCustomToast = new ToastMessages(this.toast); // send ToastController to ToastMessages constructor
   }
 
+
   // init FormGroup
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -38,6 +39,7 @@ export class LoginPage implements OnInit {
       password: new FormControl('', [Validators.required])
     });
   }
+
 
   // login user, also handle if user type right or wrong username/password
   // if not verified, present a toast that email is not verified
@@ -63,9 +65,10 @@ export class LoginPage implements OnInit {
     });
   }
 
+  
   // navigate to page depend on which page
   navigateToPage(page: any) {
     this.navCtrl.push(page);
   }
-  
+
 }

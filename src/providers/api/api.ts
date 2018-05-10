@@ -9,6 +9,7 @@ export class ApiProvider {
 
   constructor(private http: HttpClient) { }
 
+  
   // retrive information from the API by using isbn number
   getInfoFromApi(isbn: string) {
     let urlRequest = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn;

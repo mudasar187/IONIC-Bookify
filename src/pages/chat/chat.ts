@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import { Chat } from '../../models/Chat';
 import { Observable } from 'rxjs/Observable';
 import { Message } from '../../models/Message';
@@ -17,50 +17,50 @@ import { ChatProvider } from '../../providers/chat/chat';
 })
 export class ChatPage {
 
-  currentChat: Chat;
-  messages: Message[];
-  messageToBeSendt: string = "";
+  @ViewChild(Content) content: Content; // to use scroll function
+
+  currentChat: Chat; // create object of Chat
+  messageToBeSendt: string = ""; // message to be sent
+  disableBtn = true; // to disable 'send' button
+  messages: Observable<Chat[]>;
 
   constructor(
     private navCtrl: NavController,
-    private navParams: NavParams, private af: AngularFirestore, private chatProvider: ChatProvider) {
-      this.currentChat = navParams.get('chat');
-
-      this.getMessages((messages) => {
-        this.messages = messages;
-      })
-
+    private navParams: NavParams,
+    private af: AngularFirestore,
+    private chatProvider: ChatProvider) {
+    this.currentChat = navParams.get('chat'); // get chat id from Message tab controller
+    this.messages = this.chatProvider.getMessages(this.currentChat.chatId);
   }
 
-  getMessages(done: (messages: Message[]) => void) {
-       //Flytt denne metoden
-       this.af.collection('allMessages').doc(this.currentChat.chatId).collection('chat').snapshotChanges()
-       .subscribe((actions) => {
-         var messages: Message[] = [];
-         actions.forEach((action) => {
-           messages.push(action.payload.doc.data() as Message);
-         });
-         messages.sort((m1, m2): number => {
-           if (m1.chatTime < m2.chatTime) return -1;
-           if (m1.chatTime > m2.chatTime) return 1;
-           return 0;
-         });
-         done(messages)
-       });
-  }
 
+  // this method is to understand who is sender and receiver
   giveChatPersonsName(chatMessage: Message) {
-    if(chatMessage.from === this.af.app.auth().currentUser.uid) {
-      return "Sender";
+    if (chatMessage.from == this.af.app.auth().currentUser.uid) {
+      return "Jeg";
     } else {
-      return "Mottaker";
+      return "Andre personen";
     }
   }
 
+
+  // send message from currentUser with the text and add to current chatId collection
   sendMessage() {
-    this.chatProvider.sendChatMessage(this.af.app.auth().currentUser.uid, this.messageToBeSendt, this.currentChat.chatId, new Date().getTime());
-    this.messageToBeSendt = "";
+    this.scrollToBottom();
+    this.chatProvider.sendChatMessage(this.af.app.auth().currentUser.uid, this.messageToBeSendt, this.currentChat.chatId, new Date())
+    this.messageToBeSendt = ""; // empty send message input field
   }
 
+
+  // check if input text is empty, if empty , disable send button
+  checkIfTextIsEmptyOrNot() {
+    this.disableBtn = this.messageToBeSendt === "";
+  }
+
+  
+  // scroll to bottom each time send button is pressed
+  private scrollToBottom() {
+    this.content.scrollToBottom();
+  }
 
 }

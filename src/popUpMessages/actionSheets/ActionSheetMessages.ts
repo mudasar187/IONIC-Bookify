@@ -9,6 +9,7 @@ export class ActionSheetMessages {
     private actionSheetCtrl: ActionSheetController) {
   }
 
+
   // show user where to get picture, either take a new or from gallery
   presentActionSheet(title: string, cameraAction: () => void, galleryAction: () => void) {
     let actionSheetPopUp = this.actionSheetCtrl.create({
@@ -37,6 +38,7 @@ export class ActionSheetMessages {
     });
     actionSheetPopUp.present(); // present actionsheet
   }
+
 
   // show user where to get picture, either take a new or from gallery
   // also delete profile picture if wanted
@@ -74,6 +76,7 @@ export class ActionSheetMessages {
     actionSheetPopUp.present(); // present actionsheet
   }
 
+  
   // show user where to get picture, either take a new or from gallery
   presentActionSheetSellBookOptions(barCodeAction: () => void) {
     let actionSheetPopUp = this.actionSheetCtrl.create({

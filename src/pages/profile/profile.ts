@@ -52,10 +52,12 @@ export class ProfilePage {
     this.userObject = this.af.app.auth().currentUser; // get user credentials from firestore
   }
 
+
   // make picture bigger when user click on profile picture
   makeImageBigger() {
     this.photoOptions.resizeImage(this.userObject.photoURL); // take the image url string in parameter from
   }
+
 
   // present ActionSheetController to give user options where to get image from to add a profilepicture
   // use camera or gallery
@@ -76,6 +78,7 @@ export class ProfilePage {
     });
   }
 
+
   // to add profile picture to firestorage
   // delete the previous image before adding a new profile picture to avoid uploading a lot of profile pictures
   private addProfilePicture(imgBase64: string) {
@@ -87,6 +90,7 @@ export class ProfilePage {
       });
     });
   }
+
 
   // uploading the profile picture to firebase storage
   private uploadImage(imgBase64: string, doneUploading: (success: boolean) => void) {
@@ -116,6 +120,7 @@ export class ProfilePage {
     });
   }
 
+
   // delete previous profile picture image when taking a new one
   // avoid to add many profile pictures at firebase storage
   private deleteImage(doneDeleting: (success: boolean) => void) {
@@ -128,6 +133,7 @@ export class ProfilePage {
       });
   }
 
+
   // checks if profile picture exists in firestorage by looking for specific name for profile image
   // this is done by trying to get downloadUrl
   private checkIfProfilePictureExists() {
@@ -138,17 +144,20 @@ export class ProfilePage {
     });
   }
 
+
   // logout from app
   logOut() {
     this.af.app.auth().signOut();
     this.navigateToPage(LoginPage);
   }
 
+
   // navigate to page depend on which page
   navigateToPage(page: any) {
     this.navCtrl.push(page);
   }
 
+  
   // check if profile picture exists when we load profile page
   ionViewDidEnter() {
     this.checkIfProfilePictureExists();

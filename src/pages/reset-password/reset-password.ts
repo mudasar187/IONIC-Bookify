@@ -27,12 +27,14 @@ export class ResetPasswordPage implements OnInit {
     this.myCustomToast = new ToastMessages(this.toast); // send ToastController to constructor in ToastMessages
   }
 
+
   // Init FormGroup
   ngOnInit() {
     this.resetForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email])
     });
   }
+
 
   // reset the password by sending an reset email to user's email account
   resetPassword(email: string) {
@@ -44,6 +46,7 @@ export class ResetPasswordPage implements OnInit {
       });
   }
 
+  
   // navigate to Page depend on which page
   navigateToPage(page: any) {
     this.navCtrl.push(page);

@@ -3,17 +3,17 @@
 </ion-header>
 
 <ion-content padding>
-<ion-list *ngFor="let book of books | async">
-  <ion-item (click)="goToDetailPage(book)">
-    <img item-start src="{{book.bookImage}}"/>
-    <ion-list item-contain>
+  <ion-list *ngFor="let book of books | async">
+    <ion-item (click)="goToDetailPage(book)">
+      <img item-start src="{{book.bookImage}}" />
+      <ion-list item-contain>
         <p>{{book.bookTitle}}</p>
         <br/>
         <p>{{book.bookPrice}} kr</p>
         <p>{{ book.location | filterAdress}}</p>
         <br/>
         <p>Lagt ut: {{book.created}}</p>
-    </ion-list>
-  </ion-item>
-</ion-list>
+      </ion-list>
+    </ion-item>
+  </ion-list>
 </ion-content>

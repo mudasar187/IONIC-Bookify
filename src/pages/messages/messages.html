@@ -1,13 +1,11 @@
 <ion-header>
-  <custom-header pageName="Meldinger"></custom-header>
+  <custom-header pageName="Samtaler"></custom-header>
 </ion-header>
 
 <ion-content padding>
-  <p text-center>Coming soon</p>
-
   <ion-list>
     <ion-item *ngFor="let chat of myChats | async" (click)="goToChat(chat)">
-      <p>{{chat.chatName}}</p>
+      <button ion-button default full color="globalColor">{{chat.chatName}}</button>
     </ion-item>
   </ion-list>
 </ion-content>

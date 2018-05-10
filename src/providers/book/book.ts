@@ -18,6 +18,7 @@ export class BookProvider {
     private af: AngularFirestore) {
   }
 
+
   // add a user to the collection
   addBookToCollection(userUid, userNickName, bookImage, bookIsbn, bookTitle, bookDescription, bookPrice, bookConditions, sold, location, lat, lng, created) {
     this.bookListCollection.add({
@@ -36,6 +37,7 @@ export class BookProvider {
       created: created
     } as Book);
   }
+
 
   // get all books out for sale using query to get all book which is 'bookSold' == false and 'active' == true
   getAllBooksOutForSale() {
@@ -56,6 +58,7 @@ export class BookProvider {
       });
   }
 
+
   // get all books owned by specific user by query that are not sold at still out for sale
   getAllBooksOwnedByUserAndNotSold(uid: string) {
     this.bookListCollection = this.af.collection<Book>('books', (ref) => {
@@ -73,6 +76,7 @@ export class BookProvider {
         })
       });
   }
+
 
   // get all books owned by by specific user that are owned by specific user and is sold and now inactive
   getAllBooksOwnedByUserAndAreSold(uid: string) {
@@ -92,6 +96,7 @@ export class BookProvider {
       });
   }
 
+
   // update the field bookSold = true
   markBookAsSold(book: Book) {
     this.bookListCollection.doc(book.id).update({
@@ -99,6 +104,7 @@ export class BookProvider {
     });
   }
 
+  
   // delete the book from collection
   deleteBook(book: Book) {
     this.bookListCollection.doc(book.id).delete();

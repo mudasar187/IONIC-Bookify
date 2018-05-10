@@ -24,12 +24,13 @@ export class BuyBookPage {
     private navCtrl: NavController,
     private bookProvider: BookProvider,
     private platform: Platform) {
-      this.books = this.bookProvider.getAllBooksOutForSale(); // initalize the list with all books
+    this.books = this.bookProvider.getAllBooksOutForSale(); // initalize the list with all books
   }
 
+  
   // redirect to detail page for the book user click on, send the book object to detail page to show details about the specific book
   goToDetailPage(book: Book) {
-    this.navCtrl.push('DetailPage', {'book': book});
+    this.navCtrl.push('DetailPage', { 'book': book });
   }
 
 }

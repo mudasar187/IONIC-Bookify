@@ -4,20 +4,19 @@
 
 <ion-content padding>
   <ion-item>
-      <img src="{{book.bookImage}}">
+    <img src="{{book.bookImage}}">
   </ion-item>
-    <ion-item text-wrap>
-        <p>Pris: {{book.bookPrice}}</p>
-        <p>Tilstand: {{book.bookConditions}}</p>
-        <br/>
-        <br/>
-        <p>Om boken</p>
-        <br/>
-        <p>{{book.bookDescription}}</p>
-        <br/>
-        <button *ngIf="hideContactSellerBtn()" ion-button color="globalColor" (click)="navigateToPage('ChatPage')">Kontakt selger</button>
-    </ion-item>
+  <ion-item text-wrap>
+    <p>Pris: {{book.bookPrice}}</p>
+    <p>Tilstand: {{book.bookConditions}}</p>
+    <br/>
+    <br/>
+    <p>Om boken</p>
+    <br/>
+    <p>{{book.bookDescription}}</p>
+    <br/>
+    <button *ngIf="hideContactSellerBtn()" ion-button color="globalColor" (click)="navigateToPage('ChatPage')">Kontakt selger</button>
+  </ion-item>
   <div #map id="theMap"></div>
-
 
 </ion-content>

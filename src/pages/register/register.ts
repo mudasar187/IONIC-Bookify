@@ -32,6 +32,7 @@ export class RegisterPage implements OnInit {
     this.myCustomToast = new ToastMessages(this.toast); // send ToastController to constructor in ToastMessages
   }
 
+
   // Init the FormGroup
   ngOnInit() {
     this.userForm = new FormGroup({
@@ -42,6 +43,7 @@ export class RegisterPage implements OnInit {
     });
 
   }
+
 
   // Make a new account for new registered user
   // When registered send a verification mail and also update the nickname in displayName in firestore
@@ -54,10 +56,12 @@ export class RegisterPage implements OnInit {
 
       // update the profile with nickname, no photo, user own option if he/she want to upload picture in ProfilePage
       this.af.app.auth().currentUser.updateProfile({ displayName: user.nickname, photoURL: undefined }).then(() => {
-          this.af.collection(userObject.uid).doc('profile').set({nickname: user.nickname, email: user.email}).then(() => {
-            this.navigateToPage(LoginPage); // navigate back to LoginPage
-          }).catch((error) => {});
-      }).catch((err) => {}); // TypeScript standard , undefined , not null
+
+        // create a collection of each user who is registrated so we can hold all incoming messages references from other users
+        this.af.collection(userObject.uid).doc('profile').set({ nickname: user.nickname, email: user.email }).then(() => {
+          this.navigateToPage(LoginPage); // navigate back to LoginPage
+        }).catch((error) => { });
+      }).catch((err) => { }); // TypeScript standard , undefined , not null
 
     }).catch((error) => { // If error
       if (error.code == 'auth/email-already-in-use') {
@@ -67,6 +71,7 @@ export class RegisterPage implements OnInit {
       }
     });
   }
+
 
   // Check if the password and re-type password is the same, to ensure that user have entred the password he/she choosed
   private equalto(field_name): ValidatorFn {
@@ -81,6 +86,7 @@ export class RegisterPage implements OnInit {
     };
   }
 
+  
   // navigate to Page depend on which page
   navigateToPage(page: any) {
     this.navCtrl.push(page);

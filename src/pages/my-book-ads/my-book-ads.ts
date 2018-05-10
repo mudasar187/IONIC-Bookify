@@ -34,11 +34,13 @@ export class MyBookAdsPage {
     this.getMyInactiveSales(); // get all inactive books
   }
 
+
   // to mark a book as sold, provided by BookProvider
   markBookAsSold(book: Book) {
     this.toastMessage.presentCustomToast(book.bookTitle + ' solgt!');
     this.bookProvider.markBookAsSold(book);
   }
+
 
   // delete a book is user want so, provided by BooKprovider
   deleteBookFromMyAds(book: Book) {
@@ -46,11 +48,13 @@ export class MyBookAdsPage {
     this.bookProvider.deleteBook(book);
   }
 
+
   // firestore query to get all active books, provided by BookProvider
   private getMyActiveSales() {
     this.myActiveSales = this.bookProvider.getAllBooksOwnedByUserAndNotSold(this.af.app.auth().currentUser.uid);
   }
 
+  
   // firestore query to get all inactive books, provided by BookProvider
   private getMyInactiveSales() {
     this.myInactiveSales = this.bookProvider.getAllBooksOwnedByUserAndAreSold(this.af.app.auth().currentUser.uid);

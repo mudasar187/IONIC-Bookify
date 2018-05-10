@@ -13,10 +13,12 @@ export class PhotoOptions {
     private camera: Camera) {
   }
 
+
   // show preview of picture bigger when user press on picture
   resizeImage(image: string) {
     this.photoViewer.show(image);
   }
+
 
   // get a picture by using camera
   // return the imageBase64 picture
@@ -34,6 +36,7 @@ export class PhotoOptions {
     });
   }
 
+  
   // get a picture from gallery
   // return imageBase64 picture
   getFromGallery(getImage: (base64: string) => void) {

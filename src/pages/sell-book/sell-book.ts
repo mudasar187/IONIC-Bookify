@@ -67,6 +67,7 @@ export class SellBookPage implements OnInit {
     this.userObject = this.af.app.auth().currentUser;
   }
 
+
   // init the FormGroup validator
   ngOnInit() {
     this.bookForm = new FormGroup({
@@ -76,6 +77,7 @@ export class SellBookPage implements OnInit {
       price: new FormControl('', [Validators.required])
     });
   }
+
 
   // give user a options on which way to add a profilepicture
   // use camera or gallery
@@ -90,6 +92,7 @@ export class SellBookPage implements OnInit {
       });
     });
   }
+
 
   // add book to collection
   addBookToCollection(book: Book) {
@@ -143,10 +146,12 @@ export class SellBookPage implements OnInit {
     }
   }
 
+
   // To change the checkbox, if marking 'Ny' then unmark 'Brukt' and same the other way
   changeBookStatus() {
     this.bookIsNew = !this.bookIsNew;
   }
+
 
   // get status from the checkbox
   private getBookStatus(book: Book) {
@@ -156,6 +161,7 @@ export class SellBookPage implements OnInit {
       return book.bookConditions = "Brukt";
     }
   }
+
 
   // method for barcode, when barcode is scanned and isbn number is added, then get information about the book from the API
   private barCodeAction(book: Book) {
@@ -176,23 +182,22 @@ export class SellBookPage implements OnInit {
   }
 
 
-
   // clear the input fields when book is added for sale
   private clearInputFields() {
     this.book.bookIsbn = "";
     this.book.bookTitle = "";
     this.book.bookDescription = "";
-    this.book.bookPrice = null; // TypeScript standard -> undefined
+    this.book.bookPrice = null;
     this.previewImage = "";
   }
+
 
   // To load a actionSheet for asking user if he/she want to manually create the book or by using barcode scanner
   private ionViewDidEnter() {
     this.barCodeAction(this.book);
   }
 
-
-
+  
   // retrive information from the API by ISBN number
   private getInfoFromApi(isbn: string, done: (error: boolean) => void) {
     this.apiProvider.getInfoFromApi(isbn).then((success: any) => {
