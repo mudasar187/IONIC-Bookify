@@ -58,11 +58,11 @@ export class RegisterPage implements OnInit {
       this.af.app.auth().currentUser.updateProfile({ displayName: user.nickname, photoURL: undefined }).then(() => {
 
         // create a collection of each user who is registrated so we can hold all incoming messages references from other users
-        this.af.collection(userObject.uid).doc('profile').set({ nickname: user.nickname, email: user.email }).then(() => {
-          this.navigateToPage(LoginPage); // navigate back to LoginPage
-        }).catch((error) => { });
-      }).catch((err) => { }); // TypeScript standard , undefined , not null
-
+        this.af.collection(userObject.uid).doc('profile').set({ nickname: user.nickname, email: user.email });
+        this.navigateToPage(LoginPage); // navigate back to LoginPage
+      }).catch((error) => {
+        console.log("Kunne ikke oppdatere profilen..");
+      });
     }).catch((error) => { // If error
       if (error.code == 'auth/email-already-in-use') {
         this.myCustomToast.presentCustomToast('Emailen er i bruk'); // Email already in use
@@ -86,7 +86,7 @@ export class RegisterPage implements OnInit {
     };
   }
 
-  
+
   // navigate to Page depend on which page
   navigateToPage(page: any) {
     this.navCtrl.push(page);
