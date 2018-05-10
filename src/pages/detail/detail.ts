@@ -24,6 +24,7 @@ export class DetailPage {
 
   @ViewChild('map') mapRef: ElementRef; // references to map
 
+  chatId: string;
   book: Book; // create an object of type Book
   private loadingMessage: LoaderMessages;
 
@@ -38,6 +39,7 @@ export class DetailPage {
     this.photoOptions = new PhotoOptions(this.photoViewer, undefined); // a new instance of PhotoOptions, note there is 'undefined' TypeScript standard
     this.book = navParams.get('book'); // get the specific book from BuyBuyPage
     this.loadingMessage = new LoaderMessages(this.loadingCtrl);
+    this.chatId = this.book.userId + this.af.app.auth().currentUser.uid; // to get chatId "room"
   }
 
 
@@ -45,7 +47,7 @@ export class DetailPage {
   // check if the chatId exists, if exisst use same chat, otherwise create a new chat
   navigateToPage(page: any) {
     this.loadingMessage.presentLoader("Starter chat med selger..");
-    this.af.collection(this.af.app.auth().currentUser.uid).doc('messages').collection('myMessages').ref.where('chatId', '==', this.book.id)
+    this.af.collection(this.af.app.auth().currentUser.uid).doc('messages').collection('myMessages').ref.where('chatId', '==', this.chatId)
       .get().then((doc) => {
         if (!doc.empty) { // if exists then use same chat
           let chat = new Chat(this.book.id, this.book.bookTitle, new Date().getTime());
@@ -90,13 +92,13 @@ export class DetailPage {
     this.initMap();
   }
 
-  
+
   // set up a new chat with sellers
   // this methods run if chat not exists
   private setUpChat(page: any) {
-    this.chatProvider.setChatInfoToSeller(this.book.userId, this.book.id, this.book.bookTitle, () => {
-      this.chatProvider.setChatInfoToBuyer(this.book.id, this.book.bookTitle, () => {
-        let chat = new Chat(this.book.id, this.book.bookTitle, new Date().getTime());
+    this.chatProvider.setChatInfoToSeller(this.book.userId, this.chatId, this.book.bookTitle, () => {
+      this.chatProvider.setChatInfoToBuyer(this.chatId, this.book.bookTitle, () => {
+        let chat = new Chat(this.chatId, this.book.bookTitle, new Date().getTime());
         this.loadingMessage.dismissLoader();
         this.navCtrl.push(page, { chat: chat });
       });
