@@ -4,7 +4,11 @@
 
 <ion-content padding>
   <ion-item>
-    <img src="{{book.bookImage}}">
+    <img src="{{book.bookImage}}" (click)="makeImageBigger(book.bookImage)">
+    <br/>
+    <br/>
+    <p>Forfatter</p>
+    <p text-wrap>{{book.bookAuthor}}</p>
   </ion-item>
   <ion-item text-wrap>
     <p>Pris: {{book.bookPrice}}</p>

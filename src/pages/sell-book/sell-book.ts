@@ -40,9 +40,6 @@ export class SellBookPage implements OnInit {
   private photoOptions: PhotoOptions; // create an object of type PhotoOptions
   private loadingMessages: LoaderMessages; // create an object of type LoaderMessages
   private barCodeScan: BarcodeScan; // create an object of type BarScodeScan
-  private authors: [any]; // to hold authors from Google book API
-  private title: string; // to hold title from Google book API
-  private description: string; // to hold description from Google book API
 
   constructor(public navCtrl: NavController,
     private navParams: NavParams,
@@ -74,7 +71,8 @@ export class SellBookPage implements OnInit {
       isbn: new FormControl('', [Validators.required]),
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      price: new FormControl('', [Validators.required])
+      price: new FormControl('', [Validators.required]),
+      author: new FormControl('', [Validators.required])
     });
   }
 
@@ -122,6 +120,7 @@ export class SellBookPage implements OnInit {
           this.bookProvider.addBookToCollection(
             this.userObject.uid,
             this.userObject.displayName,
+            book.bookAuthor,
             uploadImgUrl,
             book.bookIsbn,
             book.bookTitle,
@@ -186,6 +185,7 @@ export class SellBookPage implements OnInit {
   private clearInputFields() {
     this.book.bookIsbn = "";
     this.book.bookTitle = "";
+    this.book.bookAuthor = "";
     this.book.bookDescription = "";
     this.book.bookPrice = null;
     this.previewImage = "";
@@ -197,16 +197,14 @@ export class SellBookPage implements OnInit {
     this.barCodeAction(this.book);
   }
 
-  
+
   // retrive information from the API by ISBN number
   private getInfoFromApi(isbn: string, done: (error: boolean) => void) {
     this.apiProvider.getInfoFromApi(isbn).then((success: any) => {
       let items = success.items[0].volumeInfo; // get information from array 0 in items from Google book api
       this.book.bookTitle = items.title; // get the book title
       this.book.bookDescription = items.description; // get the description
-      this.authors = items.authors; // get the authors
-      this.title = items.title; // get the title
-      this.description = items.description; // get description
+      this.book.bookAuthor = items.authors; // get the authors
       done(false); // operation done
     }).catch((error) => {
       done(true); // if false show message

@@ -43,6 +43,17 @@
       </ion-item>
 
       <ion-item>
+        <ion-label floating>Bok forfatter</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="book.bookAuthor" formControlName="author"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines *ngIf="bookForm.get('author').hasError('required') && bookForm.get('author').touched">
+        <span class="global__input-error">
+          * Bok forfatter må fylles ut</span>
+        <br>
+      </ion-item>
+
+      <ion-item>
         <ion-label floating>Om boken</ion-label>
         <ion-input type="text" value="" [(ngModel)]="book.bookDescription" formControlName="description"></ion-input>
       </ion-item>

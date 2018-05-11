@@ -20,10 +20,11 @@ export class BookProvider {
 
 
   // add a user to the collection
-  addBookToCollection(userUid, userNickName, bookImage, bookIsbn, bookTitle, bookDescription, bookPrice, bookConditions, sold, location, lat, lng, created) {
+  addBookToCollection(userUid, userNickName, bookAuthor, bookImage, bookIsbn, bookTitle, bookDescription, bookPrice, bookConditions, sold, location, lat, lng, created) {
     this.bookListCollection.add({
       userId: userUid,
       userNickName: userNickName,
+      bookAuthor: bookAuthor,
       bookImage: bookImage,
       bookIsbn: bookIsbn,
       bookTitle: bookTitle,
@@ -42,7 +43,7 @@ export class BookProvider {
   // get all books out for sale using query to get all book which is 'bookSold' == false and 'active' == true
   getAllBooksOutForSale() {
     this.bookListCollection = this.af.collection<Book>('books', (ref) => {
-      return ref.where('bookSold', '==', false)
+      return ref.where('bookSold', '==', false);
     });
     return this.bookListCollection.snapshotChanges()
       .map(actions => {
@@ -104,7 +105,7 @@ export class BookProvider {
     });
   }
 
-  
+
   // delete the book from collection
   deleteBook(book: Book) {
     this.bookListCollection.doc(book.id).delete();

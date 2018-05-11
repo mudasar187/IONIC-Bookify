@@ -42,6 +42,10 @@ export class DetailPage {
     this.chatId = this.book.userId + this.af.app.auth().currentUser.uid; // to get chatId "room"
   }
 
+  makeImageBigger(image: string) {
+    this.photoOptions.resizeImage(image);
+  }
+
 
   // starting a new chat with sellers
   // check if the chatId exists, if exisst use same chat, otherwise create a new chat

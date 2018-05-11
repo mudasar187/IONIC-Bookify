@@ -2,6 +2,7 @@ export interface Book {
   id?: string,
   userId: string,
   userNickName: string,
+  bookAuthor: string,
   bookImage: string,
   bookIsbn: string,
   bookTitle: string,
