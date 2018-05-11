@@ -42,6 +42,7 @@ export class DetailPage {
     this.chatId = this.book.userId + this.af.app.auth().currentUser.uid; // to get chatId "room"
   }
 
+  // to make image bigger when click on the picture
   makeImageBigger(image: string) {
     this.photoOptions.resizeImage(image);
   }
